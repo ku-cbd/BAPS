@@ -1,0 +1,245 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h2>Klebsiella Casjensviridae.html (15 genomes) 2026-01-10_20:20:55</h2>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 1100px;
+                 height: 900px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+             /* position absolute is important and the container has to be relative or absolute as well. */
+          div.popup {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 display:none;
+                 background-color:#f5f4ed;
+                 -moz-border-radius: 3px;
+                 -webkit-border-radius: 3px;
+                 border-radius: 3px;
+                 border: 1px solid #808074;
+             box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+             }
+
+          /* hide the original tooltip */
+          .vis-tooltip {
+            display:none;
+          }
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"__dummy": "dummy", "acc": "NC_052987", "cloud": 3227, "color": "steelblue", "genome_size": 59084, "id": "NCBI__NC_052987__Klebsiella_phage_KPN_N98", "label": "NCBI__NC_052987__Klebsiella_phage_KPN_N98", "ngenes": 79, "org": "Klebsiella phage KPN N98", "shape": "dot", "size": 19, "source": "NCBI", "title": "NCBI__NC_052987__Klebsiella_phage_KPN_N98\n\u003cbr\u003e59084bp\n\u003cbr\u003eKlebsiella phage KPN N98\n\u003cbr\u003e79 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/NC_052987\" target=\"_blank\"\u003eNC_052987\u003c/a\u003e", "working_name": "Klebsiella_Casjensviridae"}, {"__dummy": "dummy", "acc": "OR290970", "cloud": 3227, "color": "steelblue", "genome_size": 58977, "id": "NCBI__OR290970__Klebsiella_phage_SAKp02", "label": "NCBI__OR290970__Klebsiella_phage_SAKp02", "ngenes": 82, "org": "Klebsiella phage SAKp02", "shape": "dot", "size": 19, "source": "NCBI", "title": "NCBI__OR290970__Klebsiella_phage_SAKp02\n\u003cbr\u003e58977bp\n\u003cbr\u003eKlebsiella phage SAKp02\n\u003cbr\u003e82 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OR290970\" target=\"_blank\"\u003eOR290970\u003c/a\u003e", "working_name": "Klebsiella_Casjensviridae"}, {"__dummy": "dummy", "acc": "PP660558", "cloud": 3227, "color": "steelblue", "genome_size": 59019, "id": "NCBI__PP660558__Klebsiella_phage_SAKp11", "label": "NCBI__PP660558__Klebsiella_phage_SAKp11", "ngenes": 80, "org": "Klebsiella phage SAKp11", "shape": "dot", "size": 19, "source": "NCBI", "title": "NCBI__PP660558__Klebsiella_phage_SAKp11\n\u003cbr\u003e59019bp\n\u003cbr\u003eKlebsiella phage SAKp11\n\u003cbr\u003e80 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/PP660558\" target=\"_blank\"\u003ePP660558\u003c/a\u003e", "working_name": "Klebsiella_Casjensviridae"}, {"__dummy": "dummy", "acc": "NC_052988", "cloud": 3227, "color": "steelblue", "genome_size": 58968, "id": "NCBI__NC_052988__Klebsiella_phage_KPN_U2874", "label": "NCBI__NC_052988__Klebsiella_phage_KPN_U2874", "ngenes": 80, "org": "Klebsiella phage KPN U2874", "shape": "dot", "size": 19, "source": "NCBI", "title": "NCBI__NC_052988__Klebsiella_phage_KPN_U2874\n\u003cbr\u003e58968bp\n\u003cbr\u003eKlebsiella phage KPN U2874\n\u003cbr\u003e80 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/NC_052988\" target=\"_blank\"\u003eNC_052988\u003c/a\u003e", "working_name": "Klebsiella_Casjensviridae"}, {"__dummy": "dummy", "acc": "MF476924", "cloud": 3227, "color": "steelblue", "genome_size": 58977, "id": "NCBI__MF476924__Klebsiella_phage_YMC15/11/N53_KPN_BP", "label": "NCBI__MF476924__Klebsiella_phage_YMC15/11/N53_KPN_BP", "ngenes": 78, "org": "Klebsiella phage YMC15/11/N53_KPN_BP", "shape": "dot", "size": 19, "source": "NCBI", "title": "NCBI__MF476924__Klebsiella_phage_YMC15/11/N53_KPN_BP\n\u003cbr\u003e58977bp\n\u003cbr\u003eKlebsiella phage YMC15/11/N53_KPN_BP\n\u003cbr\u003e78 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MF476924\" target=\"_blank\"\u003eMF476924\u003c/a\u003e", "working_name": "Klebsiella_Casjensviridae"}, {"__dummy": "dummy", "acc": "MG835858", "cloud": 3227, "color": "steelblue", "genome_size": 59214, "id": "NCBI__MG835858__Klebsiella_phage_KPN_N98", "label": "NCBI__MG835858__Klebsiella_phage_KPN_N98", "ngenes": 79, "org": "Klebsiella phage KPN N98", "shape": "dot", "size": 19, "source": "NCBI", "title": "NCBI__MG835858__Klebsiella_phage_KPN_N98\n\u003cbr\u003e59214bp\n\u003cbr\u003eKlebsiella phage KPN N98\n\u003cbr\u003e79 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MG835858\" target=\"_blank\"\u003eMG835858\u003c/a\u003e", "working_name": "Klebsiella_Casjensviridae"}, {"__dummy": "dummy", "acc": "MF415410", "cloud": 3227, "color": "steelblue", "genome_size": 59100, "id": "NCBI__MF415410__Klebsiella_phage_KPN_N137", "label": "NCBI__MF415410__Klebsiella_phage_KPN_N137", "ngenes": 79, "org": "Klebsiella phage KPN N137", "shape": "dot", "size": 19, "source": "NCBI", "title": "NCBI__MF415410__Klebsiella_phage_KPN_N137\n\u003cbr\u003e59100bp\n\u003cbr\u003eKlebsiella phage KPN N137\n\u003cbr\u003e79 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MF415410\" target=\"_blank\"\u003eMF415410\u003c/a\u003e", "working_name": "Klebsiella_Casjensviridae"}, {"__dummy": "dummy", "acc": "PP660554", "cloud": 3227, "color": "steelblue", "genome_size": 60957, "id": "NCBI__PP660554__Klebsiella_phage_SAKp15", "label": "NCBI__PP660554__Klebsiella_phage_SAKp15", "ngenes": 81, "org": "Klebsiella phage SAKp15", "shape": "dot", "size": 20, "source": "NCBI", "title": "NCBI__PP660554__Klebsiella_phage_SAKp15\n\u003cbr\u003e60957bp\n\u003cbr\u003eKlebsiella phage SAKp15\n\u003cbr\u003e81 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/PP660554\" target=\"_blank\"\u003ePP660554\u003c/a\u003e", "working_name": "Klebsiella_Casjensviridae"}, {"__dummy": "dummy", "acc": "MF415413", "cloud": 3227, "color": "steelblue", "genome_size": 59100, "id": "NCBI__MF415413__Klebsiella_phage_KPN_N54", "label": "NCBI__MF415413__Klebsiella_phage_KPN_N54", "ngenes": 78, "org": "Klebsiella phage KPN N54", "shape": "dot", "size": 19, "source": "NCBI", "title": "NCBI__MF415413__Klebsiella_phage_KPN_N54\n\u003cbr\u003e59100bp\n\u003cbr\u003eKlebsiella phage KPN N54\n\u003cbr\u003e78 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MF415413\" target=\"_blank\"\u003eMF415413\u003c/a\u003e", "working_name": "Klebsiella_Casjensviridae"}, {"__dummy": "dummy", "acc": "MF415411", "cloud": 3227, "color": "steelblue", "genome_size": 59087, "id": "NCBI__MF415411__Klebsiella_phage_KPN_U2874", "label": "NCBI__MF415411__Klebsiella_phage_KPN_U2874", "ngenes": 80, "org": "Klebsiella phage KPN U2874", "shape": "dot", "size": 19, "source": "NCBI", "title": "NCBI__MF415411__Klebsiella_phage_KPN_U2874\n\u003cbr\u003e59087bp\n\u003cbr\u003eKlebsiella phage KPN U2874\n\u003cbr\u003e80 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MF415411\" target=\"_blank\"\u003eMF415411\u003c/a\u003e", "working_name": "Klebsiella_Casjensviridae"}, {"__dummy": "dummy", "acc": "NC_048670", "cloud": 3227, "color": "steelblue", "genome_size": 58977, "id": "NCBI__NC_048670__Klebsiella_phage_KPN_N137", "label": "NCBI__NC_048670__Klebsiella_phage_KPN_N137", "ngenes": 79, "org": "Klebsiella phage KPN N137", "shape": "dot", "size": 19, "source": "NCBI", "title": "NCBI__NC_048670__Klebsiella_phage_KPN_N137\n\u003cbr\u003e58977bp\n\u003cbr\u003eKlebsiella phage KPN N137\n\u003cbr\u003e79 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/NC_048670\" target=\"_blank\"\u003eNC_048670\u003c/a\u003e", "working_name": "Klebsiella_Casjensviridae"}, {"__dummy": "dummy", "acc": "OP558002", "cloud": 3227, "color": "steelblue", "genome_size": 59708, "id": "NCBI__OP558002__Klebsiella_phage_vB_KpnS_MAG26fr", "label": "NCBI__OP558002__Klebsiella_phage_vB_KpnS_MAG26fr", "ngenes": 79, "org": "Klebsiella phage vB_KpnS_MAG26fr", "shape": "dot", "size": 19, "source": "NCBI", "title": "NCBI__OP558002__Klebsiella_phage_vB_KpnS_MAG26fr\n\u003cbr\u003e59708bp\n\u003cbr\u003eKlebsiella phage vB_KpnS_MAG26fr\n\u003cbr\u003e79 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OP558002\" target=\"_blank\"\u003eOP558002\u003c/a\u003e", "working_name": "Klebsiella_Casjensviridae"}, {"__dummy": "dummy", "acc": "Klebsiella_pneumoniae__GCA_023355175.1_-_ASM2335517v1__JAMAPK010000038.1__78__573", "cloud": 3227, "color": {"background": "steelblue", "border": "white"}, "genome_size": 59548, "id": "Klebsiella_pneumoniae__GCA_023355175.1_-_ASM2335517v1__JAMAPK010000038.1__78__573", "label": "Klebsiella_pneumoniae__GCA_023355175.1_-_ASM2335517v1__JAMAPK010000038.1__78__573", "ngenes": 78, "org": "Klebsiella_pneumoniae", "shape": "square", "size": 19, "source": "BAPS", "title": "Klebsiella_pneumoniae__GCA_023355175.1_-_ASM2335517v1__JAMAPK010000038.1__78__573\n\u003cbr\u003e59548bp\n\u003cbr\u003eKlebsiella_pneumoniae\n\u003cbr\u003e78 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/JAMAPK010000038.1\" target=\"_blank\"\u003eJAMAPK010000038.1\u003c/a\u003e", "working_name": "Klebsiella_Casjensviridae"}, {"__dummy": "dummy", "acc": "Klebsiella_pneumoniae__GCA_022077845.1_-_PDT000875328.1__DAGEUO010000032.1__80__573", "cloud": 3227, "color": {"background": "steelblue", "border": "white"}, "genome_size": 58778, "id": "Klebsiella_pneumoniae__GCA_022077845.1_-_PDT000875328.1__DAGEUO010000032.1__80__573", "label": "Klebsiella_pneumoniae__GCA_022077845.1_-_PDT000875328.1__DAGEUO010000032.1__80__573", "ngenes": 80, "org": "Klebsiella_pneumoniae", "shape": "square", "size": 19, "source": "BAPS", "title": "Klebsiella_pneumoniae__GCA_022077845.1_-_PDT000875328.1__DAGEUO010000032.1__80__573\n\u003cbr\u003e58778bp\n\u003cbr\u003eKlebsiella_pneumoniae\n\u003cbr\u003e80 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/DAGEUO010000032.1\" target=\"_blank\"\u003eDAGEUO010000032.1\u003c/a\u003e", "working_name": "Klebsiella_Casjensviridae"}, {"__dummy": "dummy", "acc": "Klebsiella_pneumoniae__GCA_024373845.1_-_PDT001366218.1__DAIHUC010000032.1__81__573", "cloud": 3227, "color": {"background": "steelblue", "border": "white"}, "genome_size": 59892, "id": "Klebsiella_pneumoniae__GCA_024373845.1_-_PDT001366218.1__DAIHUC010000032.1__81__573", "label": "Klebsiella_pneumoniae__GCA_024373845.1_-_PDT001366218.1__DAIHUC010000032.1__81__573", "ngenes": 81, "org": "Klebsiella_pneumoniae", "shape": "square", "size": 19, "source": "BAPS", "title": "Klebsiella_pneumoniae__GCA_024373845.1_-_PDT001366218.1__DAIHUC010000032.1__81__573\n\u003cbr\u003e59892bp\n\u003cbr\u003eKlebsiella_pneumoniae\n\u003cbr\u003e81 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/DAIHUC010000032.1\" target=\"_blank\"\u003eDAIHUC010000032.1\u003c/a\u003e", "working_name": "Klebsiella_Casjensviridae"}]);
+                  edges = new vis.DataSet([{"color": "lightgray", "dist": 0.0348963, "from": "NCBI__NC_052987__Klebsiella_phage_KPN_N98", "title": "dist: 0.0349", "to": "Klebsiella_pneumoniae__GCA_024373845.1_-_PDT001366218.1__DAIHUC010000032.1__81__573", "value": 0.9651037}, {"color": "lightgray", "dist": 0.0702285, "from": "NCBI__NC_052987__Klebsiella_phage_KPN_N98", "title": "dist: 0.0702", "to": "Klebsiella_pneumoniae__GCA_023355175.1_-_ASM2335517v1__JAMAPK010000038.1__78__573", "value": 0.9297715}, {"color": "lightgray", "dist": 0.0452893, "from": "NCBI__NC_052987__Klebsiella_phage_KPN_N98", "title": "dist: 0.0453", "to": "Klebsiella_pneumoniae__GCA_022077845.1_-_PDT000875328.1__DAGEUO010000032.1__80__573", "value": 0.9547107}, {"color": "lightgray", "dist": 0.000458374, "from": "NCBI__NC_052987__Klebsiella_phage_KPN_N98", "title": "dist: 0.0005", "to": "NCBI__MF415411__Klebsiella_phage_KPN_U2874", "value": 0.999541626}, {"color": "lightgray", "dist": 0.000436641, "from": "NCBI__NC_052987__Klebsiella_phage_KPN_N98", "title": "dist: 0.0004", "to": "NCBI__MF415413__Klebsiella_phage_KPN_N54", "value": 0.999563359}, {"color": "lightgray", "dist": 0.000436641, "from": "NCBI__NC_052987__Klebsiella_phage_KPN_N98", "title": "dist: 0.0004", "to": "NCBI__MF476924__Klebsiella_phage_YMC15/11/N53_KPN_BP", "value": 0.999563359}, {"color": "lightgray", "dist": 0.000436641, "from": "NCBI__NC_052987__Klebsiella_phage_KPN_N98", "title": "dist: 0.0004", "to": "NCBI__MF415410__Klebsiella_phage_KPN_N137", "value": 0.999563359}, {"color": "lightgray", "dist": 0.000458374, "from": "NCBI__NC_052987__Klebsiella_phage_KPN_N98", "title": "dist: 0.0005", "to": "NCBI__NC_052988__Klebsiella_phage_KPN_U2874", "value": 0.999541626}, {"color": "lightgray", "dist": 0.000436641, "from": "NCBI__NC_052987__Klebsiella_phage_KPN_N98", "title": "dist: 0.0004", "to": "NCBI__NC_048670__Klebsiella_phage_KPN_N137", "value": 0.999563359}, {"color": "lightgray", "dist": 0.0, "from": "NCBI__NC_052987__Klebsiella_phage_KPN_N98", "title": "dist: 0.0000", "to": "NCBI__MG835858__Klebsiella_phage_KPN_N98", "value": 1.0}, {"color": "lightgray", "dist": 0.0698809, "from": "NCBI__NC_052987__Klebsiella_phage_KPN_N98", "title": "dist: 0.0699", "to": "NCBI__PP660558__Klebsiella_phage_SAKp11", "value": 0.9301191}, {"color": "lightgray", "dist": 0.0688396, "from": "NCBI__NC_052987__Klebsiella_phage_KPN_N98", "title": "dist: 0.0688", "to": "NCBI__OR290970__Klebsiella_phage_SAKp02", "value": 0.9311604}, {"color": "lightgray", "dist": 0.0721008, "from": "NCBI__NC_052987__Klebsiella_phage_KPN_N98", "title": "dist: 0.0721", "to": "NCBI__OP558002__Klebsiella_phage_vB_KpnS_MAG26fr", "value": 0.9278992}, {"color": "lightgray", "dist": 0.0686424, "from": "NCBI__NC_052987__Klebsiella_phage_KPN_N98", "title": "dist: 0.0686", "to": "NCBI__PP660554__Klebsiella_phage_SAKp15", "value": 0.9313576}, {"color": "lightgray", "dist": 0.0699763, "from": "NCBI__OR290970__Klebsiella_phage_SAKp02", "title": "dist: 0.0700", "to": "Klebsiella_pneumoniae__GCA_024373845.1_-_PDT001366218.1__DAIHUC010000032.1__81__573", "value": 0.9300237}, {"color": "lightgray", "dist": 0.0735511, "from": "NCBI__OR290970__Klebsiella_phage_SAKp02", "title": "dist: 0.0736", "to": "Klebsiella_pneumoniae__GCA_023355175.1_-_ASM2335517v1__JAMAPK010000038.1__78__573", "value": 0.9264489}, {"color": "lightgray", "dist": 0.0644086, "from": "NCBI__OR290970__Klebsiella_phage_SAKp02", "title": "dist: 0.0644", "to": "Klebsiella_pneumoniae__GCA_022077845.1_-_PDT000875328.1__DAGEUO010000032.1__80__573", "value": 0.9355914}, {"color": "lightgray", "dist": 0.0692355, "from": "NCBI__OR290970__Klebsiella_phage_SAKp02", "title": "dist: 0.0692", "to": "NCBI__MF415411__Klebsiella_phage_KPN_U2874", "value": 0.9307645}, {"color": "lightgray", "dist": 0.0692791, "from": "NCBI__OR290970__Klebsiella_phage_SAKp02", "title": "dist: 0.0693", "to": "NCBI__MF415413__Klebsiella_phage_KPN_N54", "value": 0.9307209}, {"color": "lightgray", "dist": 0.0692791, "from": "NCBI__OR290970__Klebsiella_phage_SAKp02", "title": "dist: 0.0693", "to": "NCBI__MF476924__Klebsiella_phage_YMC15/11/N53_KPN_BP", "value": 0.9307209}, {"color": "lightgray", "dist": 0.0692791, "from": "NCBI__OR290970__Klebsiella_phage_SAKp02", "title": "dist: 0.0693", "to": "NCBI__MF415410__Klebsiella_phage_KPN_N137", "value": 0.9307209}, {"color": "lightgray", "dist": 0.0692355, "from": "NCBI__OR290970__Klebsiella_phage_SAKp02", "title": "dist: 0.0692", "to": "NCBI__NC_052988__Klebsiella_phage_KPN_U2874", "value": 0.9307645}, {"color": "lightgray", "dist": 0.0692791, "from": "NCBI__OR290970__Klebsiella_phage_SAKp02", "title": "dist: 0.0693", "to": "NCBI__NC_048670__Klebsiella_phage_KPN_N137", "value": 0.9307209}, {"color": "lightgray", "dist": 0.0688396, "from": "NCBI__OR290970__Klebsiella_phage_SAKp02", "title": "dist: 0.0688", "to": "NCBI__MG835858__Klebsiella_phage_KPN_N98", "value": 0.9311604}, {"color": "lightgray", "dist": 0.00228043, "from": "NCBI__OR290970__Klebsiella_phage_SAKp02", "title": "dist: 0.0023", "to": "NCBI__PP660558__Klebsiella_phage_SAKp11", "value": 0.99771957}, {"color": "lightgray", "dist": 0.0360364, "from": "NCBI__OR290970__Klebsiella_phage_SAKp02", "title": "dist: 0.0360", "to": "NCBI__OP558002__Klebsiella_phage_vB_KpnS_MAG26fr", "value": 0.9639636}, {"color": "lightgray", "dist": 0.00113576, "from": "NCBI__OR290970__Klebsiella_phage_SAKp02", "title": "dist: 0.0011", "to": "NCBI__PP660554__Klebsiella_phage_SAKp15", "value": 0.99886424}, {"color": "lightgray", "dist": 0.0716093, "from": "NCBI__PP660558__Klebsiella_phage_SAKp11", "title": "dist: 0.0716", "to": "Klebsiella_pneumoniae__GCA_024373845.1_-_PDT001366218.1__DAIHUC010000032.1__81__573", "value": 0.9283907}, {"color": "lightgray", "dist": 0.0749153, "from": "NCBI__PP660558__Klebsiella_phage_SAKp11", "title": "dist: 0.0749", "to": "Klebsiella_pneumoniae__GCA_023355175.1_-_ASM2335517v1__JAMAPK010000038.1__78__573", "value": 0.9250847}, {"color": "lightgray", "dist": 0.0662764, "from": "NCBI__PP660558__Klebsiella_phage_SAKp11", "title": "dist: 0.0663", "to": "Klebsiella_pneumoniae__GCA_022077845.1_-_PDT000875328.1__DAGEUO010000032.1__80__573", "value": 0.9337236}, {"color": "lightgray", "dist": 0.0703031, "from": "NCBI__PP660558__Klebsiella_phage_SAKp11", "title": "dist: 0.0703", "to": "NCBI__MF415411__Klebsiella_phage_KPN_U2874", "value": 0.9296969}, {"color": "lightgray", "dist": 0.0703336, "from": "NCBI__PP660558__Klebsiella_phage_SAKp11", "title": "dist: 0.0703", "to": "NCBI__MF415413__Klebsiella_phage_KPN_N54", "value": 0.9296664}, {"color": "lightgray", "dist": 0.0703336, "from": "NCBI__PP660558__Klebsiella_phage_SAKp11", "title": "dist: 0.0703", "to": "NCBI__MF476924__Klebsiella_phage_YMC15/11/N53_KPN_BP", "value": 0.9296664}, {"color": "lightgray", "dist": 0.0703336, "from": "NCBI__PP660558__Klebsiella_phage_SAKp11", "title": "dist: 0.0703", "to": "NCBI__MF415410__Klebsiella_phage_KPN_N137", "value": 0.9296664}, {"color": "lightgray", "dist": 0.0703031, "from": "NCBI__PP660558__Klebsiella_phage_SAKp11", "title": "dist: 0.0703", "to": "NCBI__NC_052988__Klebsiella_phage_KPN_U2874", "value": 0.9296969}, {"color": "lightgray", "dist": 0.0703336, "from": "NCBI__PP660558__Klebsiella_phage_SAKp11", "title": "dist: 0.0703", "to": "NCBI__NC_048670__Klebsiella_phage_KPN_N137", "value": 0.9296664}, {"color": "lightgray", "dist": 0.0698809, "from": "NCBI__PP660558__Klebsiella_phage_SAKp11", "title": "dist: 0.0699", "to": "NCBI__MG835858__Klebsiella_phage_KPN_N98", "value": 0.9301191}, {"color": "lightgray", "dist": 0.0376291, "from": "NCBI__PP660558__Klebsiella_phage_SAKp11", "title": "dist: 0.0376", "to": "NCBI__OP558002__Klebsiella_phage_vB_KpnS_MAG26fr", "value": 0.9623709}, {"color": "lightgray", "dist": 0.00110199, "from": "NCBI__PP660558__Klebsiella_phage_SAKp11", "title": "dist: 0.0011", "to": "NCBI__PP660554__Klebsiella_phage_SAKp15", "value": 0.99889801}, {"color": "lightgray", "dist": 0.0346208, "from": "NCBI__NC_052988__Klebsiella_phage_KPN_U2874", "title": "dist: 0.0346", "to": "Klebsiella_pneumoniae__GCA_024373845.1_-_PDT001366218.1__DAIHUC010000032.1__81__573", "value": 0.9653792}, {"color": "lightgray", "dist": 0.0704355, "from": "NCBI__NC_052988__Klebsiella_phage_KPN_U2874", "title": "dist: 0.0704", "to": "Klebsiella_pneumoniae__GCA_023355175.1_-_ASM2335517v1__JAMAPK010000038.1__78__573", "value": 0.9295645}, {"color": "lightgray", "dist": 0.0455591, "from": "NCBI__NC_052988__Klebsiella_phage_KPN_U2874", "title": "dist: 0.0456", "to": "Klebsiella_pneumoniae__GCA_022077845.1_-_PDT000875328.1__DAGEUO010000032.1__80__573", "value": 0.9544409}, {"color": "lightgray", "dist": 0.0, "from": "NCBI__NC_052988__Klebsiella_phage_KPN_U2874", "title": "dist: 0.0000", "to": "NCBI__MF415411__Klebsiella_phage_KPN_U2874", "value": 1.0}, {"color": "lightgray", "dist": 2.14819e-05, "from": "NCBI__NC_052988__Klebsiella_phage_KPN_U2874", "title": "dist: 0.0000", "to": "NCBI__MF415413__Klebsiella_phage_KPN_N54", "value": 0.9999785181}, {"color": "lightgray", "dist": 2.14819e-05, "from": "NCBI__NC_052988__Klebsiella_phage_KPN_U2874", "title": "dist: 0.0000", "to": "NCBI__MF476924__Klebsiella_phage_YMC15/11/N53_KPN_BP", "value": 0.9999785181}, {"color": "lightgray", "dist": 2.14819e-05, "from": "NCBI__NC_052988__Klebsiella_phage_KPN_U2874", "title": "dist: 0.0000", "to": "NCBI__MF415410__Klebsiella_phage_KPN_N137", "value": 0.9999785181}, {"color": "lightgray", "dist": 2.14819e-05, "from": "NCBI__NC_052988__Klebsiella_phage_KPN_U2874", "title": "dist: 0.0000", "to": "NCBI__NC_048670__Klebsiella_phage_KPN_N137", "value": 0.9999785181}, {"color": "lightgray", "dist": 0.000458374, "from": "NCBI__NC_052988__Klebsiella_phage_KPN_U2874", "title": "dist: 0.0005", "to": "NCBI__MG835858__Klebsiella_phage_KPN_N98", "value": 0.999541626}, {"color": "lightgray", "dist": 0.072216, "from": "NCBI__NC_052988__Klebsiella_phage_KPN_U2874", "title": "dist: 0.0722", "to": "NCBI__OP558002__Klebsiella_phage_vB_KpnS_MAG26fr", "value": 0.9277839999999999}, {"color": "lightgray", "dist": 0.069038, "from": "NCBI__NC_052988__Klebsiella_phage_KPN_U2874", "title": "dist: 0.0690", "to": "NCBI__PP660554__Klebsiella_phage_SAKp15", "value": 0.930962}, {"color": "lightgray", "dist": 0.0684602, "from": "Klebsiella_pneumoniae__GCA_024373845.1_-_PDT001366218.1__DAIHUC010000032.1__81__573", "title": "dist: 0.0685", "to": "Klebsiella_pneumoniae__GCA_023355175.1_-_ASM2335517v1__JAMAPK010000038.1__78__573", "value": 0.9315398}, {"color": "lightgray", "dist": 0.0472508, "from": "Klebsiella_pneumoniae__GCA_024373845.1_-_PDT001366218.1__DAIHUC010000032.1__81__573", "title": "dist: 0.0473", "to": "Klebsiella_pneumoniae__GCA_022077845.1_-_PDT000875328.1__DAGEUO010000032.1__80__573", "value": 0.9527492}, {"color": "lightgray", "dist": 0.0346208, "from": "Klebsiella_pneumoniae__GCA_024373845.1_-_PDT001366218.1__DAIHUC010000032.1__81__573", "title": "dist: 0.0346", "to": "NCBI__MF415411__Klebsiella_phage_KPN_U2874", "value": 0.9653792}, {"color": "lightgray", "dist": 0.0346008, "from": "Klebsiella_pneumoniae__GCA_024373845.1_-_PDT001366218.1__DAIHUC010000032.1__81__573", "title": "dist: 0.0346", "to": "NCBI__MF415413__Klebsiella_phage_KPN_N54", "value": 0.9653992}, {"color": "lightgray", "dist": 0.0346008, "from": "Klebsiella_pneumoniae__GCA_024373845.1_-_PDT001366218.1__DAIHUC010000032.1__81__573", "title": "dist: 0.0346", "to": "NCBI__MF476924__Klebsiella_phage_YMC15/11/N53_KPN_BP", "value": 0.9653992}, {"color": "lightgray", "dist": 0.0346008, "from": "Klebsiella_pneumoniae__GCA_024373845.1_-_PDT001366218.1__DAIHUC010000032.1__81__573", "title": "dist: 0.0346", "to": "NCBI__MF415410__Klebsiella_phage_KPN_N137", "value": 0.9653992}, {"color": "lightgray", "dist": 0.0346008, "from": "Klebsiella_pneumoniae__GCA_024373845.1_-_PDT001366218.1__DAIHUC010000032.1__81__573", "title": "dist: 0.0346", "to": "NCBI__NC_048670__Klebsiella_phage_KPN_N137", "value": 0.9653992}, {"color": "lightgray", "dist": 0.0348963, "from": "Klebsiella_pneumoniae__GCA_024373845.1_-_PDT001366218.1__DAIHUC010000032.1__81__573", "title": "dist: 0.0349", "to": "NCBI__MG835858__Klebsiella_phage_KPN_N98", "value": 0.9651037}, {"color": "lightgray", "dist": 0.0697269, "from": "Klebsiella_pneumoniae__GCA_024373845.1_-_PDT001366218.1__DAIHUC010000032.1__81__573", "title": "dist: 0.0697", "to": "NCBI__OP558002__Klebsiella_phage_vB_KpnS_MAG26fr", "value": 0.9302731}, {"color": "lightgray", "dist": 0.0696052, "from": "Klebsiella_pneumoniae__GCA_024373845.1_-_PDT001366218.1__DAIHUC010000032.1__81__573", "title": "dist: 0.0696", "to": "NCBI__PP660554__Klebsiella_phage_SAKp15", "value": 0.9303948}, {"color": "lightgray", "dist": 0.0704419, "from": "NCBI__MF476924__Klebsiella_phage_YMC15/11/N53_KPN_BP", "title": "dist: 0.0704", "to": "Klebsiella_pneumoniae__GCA_023355175.1_-_ASM2335517v1__JAMAPK010000038.1__78__573", "value": 0.9295580999999999}, {"color": "lightgray", "dist": 0.0455612, "from": "NCBI__MF476924__Klebsiella_phage_YMC15/11/N53_KPN_BP", "title": "dist: 0.0456", "to": "Klebsiella_pneumoniae__GCA_022077845.1_-_PDT000875328.1__DAGEUO010000032.1__80__573", "value": 0.9544388}, {"color": "lightgray", "dist": 2.14819e-05, "from": "NCBI__MF476924__Klebsiella_phage_YMC15/11/N53_KPN_BP", "title": "dist: 0.0000", "to": "NCBI__MF415411__Klebsiella_phage_KPN_U2874", "value": 0.9999785181}, {"color": "lightgray", "dist": 0.0, "from": "NCBI__MF476924__Klebsiella_phage_YMC15/11/N53_KPN_BP", "title": "dist: 0.0000", "to": "NCBI__MF415413__Klebsiella_phage_KPN_N54", "value": 1.0}, {"color": "lightgray", "dist": 0.0, "from": "NCBI__MF476924__Klebsiella_phage_YMC15/11/N53_KPN_BP", "title": "dist: 0.0000", "to": "NCBI__MF415410__Klebsiella_phage_KPN_N137", "value": 1.0}, {"color": "lightgray", "dist": 0.0, "from": "NCBI__MF476924__Klebsiella_phage_YMC15/11/N53_KPN_BP", "title": "dist: 0.0000", "to": "NCBI__NC_048670__Klebsiella_phage_KPN_N137", "value": 1.0}, {"color": "lightgray", "dist": 0.000436641, "from": "NCBI__MF476924__Klebsiella_phage_YMC15/11/N53_KPN_BP", "title": "dist: 0.0004", "to": "NCBI__MG835858__Klebsiella_phage_KPN_N98", "value": 0.999563359}, {"color": "lightgray", "dist": 0.0721485, "from": "NCBI__MF476924__Klebsiella_phage_YMC15/11/N53_KPN_BP", "title": "dist: 0.0721", "to": "NCBI__OP558002__Klebsiella_phage_vB_KpnS_MAG26fr", "value": 0.9278515}, {"color": "lightgray", "dist": 0.0690683, "from": "NCBI__MF476924__Klebsiella_phage_YMC15/11/N53_KPN_BP", "title": "dist: 0.0691", "to": "NCBI__PP660554__Klebsiella_phage_SAKp15", "value": 0.9309317}, {"color": "lightgray", "dist": 0.0702285, "from": "NCBI__MG835858__Klebsiella_phage_KPN_N98", "title": "dist: 0.0702", "to": "Klebsiella_pneumoniae__GCA_023355175.1_-_ASM2335517v1__JAMAPK010000038.1__78__573", "value": 0.9297715}, {"color": "lightgray", "dist": 0.0452893, "from": "NCBI__MG835858__Klebsiella_phage_KPN_N98", "title": "dist: 0.0453", "to": "Klebsiella_pneumoniae__GCA_022077845.1_-_PDT000875328.1__DAGEUO010000032.1__80__573", "value": 0.9547107}, {"color": "lightgray", "dist": 0.000458374, "from": "NCBI__MG835858__Klebsiella_phage_KPN_N98", "title": "dist: 0.0005", "to": "NCBI__MF415411__Klebsiella_phage_KPN_U2874", "value": 0.999541626}, {"color": "lightgray", "dist": 0.000436641, "from": "NCBI__MG835858__Klebsiella_phage_KPN_N98", "title": "dist: 0.0004", "to": "NCBI__MF415413__Klebsiella_phage_KPN_N54", "value": 0.999563359}, {"color": "lightgray", "dist": 0.000436641, "from": "NCBI__MG835858__Klebsiella_phage_KPN_N98", "title": "dist: 0.0004", "to": "NCBI__MF415410__Klebsiella_phage_KPN_N137", "value": 0.999563359}, {"color": "lightgray", "dist": 0.000436641, "from": "NCBI__MG835858__Klebsiella_phage_KPN_N98", "title": "dist: 0.0004", "to": "NCBI__NC_048670__Klebsiella_phage_KPN_N137", "value": 0.999563359}, {"color": "lightgray", "dist": 0.0721008, "from": "NCBI__MG835858__Klebsiella_phage_KPN_N98", "title": "dist: 0.0721", "to": "NCBI__OP558002__Klebsiella_phage_vB_KpnS_MAG26fr", "value": 0.9278992}, {"color": "lightgray", "dist": 0.0686424, "from": "NCBI__MG835858__Klebsiella_phage_KPN_N98", "title": "dist: 0.0686", "to": "NCBI__PP660554__Klebsiella_phage_SAKp15", "value": 0.9313576}, {"color": "lightgray", "dist": 0.0704419, "from": "NCBI__MF415410__Klebsiella_phage_KPN_N137", "title": "dist: 0.0704", "to": "Klebsiella_pneumoniae__GCA_023355175.1_-_ASM2335517v1__JAMAPK010000038.1__78__573", "value": 0.9295580999999999}, {"color": "lightgray", "dist": 0.0455612, "from": "NCBI__MF415410__Klebsiella_phage_KPN_N137", "title": "dist: 0.0456", "to": "Klebsiella_pneumoniae__GCA_022077845.1_-_PDT000875328.1__DAGEUO010000032.1__80__573", "value": 0.9544388}, {"color": "lightgray", "dist": 2.14819e-05, "from": "NCBI__MF415410__Klebsiella_phage_KPN_N137", "title": "dist: 0.0000", "to": "NCBI__MF415411__Klebsiella_phage_KPN_U2874", "value": 0.9999785181}, {"color": "lightgray", "dist": 0.0, "from": "NCBI__MF415410__Klebsiella_phage_KPN_N137", "title": "dist: 0.0000", "to": "NCBI__MF415413__Klebsiella_phage_KPN_N54", "value": 1.0}, {"color": "lightgray", "dist": 0.0, "from": "NCBI__MF415410__Klebsiella_phage_KPN_N137", "title": "dist: 0.0000", "to": "NCBI__NC_048670__Klebsiella_phage_KPN_N137", "value": 1.0}, {"color": "lightgray", "dist": 0.0721485, "from": "NCBI__MF415410__Klebsiella_phage_KPN_N137", "title": "dist: 0.0721", "to": "NCBI__OP558002__Klebsiella_phage_vB_KpnS_MAG26fr", "value": 0.9278515}, {"color": "lightgray", "dist": 0.0690683, "from": "NCBI__MF415410__Klebsiella_phage_KPN_N137", "title": "dist: 0.0691", "to": "NCBI__PP660554__Klebsiella_phage_SAKp15", "value": 0.9309317}, {"color": "lightgray", "dist": 0.0682667, "from": "Klebsiella_pneumoniae__GCA_022077845.1_-_PDT000875328.1__DAGEUO010000032.1__80__573", "title": "dist: 0.0683", "to": "Klebsiella_pneumoniae__GCA_023355175.1_-_ASM2335517v1__JAMAPK010000038.1__78__573", "value": 0.9317333}, {"color": "lightgray", "dist": 0.0455591, "from": "Klebsiella_pneumoniae__GCA_022077845.1_-_PDT000875328.1__DAGEUO010000032.1__80__573", "title": "dist: 0.0456", "to": "NCBI__MF415411__Klebsiella_phage_KPN_U2874", "value": 0.9544409}, {"color": "lightgray", "dist": 0.0455612, "from": "Klebsiella_pneumoniae__GCA_022077845.1_-_PDT000875328.1__DAGEUO010000032.1__80__573", "title": "dist: 0.0456", "to": "NCBI__MF415413__Klebsiella_phage_KPN_N54", "value": 0.9544388}, {"color": "lightgray", "dist": 0.0455612, "from": "Klebsiella_pneumoniae__GCA_022077845.1_-_PDT000875328.1__DAGEUO010000032.1__80__573", "title": "dist: 0.0456", "to": "NCBI__NC_048670__Klebsiella_phage_KPN_N137", "value": 0.9544388}, {"color": "lightgray", "dist": 0.0696784, "from": "Klebsiella_pneumoniae__GCA_022077845.1_-_PDT000875328.1__DAGEUO010000032.1__80__573", "title": "dist: 0.0697", "to": "NCBI__OP558002__Klebsiella_phage_vB_KpnS_MAG26fr", "value": 0.9303216}, {"color": "lightgray", "dist": 0.0645053, "from": "Klebsiella_pneumoniae__GCA_022077845.1_-_PDT000875328.1__DAGEUO010000032.1__80__573", "title": "dist: 0.0645", "to": "NCBI__PP660554__Klebsiella_phage_SAKp15", "value": 0.9354947}, {"color": "lightgray", "dist": 0.0733534, "from": "NCBI__PP660554__Klebsiella_phage_SAKp15", "title": "dist: 0.0734", "to": "Klebsiella_pneumoniae__GCA_023355175.1_-_ASM2335517v1__JAMAPK010000038.1__78__573", "value": 0.9266466}, {"color": "lightgray", "dist": 0.069038, "from": "NCBI__PP660554__Klebsiella_phage_SAKp15", "title": "dist: 0.0690", "to": "NCBI__MF415411__Klebsiella_phage_KPN_U2874", "value": 0.930962}, {"color": "lightgray", "dist": 0.0690683, "from": "NCBI__PP660554__Klebsiella_phage_SAKp15", "title": "dist: 0.0691", "to": "NCBI__MF415413__Klebsiella_phage_KPN_N54", "value": 0.9309317}, {"color": "lightgray", "dist": 0.0690683, "from": "NCBI__PP660554__Klebsiella_phage_SAKp15", "title": "dist: 0.0691", "to": "NCBI__NC_048670__Klebsiella_phage_KPN_N137", "value": 0.9309317}, {"color": "lightgray", "dist": 0.0364827, "from": "NCBI__PP660554__Klebsiella_phage_SAKp15", "title": "dist: 0.0365", "to": "NCBI__OP558002__Klebsiella_phage_vB_KpnS_MAG26fr", "value": 0.9635173}, {"color": "lightgray", "dist": 0.0704355, "from": "Klebsiella_pneumoniae__GCA_023355175.1_-_ASM2335517v1__JAMAPK010000038.1__78__573", "title": "dist: 0.0704", "to": "NCBI__MF415411__Klebsiella_phage_KPN_U2874", "value": 0.9295645}, {"color": "lightgray", "dist": 0.0704419, "from": "Klebsiella_pneumoniae__GCA_023355175.1_-_ASM2335517v1__JAMAPK010000038.1__78__573", "title": "dist: 0.0704", "to": "NCBI__MF415413__Klebsiella_phage_KPN_N54", "value": 0.9295580999999999}, {"color": "lightgray", "dist": 0.0704419, "from": "Klebsiella_pneumoniae__GCA_023355175.1_-_ASM2335517v1__JAMAPK010000038.1__78__573", "title": "dist: 0.0704", "to": "NCBI__NC_048670__Klebsiella_phage_KPN_N137", "value": 0.9295580999999999}, {"color": "lightgray", "dist": 0.0755209, "from": "Klebsiella_pneumoniae__GCA_023355175.1_-_ASM2335517v1__JAMAPK010000038.1__78__573", "title": "dist: 0.0755", "to": "NCBI__OP558002__Klebsiella_phage_vB_KpnS_MAG26fr", "value": 0.9244791}, {"color": "lightgray", "dist": 2.14819e-05, "from": "NCBI__MF415413__Klebsiella_phage_KPN_N54", "title": "dist: 0.0000", "to": "NCBI__MF415411__Klebsiella_phage_KPN_U2874", "value": 0.9999785181}, {"color": "lightgray", "dist": 0.0, "from": "NCBI__MF415413__Klebsiella_phage_KPN_N54", "title": "dist: 0.0000", "to": "NCBI__NC_048670__Klebsiella_phage_KPN_N137", "value": 1.0}, {"color": "lightgray", "dist": 0.0721485, "from": "NCBI__MF415413__Klebsiella_phage_KPN_N54", "title": "dist: 0.0721", "to": "NCBI__OP558002__Klebsiella_phage_vB_KpnS_MAG26fr", "value": 0.9278515}, {"color": "lightgray", "dist": 2.14819e-05, "from": "NCBI__MF415411__Klebsiella_phage_KPN_U2874", "title": "dist: 0.0000", "to": "NCBI__NC_048670__Klebsiella_phage_KPN_N137", "value": 0.9999785181}, {"color": "lightgray", "dist": 0.072216, "from": "NCBI__MF415411__Klebsiella_phage_KPN_U2874", "title": "dist: 0.0722", "to": "NCBI__OP558002__Klebsiella_phage_vB_KpnS_MAG26fr", "value": 0.9277839999999999}, {"color": "lightgray", "dist": 0.0721485, "from": "NCBI__NC_048670__Klebsiella_phage_KPN_N137", "title": "dist: 0.0721", "to": "NCBI__OP558002__Klebsiella_phage_vB_KpnS_MAG26fr", "value": 0.9278515}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"nodes": {"font": {"size": 0}, "shadow": {"enabled": true}}, "configure": {"enabled": true, "showButton": true}, "edges": {"color": {"inherit": true}, "smooth": false}, "physics": {"enabled": true, "forceAtlas2Based": {"gravitationalConstant": -88, "centralGravity": 0.02, "springLength": 100}, "minVelocity": 0.75, "solver": "forceAtlas2Based"}, "interaction": {"hover": true}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+		  function placePopupAt(domPoint, html) {
+		      if (!html) return;
+		      popup.innerHTML = html;
+		      popup.style.display = 'block';
+		      popup.style.left = (domPoint.x + 25) + 'px';
+		      popup.style.top  = (domPoint.y - 35) + 'px';
+		  }
+
+		  function hidePopupNow() {
+		      popup.style.display = 'none';
+		  }
+
+		  network.on("hoverNode", function (params) {
+		      const n = nodes.get(params.node);
+		      if (!n || !n.title) return;
+		      placePopupAt(params.pointer.DOM, n.title);
+		  });
+
+		  network.on("blurNode", hidePopupNow);
+
+		  network.on("hoverEdge", function (params) {
+		      const e = edges.get(params.edge);
+		      if (!e || !e.title) return;
+		      placePopupAt(params.pointer.DOM, e.title);
+		  });
+
+		  network.on("blurEdge", hidePopupNow);
+		  
+                  
+
+                  
+
+                  
+                  // make a custom popup
+                      var popup = document.createElement("div");
+                      popup.className = 'popup';
+                      popupTimeout = null;
+                      popup.addEventListener('mouseover', function () {
+                          console.log(popup)
+                          if (popupTimeout !== null) {
+                              clearTimeout(popupTimeout);
+                              popupTimeout = null;
+                          }
+                      });
+                      popup.addEventListener('mouseout', function () {
+                          if (popupTimeout === null) {
+                              hidePopup();
+                          }
+                      });
+                      container.appendChild(popup);
+
+
+
+                      // hiding the popup through css
+                      function hidePopup() {
+                          popupTimeout = setTimeout(function () { popup.style.display = 'none'; }, 500);
+                      }
+
+		  function showPopup(id) {
+		      let dataObj, posCanvas;
+
+		      if (nodes.get(id)) {
+			  dataObj = nodes.get(id);
+			  posCanvas = network.getPositions([id])[id];
+		      } else if (edges.get(id)) {
+			  dataObj = edges.get(id);
+			  var bbox = network.getBoundingBox(id);
+			  posCanvas = {
+			      x: (bbox.left + bbox.right) / 2,
+			      y: (bbox.top + bbox.bottom) / 2
+			  };
+		      } else {
+			  return;
+		      }
+		      
+		      if (!dataObj.title) return;
+
+		      popup.innerHTML = dataObj.title;
+		      
+		      var posDOM = network.canvasToDOM(posCanvas);
+		      popup.style.display = 'block';
+		      popup.style.left = (posDOM.x + 10) + 'px';
+		      popup.style.top  = (posDOM.y - 20) + 'px';
+		  }
+                  
+
+
+                  
+		  network.on("stabilizationIterationsDone", function() {
+                      network.setOptions( { physics: false } );
+		  });
+		  //end block addition
+		  
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+    <div id="info-box" style="position:fixed; top:10px; right:10px; width:300px; background:white; border:1px solid #888; padding:10px; z-index:9999; font-family:Arial;"></div>
+    <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+    network.on("click", function (params) {
+    if (params.nodes.length > 0) {
+    var nodeId = params.nodes[0];
+    var node = nodes.get(nodeId);
+    document.getElementById("info-box").innerHTML = node.title || "No info available.";
+    } else {
+    document.getElementById("info-box").innerHTML = "";
+    }
+    });
+    });
+    </script>
+    
+</body>
+</html>

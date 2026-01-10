@@ -1,0 +1,245 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h2>Salmonella Schitoviridae.html (15 genomes) 2026-01-10_20:20:55</h2>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 1100px;
+                 height: 900px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+             /* position absolute is important and the container has to be relative or absolute as well. */
+          div.popup {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 display:none;
+                 background-color:#f5f4ed;
+                 -moz-border-radius: 3px;
+                 -webkit-border-radius: 3px;
+                 border-radius: 3px;
+                 border: 1px solid #808074;
+             box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+             }
+
+          /* hide the original tooltip */
+          .vis-tooltip {
+            display:none;
+          }
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"__dummy": "dummy", "acc": "OM908766", "cloud": 2319, "color": "dimgray", "genome_size": 72135, "id": "NCBI__OM908766__Salmonella_phage_S5", "label": "NCBI__OM908766__Salmonella_phage_S5", "ngenes": 11, "org": "Salmonella phage S5", "shape": "dot", "size": 24, "source": "NCBI", "title": "NCBI__OM908766__Salmonella_phage_S5\n\u003cbr\u003e72135bp\n\u003cbr\u003eSalmonella phage S5\n\u003cbr\u003e11 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OM908766\" target=\"_blank\"\u003eOM908766\u003c/a\u003e", "working_name": "Salmonella_Schitoviridae"}, {"__dummy": "dummy", "acc": "OQ359892", "cloud": 2319, "color": "dimgray", "genome_size": 70977, "id": "NCBI__OQ359892__Salmonella_phage_vB_SenP_UTK0002", "label": "NCBI__OQ359892__Salmonella_phage_vB_SenP_UTK0002", "ngenes": 89, "org": "Salmonella phage vB_SenP_UTK0002", "shape": "dot", "size": 23, "source": "NCBI", "title": "NCBI__OQ359892__Salmonella_phage_vB_SenP_UTK0002\n\u003cbr\u003e70977bp\n\u003cbr\u003eSalmonella phage vB_SenP_UTK0002\n\u003cbr\u003e89 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OQ359892\" target=\"_blank\"\u003eOQ359892\u003c/a\u003e", "working_name": "Salmonella_Schitoviridae"}, {"__dummy": "dummy", "acc": "OR050522", "cloud": 2319, "color": "dimgray", "genome_size": 72013, "id": "NCBI__OR050522__Salmonella_phage_SP154", "label": "NCBI__OR050522__Salmonella_phage_SP154", "ngenes": 96, "org": "Salmonella phage SP154", "shape": "dot", "size": 24, "source": "NCBI", "title": "NCBI__OR050522__Salmonella_phage_SP154\n\u003cbr\u003e72013bp\n\u003cbr\u003eSalmonella phage SP154\n\u003cbr\u003e96 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OR050522\" target=\"_blank\"\u003eOR050522\u003c/a\u003e", "working_name": "Salmonella_Schitoviridae"}, {"__dummy": "dummy", "acc": "KC139520", "cloud": 2319, "color": "dimgray", "genome_size": 71716, "id": "NCBI__KC139520__Salmonella_phage_FSL_SP-076", "label": "NCBI__KC139520__Salmonella_phage_FSL_SP-076", "ngenes": 82, "org": "Salmonella phage FSL SP-076", "shape": "dot", "size": 23, "source": "NCBI", "title": "NCBI__KC139520__Salmonella_phage_FSL_SP-076\n\u003cbr\u003e71716bp\n\u003cbr\u003eSalmonella phage FSL SP-076\n\u003cbr\u003e82 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/KC139520\" target=\"_blank\"\u003eKC139520\u003c/a\u003e", "working_name": "Salmonella_Schitoviridae"}, {"__dummy": "dummy", "acc": "NC_021772", "cloud": 2319, "color": "dimgray", "genome_size": 72151, "id": "NCBI__NC_021772__Salmonella_phage_FSL_SP-058", "label": "NCBI__NC_021772__Salmonella_phage_FSL_SP-058", "ngenes": 86, "org": "Salmonella phage FSL SP-058", "shape": "dot", "size": 24, "source": "NCBI", "title": "NCBI__NC_021772__Salmonella_phage_FSL_SP-058\n\u003cbr\u003e72151bp\n\u003cbr\u003eSalmonella phage FSL SP-058\n\u003cbr\u003e86 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/NC_021772\" target=\"_blank\"\u003eNC_021772\u003c/a\u003e", "working_name": "Salmonella_Schitoviridae"}, {"__dummy": "dummy", "acc": "NC_021782", "cloud": 2319, "color": "dimgray", "genome_size": 71716, "id": "NCBI__NC_021782__Salmonella_phage_FSL_SP-076", "label": "NCBI__NC_021782__Salmonella_phage_FSL_SP-076", "ngenes": 82, "org": "Salmonella phage FSL SP-076", "shape": "dot", "size": 23, "source": "NCBI", "title": "NCBI__NC_021782__Salmonella_phage_FSL_SP-076\n\u003cbr\u003e71716bp\n\u003cbr\u003eSalmonella phage FSL SP-076\n\u003cbr\u003e82 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/NC_021782\" target=\"_blank\"\u003eNC_021782\u003c/a\u003e", "working_name": "Salmonella_Schitoviridae"}, {"__dummy": "dummy", "acc": "PP056534", "cloud": 2319, "color": "steelblue", "genome_size": 70873, "id": "NCBI__PP056534__Klebsiella_phage_MY01", "label": "NCBI__PP056534__Klebsiella_phage_MY01", "ngenes": 87, "org": "Klebsiella phage MY01", "shape": "dot", "size": 23, "source": "NCBI", "title": "NCBI__PP056534__Klebsiella_phage_MY01\n\u003cbr\u003e70873bp\n\u003cbr\u003eKlebsiella phage MY01\n\u003cbr\u003e87 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/PP056534\" target=\"_blank\"\u003ePP056534\u003c/a\u003e", "working_name": "Salmonella_Schitoviridae"}, {"__dummy": "dummy", "acc": "OQ359891", "cloud": 2319, "color": "dimgray", "genome_size": 71436, "id": "NCBI__OQ359891__Salmonella_phage_vB_SenP_UTK0001", "label": "NCBI__OQ359891__Salmonella_phage_vB_SenP_UTK0001", "ngenes": 93, "org": "Salmonella phage vB_SenP_UTK0001", "shape": "dot", "size": 23, "source": "NCBI", "title": "NCBI__OQ359891__Salmonella_phage_vB_SenP_UTK0001\n\u003cbr\u003e71436bp\n\u003cbr\u003eSalmonella phage vB_SenP_UTK0001\n\u003cbr\u003e93 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OQ359891\" target=\"_blank\"\u003eOQ359891\u003c/a\u003e", "working_name": "Salmonella_Schitoviridae"}, {"__dummy": "dummy", "acc": "OM858838", "cloud": 2319, "color": "#bcbddc", "genome_size": 71028, "id": "NCBI__OM858838__Shigella_phage_B2", "label": "NCBI__OM858838__Shigella_phage_B2", "ngenes": 91, "org": "Shigella phage B2", "shape": "dot", "size": 23, "source": "NCBI", "title": "NCBI__OM858838__Shigella_phage_B2\n\u003cbr\u003e71028bp\n\u003cbr\u003eShigella phage B2\n\u003cbr\u003e91 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OM858838\" target=\"_blank\"\u003eOM858838\u003c/a\u003e", "working_name": "Salmonella_Schitoviridae"}, {"__dummy": "dummy", "acc": "KC139517", "cloud": 2319, "color": "dimgray", "genome_size": 72151, "id": "NCBI__KC139517__Salmonella_phage_FSL_SP-058", "label": "NCBI__KC139517__Salmonella_phage_FSL_SP-058", "ngenes": 86, "org": "Salmonella phage FSL SP-058", "shape": "dot", "size": 24, "source": "NCBI", "title": "NCBI__KC139517__Salmonella_phage_FSL_SP-058\n\u003cbr\u003e72151bp\n\u003cbr\u003eSalmonella phage FSL SP-058\n\u003cbr\u003e86 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/KC139517\" target=\"_blank\"\u003eKC139517\u003c/a\u003e", "working_name": "Salmonella_Schitoviridae"}, {"__dummy": "dummy", "acc": "Salmonella_enterica__GCA_008970565.1_-_PDT000603665.1__AALRKE010000008.1__94__28901", "cloud": 2319, "color": {"background": "dimgray", "border": "white"}, "genome_size": 71599, "id": "Salmonella_enterica__GCA_008970565.1_-_PDT000603665.1__AALRKE010000008.1__94__28901", "label": "Salmonella_enterica__GCA_008970565.1_-_PDT000603665.1__AALRKE010000008.1__94__28901", "ngenes": 94, "org": "Salmonella_enterica", "shape": "square", "size": 23, "source": "BAPS", "title": "Salmonella_enterica__GCA_008970565.1_-_PDT000603665.1__AALRKE010000008.1__94__28901\n\u003cbr\u003e71599bp\n\u003cbr\u003eSalmonella_enterica\n\u003cbr\u003e94 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/AALRKE010000008.1\" target=\"_blank\"\u003eAALRKE010000008.1\u003c/a\u003e", "working_name": "Salmonella_Schitoviridae"}, {"__dummy": "dummy", "acc": "Salmonella_enterica__GCA_007159415.1_-_PDT000326423.1__AAHEJA010000026.1__96__28901", "cloud": 2319, "color": {"background": "dimgray", "border": "white"}, "genome_size": 72238, "id": "Salmonella_enterica__GCA_007159415.1_-_PDT000326423.1__AAHEJA010000026.1__96__28901", "label": "Salmonella_enterica__GCA_007159415.1_-_PDT000326423.1__AAHEJA010000026.1__96__28901", "ngenes": 96, "org": "Salmonella_enterica", "shape": "square", "size": 24, "source": "BAPS", "title": "Salmonella_enterica__GCA_007159415.1_-_PDT000326423.1__AAHEJA010000026.1__96__28901\n\u003cbr\u003e72238bp\n\u003cbr\u003eSalmonella_enterica\n\u003cbr\u003e96 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/AAHEJA010000026.1\" target=\"_blank\"\u003eAAHEJA010000026.1\u003c/a\u003e", "working_name": "Salmonella_Schitoviridae"}, {"__dummy": "dummy", "acc": "Salmonella_enterica__GCA_004187635.1_-_PDT000337316.1__AAACAO010000019.1__97__28901", "cloud": 2319, "color": {"background": "dimgray", "border": "white"}, "genome_size": 72534, "id": "Salmonella_enterica__GCA_004187635.1_-_PDT000337316.1__AAACAO010000019.1__97__28901", "label": "Salmonella_enterica__GCA_004187635.1_-_PDT000337316.1__AAACAO010000019.1__97__28901", "ngenes": 97, "org": "Salmonella_enterica", "shape": "square", "size": 24, "source": "BAPS", "title": "Salmonella_enterica__GCA_004187635.1_-_PDT000337316.1__AAACAO010000019.1__97__28901\n\u003cbr\u003e72534bp\n\u003cbr\u003eSalmonella_enterica\n\u003cbr\u003e97 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/AAACAO010000019.1\" target=\"_blank\"\u003eAAACAO010000019.1\u003c/a\u003e", "working_name": "Salmonella_Schitoviridae"}, {"__dummy": "dummy", "acc": "Salmonella_enterica__GCA_008111285.1_-_PDT000058528.2__AAJQFE010000026.1__96__28901", "cloud": 2319, "color": {"background": "dimgray", "border": "white"}, "genome_size": 71108, "id": "Salmonella_enterica__GCA_008111285.1_-_PDT000058528.2__AAJQFE010000026.1__96__28901", "label": "Salmonella_enterica__GCA_008111285.1_-_PDT000058528.2__AAJQFE010000026.1__96__28901", "ngenes": 96, "org": "Salmonella_enterica", "shape": "square", "size": 23, "source": "BAPS", "title": "Salmonella_enterica__GCA_008111285.1_-_PDT000058528.2__AAJQFE010000026.1__96__28901\n\u003cbr\u003e71108bp\n\u003cbr\u003eSalmonella_enterica\n\u003cbr\u003e96 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/AAJQFE010000026.1\" target=\"_blank\"\u003eAAJQFE010000026.1\u003c/a\u003e", "working_name": "Salmonella_Schitoviridae"}, {"__dummy": "dummy", "acc": "Salmonella_enterica__GCA_013577555.1_-_PDT000788947.1__AATYVR010000025.1__92__28901", "cloud": 2319, "color": {"background": "dimgray", "border": "white"}, "genome_size": 71833, "id": "Salmonella_enterica__GCA_013577555.1_-_PDT000788947.1__AATYVR010000025.1__92__28901", "label": "Salmonella_enterica__GCA_013577555.1_-_PDT000788947.1__AATYVR010000025.1__92__28901", "ngenes": 92, "org": "Salmonella_enterica", "shape": "square", "size": 23, "source": "BAPS", "title": "Salmonella_enterica__GCA_013577555.1_-_PDT000788947.1__AATYVR010000025.1__92__28901\n\u003cbr\u003e71833bp\n\u003cbr\u003eSalmonella_enterica\n\u003cbr\u003e92 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/AATYVR010000025.1\" target=\"_blank\"\u003eAATYVR010000025.1\u003c/a\u003e", "working_name": "Salmonella_Schitoviridae"}]);
+                  edges = new vis.DataSet([{"color": "lightgray", "dist": 0.189738, "from": "NCBI__OM908766__Salmonella_phage_S5", "title": "dist: 0.1897", "to": "Salmonella_enterica__GCA_007159415.1_-_PDT000326423.1__AAHEJA010000026.1__96__28901", "value": 0.810262}, {"color": "lightgray", "dist": 0.197687, "from": "NCBI__OM908766__Salmonella_phage_S5", "title": "dist: 0.1977", "to": "Salmonella_enterica__GCA_004187635.1_-_PDT000337316.1__AAACAO010000019.1__97__28901", "value": 0.802313}, {"color": "lightgray", "dist": 0.192407, "from": "NCBI__OM908766__Salmonella_phage_S5", "title": "dist: 0.1924", "to": "Salmonella_enterica__GCA_008970565.1_-_PDT000603665.1__AALRKE010000008.1__94__28901", "value": 0.807593}, {"color": "lightgray", "dist": 0.197636, "from": "NCBI__OM908766__Salmonella_phage_S5", "title": "dist: 0.1976", "to": "Salmonella_enterica__GCA_008111285.1_-_PDT000058528.2__AAJQFE010000026.1__96__28901", "value": 0.802364}, {"color": "lightgray", "dist": 0.173117, "from": "NCBI__OM908766__Salmonella_phage_S5", "title": "dist: 0.1731", "to": "NCBI__PP056534__Klebsiella_phage_MY01", "value": 0.826883}, {"color": "lightgray", "dist": 0.0413716, "from": "NCBI__OM908766__Salmonella_phage_S5", "title": "dist: 0.0414", "to": "NCBI__OM858838__Shigella_phage_B2", "value": 0.9586284}, {"color": "lightgray", "dist": 0.0378772, "from": "NCBI__OM908766__Salmonella_phage_S5", "title": "dist: 0.0379", "to": "NCBI__OQ359891__Salmonella_phage_vB_SenP_UTK0001", "value": 0.9621228}, {"color": "lightgray", "dist": 0.0345275, "from": "NCBI__OM908766__Salmonella_phage_S5", "title": "dist: 0.0345", "to": "NCBI__KC139517__Salmonella_phage_FSL_SP-058", "value": 0.9654725}, {"color": "lightgray", "dist": 0.0345275, "from": "NCBI__OM908766__Salmonella_phage_S5", "title": "dist: 0.0345", "to": "NCBI__NC_021772__Salmonella_phage_FSL_SP-058", "value": 0.9654725}, {"color": "lightgray", "dist": 0.0377859, "from": "NCBI__OM908766__Salmonella_phage_S5", "title": "dist: 0.0378", "to": "NCBI__OQ359892__Salmonella_phage_vB_SenP_UTK0002", "value": 0.9622141}, {"color": "lightgray", "dist": 0.00955078, "from": "NCBI__OM908766__Salmonella_phage_S5", "title": "dist: 0.0096", "to": "NCBI__OR050522__Salmonella_phage_SP154", "value": 0.99044922}, {"color": "lightgray", "dist": 0.0311151, "from": "NCBI__OM908766__Salmonella_phage_S5", "title": "dist: 0.0311", "to": "NCBI__KC139520__Salmonella_phage_FSL_SP-076", "value": 0.9688849}, {"color": "lightgray", "dist": 0.0311151, "from": "NCBI__OM908766__Salmonella_phage_S5", "title": "dist: 0.0311", "to": "NCBI__NC_021782__Salmonella_phage_FSL_SP-076", "value": 0.9688849}, {"color": "lightgray", "dist": 0.194772, "from": "NCBI__OQ359892__Salmonella_phage_vB_SenP_UTK0002", "title": "dist: 0.1948", "to": "Salmonella_enterica__GCA_007159415.1_-_PDT000326423.1__AAHEJA010000026.1__96__28901", "value": 0.805228}, {"color": "lightgray", "dist": 0.195464, "from": "NCBI__OQ359892__Salmonella_phage_vB_SenP_UTK0002", "title": "dist: 0.1955", "to": "Salmonella_enterica__GCA_008970565.1_-_PDT000603665.1__AALRKE010000008.1__94__28901", "value": 0.804536}, {"color": "lightgray", "dist": 0.169517, "from": "NCBI__OQ359892__Salmonella_phage_vB_SenP_UTK0002", "title": "dist: 0.1695", "to": "NCBI__PP056534__Klebsiella_phage_MY01", "value": 0.830483}, {"color": "lightgray", "dist": 0.0300471, "from": "NCBI__OQ359892__Salmonella_phage_vB_SenP_UTK0002", "title": "dist: 0.0300", "to": "NCBI__OM858838__Shigella_phage_B2", "value": 0.9699529}, {"color": "lightgray", "dist": 0.0265112, "from": "NCBI__OQ359892__Salmonella_phage_vB_SenP_UTK0002", "title": "dist: 0.0265", "to": "NCBI__OQ359891__Salmonella_phage_vB_SenP_UTK0001", "value": 0.9734888}, {"color": "lightgray", "dist": 0.0224894, "from": "NCBI__OQ359892__Salmonella_phage_vB_SenP_UTK0002", "title": "dist: 0.0225", "to": "NCBI__KC139517__Salmonella_phage_FSL_SP-058", "value": 0.9775106}, {"color": "lightgray", "dist": 0.0224894, "from": "NCBI__OQ359892__Salmonella_phage_vB_SenP_UTK0002", "title": "dist: 0.0225", "to": "NCBI__NC_021772__Salmonella_phage_FSL_SP-058", "value": 0.9775106}, {"color": "lightgray", "dist": 0.0385444, "from": "NCBI__OQ359892__Salmonella_phage_vB_SenP_UTK0002", "title": "dist: 0.0385", "to": "NCBI__OR050522__Salmonella_phage_SP154", "value": 0.9614556}, {"color": "lightgray", "dist": 0.0315282, "from": "NCBI__OQ359892__Salmonella_phage_vB_SenP_UTK0002", "title": "dist: 0.0315", "to": "NCBI__KC139520__Salmonella_phage_FSL_SP-076", "value": 0.9684718}, {"color": "lightgray", "dist": 0.0315282, "from": "NCBI__OQ359892__Salmonella_phage_vB_SenP_UTK0002", "title": "dist: 0.0315", "to": "NCBI__NC_021782__Salmonella_phage_FSL_SP-076", "value": 0.9684718}, {"color": "lightgray", "dist": 0.0353423, "from": "Salmonella_enterica__GCA_008111285.1_-_PDT000058528.2__AAJQFE010000026.1__96__28901", "title": "dist: 0.0353", "to": "Salmonella_enterica__GCA_007159415.1_-_PDT000326423.1__AAHEJA010000026.1__96__28901", "value": 0.9646577}, {"color": "lightgray", "dist": 0.0319507, "from": "Salmonella_enterica__GCA_008111285.1_-_PDT000058528.2__AAJQFE010000026.1__96__28901", "title": "dist: 0.0320", "to": "Salmonella_enterica__GCA_004187635.1_-_PDT000337316.1__AAACAO010000019.1__97__28901", "value": 0.9680493}, {"color": "lightgray", "dist": 0.0326777, "from": "Salmonella_enterica__GCA_008111285.1_-_PDT000058528.2__AAJQFE010000026.1__96__28901", "title": "dist: 0.0327", "to": "Salmonella_enterica__GCA_008970565.1_-_PDT000603665.1__AALRKE010000008.1__94__28901", "value": 0.9673223}, {"color": "lightgray", "dist": 0.0832544, "from": "Salmonella_enterica__GCA_008111285.1_-_PDT000058528.2__AAJQFE010000026.1__96__28901", "title": "dist: 0.0833", "to": "Salmonella_enterica__GCA_013577555.1_-_PDT000788947.1__AATYVR010000025.1__92__28901", "value": 0.9167456}, {"color": "lightgray", "dist": 0.196395, "from": "Salmonella_enterica__GCA_008111285.1_-_PDT000058528.2__AAJQFE010000026.1__96__28901", "title": "dist: 0.1964", "to": "NCBI__OM858838__Shigella_phage_B2", "value": 0.803605}, {"color": "lightgray", "dist": 0.196543, "from": "Salmonella_enterica__GCA_008111285.1_-_PDT000058528.2__AAJQFE010000026.1__96__28901", "title": "dist: 0.1965", "to": "NCBI__OR050522__Salmonella_phage_SP154", "value": 0.803457}, {"color": "lightgray", "dist": 0.0170802, "from": "Salmonella_enterica__GCA_007159415.1_-_PDT000326423.1__AAHEJA010000026.1__96__28901", "title": "dist: 0.0171", "to": "Salmonella_enterica__GCA_004187635.1_-_PDT000337316.1__AAACAO010000019.1__97__28901", "value": 0.9829198}, {"color": "lightgray", "dist": 0.0259554, "from": "Salmonella_enterica__GCA_007159415.1_-_PDT000326423.1__AAHEJA010000026.1__96__28901", "title": "dist: 0.0260", "to": "Salmonella_enterica__GCA_008970565.1_-_PDT000603665.1__AALRKE010000008.1__94__28901", "value": 0.9740446}, {"color": "lightgray", "dist": 0.080957, "from": "Salmonella_enterica__GCA_007159415.1_-_PDT000326423.1__AAHEJA010000026.1__96__28901", "title": "dist: 0.0810", "to": "Salmonella_enterica__GCA_013577555.1_-_PDT000788947.1__AATYVR010000025.1__92__28901", "value": 0.919043}, {"color": "lightgray", "dist": 0.191368, "from": "Salmonella_enterica__GCA_007159415.1_-_PDT000326423.1__AAHEJA010000026.1__96__28901", "title": "dist: 0.1914", "to": "NCBI__OM858838__Shigella_phage_B2", "value": 0.808632}, {"color": "lightgray", "dist": 0.19067, "from": "Salmonella_enterica__GCA_007159415.1_-_PDT000326423.1__AAHEJA010000026.1__96__28901", "title": "dist: 0.1907", "to": "NCBI__OQ359891__Salmonella_phage_vB_SenP_UTK0001", "value": 0.80933}, {"color": "lightgray", "dist": 0.192943, "from": "Salmonella_enterica__GCA_007159415.1_-_PDT000326423.1__AAHEJA010000026.1__96__28901", "title": "dist: 0.1929", "to": "NCBI__KC139517__Salmonella_phage_FSL_SP-058", "value": 0.807057}, {"color": "lightgray", "dist": 0.192943, "from": "Salmonella_enterica__GCA_007159415.1_-_PDT000326423.1__AAHEJA010000026.1__96__28901", "title": "dist: 0.1929", "to": "NCBI__NC_021772__Salmonella_phage_FSL_SP-058", "value": 0.807057}, {"color": "lightgray", "dist": 0.192051, "from": "Salmonella_enterica__GCA_007159415.1_-_PDT000326423.1__AAHEJA010000026.1__96__28901", "title": "dist: 0.1921", "to": "NCBI__OR050522__Salmonella_phage_SP154", "value": 0.807949}, {"color": "lightgray", "dist": 0.195896, "from": "Salmonella_enterica__GCA_007159415.1_-_PDT000326423.1__AAHEJA010000026.1__96__28901", "title": "dist: 0.1959", "to": "NCBI__KC139520__Salmonella_phage_FSL_SP-076", "value": 0.804104}, {"color": "lightgray", "dist": 0.195896, "from": "Salmonella_enterica__GCA_007159415.1_-_PDT000326423.1__AAHEJA010000026.1__96__28901", "title": "dist: 0.1959", "to": "NCBI__NC_021782__Salmonella_phage_FSL_SP-076", "value": 0.804104}, {"color": "lightgray", "dist": 0.197098, "from": "NCBI__OR050522__Salmonella_phage_SP154", "title": "dist: 0.1971", "to": "Salmonella_enterica__GCA_004187635.1_-_PDT000337316.1__AAACAO010000019.1__97__28901", "value": 0.802902}, {"color": "lightgray", "dist": 0.19526, "from": "NCBI__OR050522__Salmonella_phage_SP154", "title": "dist: 0.1953", "to": "Salmonella_enterica__GCA_008970565.1_-_PDT000603665.1__AALRKE010000008.1__94__28901", "value": 0.80474}, {"color": "lightgray", "dist": 0.19762, "from": "NCBI__OR050522__Salmonella_phage_SP154", "title": "dist: 0.1976", "to": "Salmonella_enterica__GCA_013577555.1_-_PDT000788947.1__AATYVR010000025.1__92__28901", "value": 0.80238}, {"color": "lightgray", "dist": 0.173712, "from": "NCBI__OR050522__Salmonella_phage_SP154", "title": "dist: 0.1737", "to": "NCBI__PP056534__Klebsiella_phage_MY01", "value": 0.826288}, {"color": "lightgray", "dist": 0.0408878, "from": "NCBI__OR050522__Salmonella_phage_SP154", "title": "dist: 0.0409", "to": "NCBI__OM858838__Shigella_phage_B2", "value": 0.9591122}, {"color": "lightgray", "dist": 0.0375911, "from": "NCBI__OR050522__Salmonella_phage_SP154", "title": "dist: 0.0376", "to": "NCBI__OQ359891__Salmonella_phage_vB_SenP_UTK0001", "value": 0.9624089}, {"color": "lightgray", "dist": 0.036159, "from": "NCBI__OR050522__Salmonella_phage_SP154", "title": "dist: 0.0362", "to": "NCBI__KC139517__Salmonella_phage_FSL_SP-058", "value": 0.963841}, {"color": "lightgray", "dist": 0.036159, "from": "NCBI__OR050522__Salmonella_phage_SP154", "title": "dist: 0.0362", "to": "NCBI__NC_021772__Salmonella_phage_FSL_SP-058", "value": 0.963841}, {"color": "lightgray", "dist": 0.0319441, "from": "NCBI__OR050522__Salmonella_phage_SP154", "title": "dist: 0.0319", "to": "NCBI__KC139520__Salmonella_phage_FSL_SP-076", "value": 0.9680559}, {"color": "lightgray", "dist": 0.0319441, "from": "NCBI__OR050522__Salmonella_phage_SP154", "title": "dist: 0.0319", "to": "NCBI__NC_021782__Salmonella_phage_FSL_SP-076", "value": 0.9680559}, {"color": "lightgray", "dist": 0.173601, "from": "NCBI__KC139520__Salmonella_phage_FSL_SP-076", "title": "dist: 0.1736", "to": "NCBI__PP056534__Klebsiella_phage_MY01", "value": 0.826399}, {"color": "lightgray", "dist": 0.0372808, "from": "NCBI__KC139520__Salmonella_phage_FSL_SP-076", "title": "dist: 0.0373", "to": "NCBI__OM858838__Shigella_phage_B2", "value": 0.9627192}, {"color": "lightgray", "dist": 0.0341012, "from": "NCBI__KC139520__Salmonella_phage_FSL_SP-076", "title": "dist: 0.0341", "to": "NCBI__OQ359891__Salmonella_phage_vB_SenP_UTK0001", "value": 0.9658988}, {"color": "lightgray", "dist": 0.0311881, "from": "NCBI__KC139520__Salmonella_phage_FSL_SP-076", "title": "dist: 0.0312", "to": "NCBI__KC139517__Salmonella_phage_FSL_SP-058", "value": 0.9688119}, {"color": "lightgray", "dist": 0.0311881, "from": "NCBI__KC139520__Salmonella_phage_FSL_SP-076", "title": "dist: 0.0312", "to": "NCBI__NC_021772__Salmonella_phage_FSL_SP-058", "value": 0.9688119}, {"color": "lightgray", "dist": 0.0, "from": "NCBI__KC139520__Salmonella_phage_FSL_SP-076", "title": "dist: 0.0000", "to": "NCBI__NC_021782__Salmonella_phage_FSL_SP-076", "value": 1.0}, {"color": "lightgray", "dist": 0.0257852, "from": "Salmonella_enterica__GCA_008970565.1_-_PDT000603665.1__AALRKE010000008.1__94__28901", "title": "dist: 0.0258", "to": "Salmonella_enterica__GCA_004187635.1_-_PDT000337316.1__AAACAO010000019.1__97__28901", "value": 0.9742148}, {"color": "lightgray", "dist": 0.0795978, "from": "Salmonella_enterica__GCA_008970565.1_-_PDT000603665.1__AALRKE010000008.1__94__28901", "title": "dist: 0.0796", "to": "Salmonella_enterica__GCA_013577555.1_-_PDT000788947.1__AATYVR010000025.1__92__28901", "value": 0.9204022000000001}, {"color": "lightgray", "dist": 0.187972, "from": "Salmonella_enterica__GCA_008970565.1_-_PDT000603665.1__AALRKE010000008.1__94__28901", "title": "dist: 0.1880", "to": "NCBI__OM858838__Shigella_phage_B2", "value": 0.812028}, {"color": "lightgray", "dist": 0.194339, "from": "Salmonella_enterica__GCA_008970565.1_-_PDT000603665.1__AALRKE010000008.1__94__28901", "title": "dist: 0.1943", "to": "NCBI__OQ359891__Salmonella_phage_vB_SenP_UTK0001", "value": 0.805661}, {"color": "lightgray", "dist": 0.197228, "from": "Salmonella_enterica__GCA_008970565.1_-_PDT000603665.1__AALRKE010000008.1__94__28901", "title": "dist: 0.1972", "to": "NCBI__KC139517__Salmonella_phage_FSL_SP-058", "value": 0.802772}, {"color": "lightgray", "dist": 0.197228, "from": "Salmonella_enterica__GCA_008970565.1_-_PDT000603665.1__AALRKE010000008.1__94__28901", "title": "dist: 0.1972", "to": "NCBI__NC_021772__Salmonella_phage_FSL_SP-058", "value": 0.802772}, {"color": "lightgray", "dist": 0.170503, "from": "NCBI__NC_021772__Salmonella_phage_FSL_SP-058", "title": "dist: 0.1705", "to": "NCBI__PP056534__Klebsiella_phage_MY01", "value": 0.829497}, {"color": "lightgray", "dist": 0.0284482, "from": "NCBI__NC_021772__Salmonella_phage_FSL_SP-058", "title": "dist: 0.0284", "to": "NCBI__OM858838__Shigella_phage_B2", "value": 0.9715518}, {"color": "lightgray", "dist": 0.024977, "from": "NCBI__NC_021772__Salmonella_phage_FSL_SP-058", "title": "dist: 0.0250", "to": "NCBI__OQ359891__Salmonella_phage_vB_SenP_UTK0001", "value": 0.975023}, {"color": "lightgray", "dist": 0.0, "from": "NCBI__NC_021772__Salmonella_phage_FSL_SP-058", "title": "dist: 0.0000", "to": "NCBI__KC139517__Salmonella_phage_FSL_SP-058", "value": 1.0}, {"color": "lightgray", "dist": 0.0311881, "from": "NCBI__NC_021772__Salmonella_phage_FSL_SP-058", "title": "dist: 0.0312", "to": "NCBI__NC_021782__Salmonella_phage_FSL_SP-076", "value": 0.9688119}, {"color": "lightgray", "dist": 0.173601, "from": "NCBI__NC_021782__Salmonella_phage_FSL_SP-076", "title": "dist: 0.1736", "to": "NCBI__PP056534__Klebsiella_phage_MY01", "value": 0.826399}, {"color": "lightgray", "dist": 0.0372808, "from": "NCBI__NC_021782__Salmonella_phage_FSL_SP-076", "title": "dist: 0.0373", "to": "NCBI__OM858838__Shigella_phage_B2", "value": 0.9627192}, {"color": "lightgray", "dist": 0.0341012, "from": "NCBI__NC_021782__Salmonella_phage_FSL_SP-076", "title": "dist: 0.0341", "to": "NCBI__OQ359891__Salmonella_phage_vB_SenP_UTK0001", "value": 0.9658988}, {"color": "lightgray", "dist": 0.0311881, "from": "NCBI__NC_021782__Salmonella_phage_FSL_SP-076", "title": "dist: 0.0312", "to": "NCBI__KC139517__Salmonella_phage_FSL_SP-058", "value": 0.9688119}, {"color": "lightgray", "dist": 0.170492, "from": "NCBI__PP056534__Klebsiella_phage_MY01", "title": "dist: 0.1705", "to": "NCBI__OM858838__Shigella_phage_B2", "value": 0.829508}, {"color": "lightgray", "dist": 0.173897, "from": "NCBI__PP056534__Klebsiella_phage_MY01", "title": "dist: 0.1739", "to": "NCBI__OQ359891__Salmonella_phage_vB_SenP_UTK0001", "value": 0.826103}, {"color": "lightgray", "dist": 0.170503, "from": "NCBI__PP056534__Klebsiella_phage_MY01", "title": "dist: 0.1705", "to": "NCBI__KC139517__Salmonella_phage_FSL_SP-058", "value": 0.829497}, {"color": "lightgray", "dist": 0.19994, "from": "NCBI__OQ359891__Salmonella_phage_vB_SenP_UTK0001", "title": "dist: 0.1999", "to": "Salmonella_enterica__GCA_004187635.1_-_PDT000337316.1__AAACAO010000019.1__97__28901", "value": 0.80006}, {"color": "lightgray", "dist": 0.0169451, "from": "NCBI__OQ359891__Salmonella_phage_vB_SenP_UTK0001", "title": "dist: 0.0169", "to": "NCBI__OM858838__Shigella_phage_B2", "value": 0.9830549}, {"color": "lightgray", "dist": 0.024977, "from": "NCBI__OQ359891__Salmonella_phage_vB_SenP_UTK0001", "title": "dist: 0.0250", "to": "NCBI__KC139517__Salmonella_phage_FSL_SP-058", "value": 0.975023}, {"color": "lightgray", "dist": 0.0809842, "from": "Salmonella_enterica__GCA_004187635.1_-_PDT000337316.1__AAACAO010000019.1__97__28901", "title": "dist: 0.0810", "to": "Salmonella_enterica__GCA_013577555.1_-_PDT000788947.1__AATYVR010000025.1__92__28901", "value": 0.9190157999999999}, {"color": "lightgray", "dist": 0.195408, "from": "Salmonella_enterica__GCA_004187635.1_-_PDT000337316.1__AAACAO010000019.1__97__28901", "title": "dist: 0.1954", "to": "NCBI__OM858838__Shigella_phage_B2", "value": 0.804592}, {"color": "lightgray", "dist": 0.0284482, "from": "NCBI__OM858838__Shigella_phage_B2", "title": "dist: 0.0284", "to": "NCBI__KC139517__Salmonella_phage_FSL_SP-058", "value": 0.9715518}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"nodes": {"font": {"size": 0}, "shadow": {"enabled": true}}, "configure": {"enabled": true, "showButton": true}, "edges": {"color": {"inherit": true}, "smooth": false}, "physics": {"enabled": true, "forceAtlas2Based": {"gravitationalConstant": -88, "centralGravity": 0.02, "springLength": 100}, "minVelocity": 0.75, "solver": "forceAtlas2Based"}, "interaction": {"hover": true}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+		  function placePopupAt(domPoint, html) {
+		      if (!html) return;
+		      popup.innerHTML = html;
+		      popup.style.display = 'block';
+		      popup.style.left = (domPoint.x + 25) + 'px';
+		      popup.style.top  = (domPoint.y - 35) + 'px';
+		  }
+
+		  function hidePopupNow() {
+		      popup.style.display = 'none';
+		  }
+
+		  network.on("hoverNode", function (params) {
+		      const n = nodes.get(params.node);
+		      if (!n || !n.title) return;
+		      placePopupAt(params.pointer.DOM, n.title);
+		  });
+
+		  network.on("blurNode", hidePopupNow);
+
+		  network.on("hoverEdge", function (params) {
+		      const e = edges.get(params.edge);
+		      if (!e || !e.title) return;
+		      placePopupAt(params.pointer.DOM, e.title);
+		  });
+
+		  network.on("blurEdge", hidePopupNow);
+		  
+                  
+
+                  
+
+                  
+                  // make a custom popup
+                      var popup = document.createElement("div");
+                      popup.className = 'popup';
+                      popupTimeout = null;
+                      popup.addEventListener('mouseover', function () {
+                          console.log(popup)
+                          if (popupTimeout !== null) {
+                              clearTimeout(popupTimeout);
+                              popupTimeout = null;
+                          }
+                      });
+                      popup.addEventListener('mouseout', function () {
+                          if (popupTimeout === null) {
+                              hidePopup();
+                          }
+                      });
+                      container.appendChild(popup);
+
+
+
+                      // hiding the popup through css
+                      function hidePopup() {
+                          popupTimeout = setTimeout(function () { popup.style.display = 'none'; }, 500);
+                      }
+
+		  function showPopup(id) {
+		      let dataObj, posCanvas;
+
+		      if (nodes.get(id)) {
+			  dataObj = nodes.get(id);
+			  posCanvas = network.getPositions([id])[id];
+		      } else if (edges.get(id)) {
+			  dataObj = edges.get(id);
+			  var bbox = network.getBoundingBox(id);
+			  posCanvas = {
+			      x: (bbox.left + bbox.right) / 2,
+			      y: (bbox.top + bbox.bottom) / 2
+			  };
+		      } else {
+			  return;
+		      }
+		      
+		      if (!dataObj.title) return;
+
+		      popup.innerHTML = dataObj.title;
+		      
+		      var posDOM = network.canvasToDOM(posCanvas);
+		      popup.style.display = 'block';
+		      popup.style.left = (posDOM.x + 10) + 'px';
+		      popup.style.top  = (posDOM.y - 20) + 'px';
+		  }
+                  
+
+
+                  
+		  network.on("stabilizationIterationsDone", function() {
+                      network.setOptions( { physics: false } );
+		  });
+		  //end block addition
+		  
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+    <div id="info-box" style="position:fixed; top:10px; right:10px; width:300px; background:white; border:1px solid #888; padding:10px; z-index:9999; font-family:Arial;"></div>
+    <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+    network.on("click", function (params) {
+    if (params.nodes.length > 0) {
+    var nodeId = params.nodes[0];
+    var node = nodes.get(nodeId);
+    document.getElementById("info-box").innerHTML = node.title || "No info available.";
+    } else {
+    document.getElementById("info-box").innerHTML = "";
+    }
+    });
+    });
+    </script>
+    
+</body>
+</html>
