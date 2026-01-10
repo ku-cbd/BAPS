@@ -1,0 +1,245 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h2>PT01 Vibrio OQ680630.html (17 genomes) 2026-01-10_17:18:46</h2>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 1100px;
+                 height: 900px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+             /* position absolute is important and the container has to be relative or absolute as well. */
+          div.popup {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 display:none;
+                 background-color:#f5f4ed;
+                 -moz-border-radius: 3px;
+                 -webkit-border-radius: 3px;
+                 border-radius: 3px;
+                 border: 1px solid #808074;
+             box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+             }
+
+          /* hide the original tooltip */
+          .vis-tooltip {
+            display:none;
+          }
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"__dummy": "dummy", "acc": "PP346802", "cloud": 2809, "color": "salmon", "genome_size": 76505, "id": "NCBI__PP346802__Vibrio_phage_vB_VpaS_SD2", "label": "NCBI__PP346802__Vibrio_phage_vB_VpaS_SD2", "ngenes": 88, "org": "Vibrio phage vB_VpaS_SD2", "shape": "dot", "source": "NCBI", "title": "NCBI__PP346802__Vibrio_phage_vB_VpaS_SD2\n\u003cbr\u003e76505bp\n\u003cbr\u003eVibrio phage vB_VpaS_SD2\n\u003cbr\u003e88 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/PP346802\" target=\"_blank\"\u003ePP346802\u003c/a\u003e"}, {"__dummy": "dummy", "acc": "MG602476", "cloud": 2809, "color": "salmon", "genome_size": 76423, "id": "NCBI__MG602476__Vibrio_phage_VVP001", "label": "NCBI__MG602476__Vibrio_phage_VVP001", "ngenes": 102, "org": "Vibrio phage VVP001", "shape": "dot", "size": 25, "source": "NCBI", "title": "NCBI__MG602476__Vibrio_phage_VVP001\n\u003cbr\u003e76423bp\n\u003cbr\u003eVibrio phage VVP001\n\u003cbr\u003e102 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MG602476\" target=\"_blank\"\u003eMG602476\u003c/a\u003e"}, {"__dummy": "dummy", "acc": "MZ592922", "cloud": 2809, "color": "salmon", "genome_size": 77312, "id": "NCBI__MZ592922__Vibrio_phage_vB_VpS_C2", "label": "NCBI__MZ592922__Vibrio_phage_vB_VpS_C2", "ngenes": 106, "org": "Vibrio phage vB_VpS_C2", "shape": "dot", "size": 25, "source": "NCBI", "title": "NCBI__MZ592922__Vibrio_phage_vB_VpS_C2\n\u003cbr\u003e77312bp\n\u003cbr\u003eVibrio phage vB_VpS_C2\n\u003cbr\u003e106 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MZ592922\" target=\"_blank\"\u003eMZ592922\u003c/a\u003e"}, {"__dummy": "dummy", "acc": "MW451251", "cloud": 2809, "color": "salmon", "genome_size": 76778, "id": "NCBI__MW451251__Vibrio_phage_TY21", "label": "NCBI__MW451251__Vibrio_phage_TY21", "ngenes": 0, "org": "Vibrio phage TY21", "shape": "dot", "size": 25, "source": "NCBI", "title": "NCBI__MW451251__Vibrio_phage_TY21\n\u003cbr\u003e76778bp\n\u003cbr\u003eVibrio phage TY21\n\u003cbr\u003e0 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MW451251\" target=\"_blank\"\u003eMW451251\u003c/a\u003e"}, {"__dummy": "dummy", "acc": "OK483201", "cloud": 2809, "color": "salmon", "genome_size": 76648, "id": "NCBI__OK483201__Vibrio_phage_F23s1", "label": "NCBI__OK483201__Vibrio_phage_F23s1", "ngenes": 103, "org": "Vibrio phage F23s1", "shape": "dot", "size": 25, "source": "NCBI", "title": "NCBI__OK483201__Vibrio_phage_F23s1\n\u003cbr\u003e76648bp\n\u003cbr\u003eVibrio phage F23s1\n\u003cbr\u003e103 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OK483201\" target=\"_blank\"\u003eOK483201\u003c/a\u003e"}, {"__dummy": "dummy", "acc": "MF754115", "cloud": 2809, "color": "salmon", "genome_size": 76402, "id": "NCBI__MF754115__Vibrio_phage_vB_VpaS_KF5", "label": "NCBI__MF754115__Vibrio_phage_vB_VpaS_KF5", "ngenes": 98, "org": "Vibrio phage vB_VpaS_KF5", "shape": "dot", "size": 25, "source": "NCBI", "title": "NCBI__MF754115__Vibrio_phage_vB_VpaS_KF5\n\u003cbr\u003e76402bp\n\u003cbr\u003eVibrio phage vB_VpaS_KF5\n\u003cbr\u003e98 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MF754115\" target=\"_blank\"\u003eMF754115\u003c/a\u003e"}, {"__dummy": "dummy", "acc": "JQ692107", "cloud": 2809, "color": "salmon", "genome_size": 76350, "id": "NCBI__JQ692107__Vibrio_phage_SSP002", "label": "NCBI__JQ692107__Vibrio_phage_SSP002", "ngenes": 102, "org": "Vibrio phage SSP002", "shape": "dot", "size": 25, "source": "NCBI", "title": "NCBI__JQ692107__Vibrio_phage_SSP002\n\u003cbr\u003e76350bp\n\u003cbr\u003eVibrio phage SSP002\n\u003cbr\u003e102 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/JQ692107\" target=\"_blank\"\u003eJQ692107\u003c/a\u003e"}, {"__dummy": "dummy", "acc": "OP595601", "cloud": 2809, "color": "salmon", "genome_size": 77078, "id": "NCBI__OP595601__Vibrio_phage_31Fb_4", "label": "NCBI__OP595601__Vibrio_phage_31Fb_4", "ngenes": 127, "org": "Vibrio phage 31Fb.4", "shape": "dot", "source": "NCBI", "title": "NCBI__OP595601__Vibrio_phage_31Fb_4\n\u003cbr\u003e77078bp\n\u003cbr\u003eVibrio phage 31Fb.4\n\u003cbr\u003e127 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OP595601\" target=\"_blank\"\u003eOP595601\u003c/a\u003e"}, {"__dummy": "dummy", "acc": "HG992588", "cloud": 2809, "color": "salmon", "genome_size": 77004, "id": "NCBI__HG992588__Vibrio_phage_B1_1", "label": "NCBI__HG992588__Vibrio_phage_B1_1", "ngenes": 0, "org": "Vibrio phage B1_1", "shape": "dot", "size": 25, "source": "NCBI", "title": "NCBI__HG992588__Vibrio_phage_B1_1\n\u003cbr\u003e77004bp\n\u003cbr\u003eVibrio phage B1_1\n\u003cbr\u003e0 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/HG992588\" target=\"_blank\"\u003eHG992588\u003c/a\u003e"}, {"__dummy": "dummy", "acc": "OQ622097", "cloud": 2809, "color": "salmon", "genome_size": 76675, "id": "NCBI__OQ622097__Vibrio_phage_13KS502A", "label": "NCBI__OQ622097__Vibrio_phage_13KS502A", "ngenes": 93, "org": "Vibrio phage 13KS502A", "shape": "dot", "size": 25, "source": "NCBI", "title": "NCBI__OQ622097__Vibrio_phage_13KS502A\n\u003cbr\u003e76675bp\n\u003cbr\u003eVibrio phage 13KS502A\n\u003cbr\u003e93 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OQ622097\" target=\"_blank\"\u003eOQ622097\u003c/a\u003e"}, {"__dummy": "dummy", "acc": "OP595602", "cloud": 2809, "color": "salmon", "genome_size": 77078, "id": "NCBI__OP595602__Vibrio_phage_33Fb_4", "label": "NCBI__OP595602__Vibrio_phage_33Fb_4", "ngenes": 124, "org": "Vibrio phage 33Fb.4", "shape": "dot", "source": "NCBI", "title": "NCBI__OP595602__Vibrio_phage_33Fb_4\n\u003cbr\u003e77078bp\n\u003cbr\u003eVibrio phage 33Fb.4\n\u003cbr\u003e124 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OP595602\" target=\"_blank\"\u003eOP595602\u003c/a\u003e"}, {"__dummy": "dummy", "acc": "OK625546", "cloud": 2809, "color": "salmon", "genome_size": 76917, "id": "NCBI__OK625546__Vibrio_phage_vB_VpS_CC6", "label": "NCBI__OK625546__Vibrio_phage_vB_VpS_CC6", "ngenes": 105, "org": "Vibrio phage vB_VpS_CC6", "shape": "dot", "size": 25, "source": "NCBI", "title": "NCBI__OK625546__Vibrio_phage_vB_VpS_CC6\n\u003cbr\u003e76917bp\n\u003cbr\u003eVibrio phage vB_VpS_CC6\n\u003cbr\u003e105 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OK625546\" target=\"_blank\"\u003eOK625546\u003c/a\u003e"}, {"__dummy": "dummy", "acc": "OQ680630", "cloud": 2809, "color": {"background": "salmon", "border": "magenta"}, "genome_size": 75703, "id": "NCBI__OQ680630__Vibrio_phage_PG288", "label": "NCBI__OQ680630__Vibrio_phage_PG288", "ngenes": 103, "org": "Vibrio phage PG288", "shape": "dot", "source": "NCBI", "title": "NCBI__OQ680630__Vibrio_phage_PG288\n\u003cbr\u003e75703bp\n\u003cbr\u003eVibrio phage PG288\n\u003cbr\u003e103 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OQ680630\" target=\"_blank\"\u003eOQ680630\u003c/a\u003e"}, {"__dummy": "dummy", "acc": "Vibrio_alginolyticus__GCA_019137655.1_-_ASM1913765v1__JAHSPP010000013.1__103__663", "cloud": 2809, "color": {"background": "salmon", "border": "white"}, "genome_size": 77508, "id": "Vibrio_alginolyticus__GCA_019137655.1_-_ASM1913765v1__JAHSPP010000013.1__103__663", "label": "Vibrio_alginolyticus__GCA_019137655.1_-_ASM1913765v1__JAHSPP010000013.1__103__663", "ngenes": 103, "org": "Vibrio_alginolyticus", "shape": "square", "size": 25, "source": "BAPS", "title": "Vibrio_alginolyticus__GCA_019137655.1_-_ASM1913765v1__JAHSPP010000013.1__103__663\n\u003cbr\u003e77508bp\n\u003cbr\u003eVibrio_alginolyticus\n\u003cbr\u003e103 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/JAHSPP010000013.1\" target=\"_blank\"\u003eJAHSPP010000013.1\u003c/a\u003e"}, {"__dummy": "dummy", "acc": "Vibrio_alginolyticus__GCA_019137605.1_-_ASM1913760v1__JAHSPN010000013.1__101__663", "cloud": 2809, "color": {"background": "salmon", "border": "white"}, "genome_size": 76958, "id": "Vibrio_alginolyticus__GCA_019137605.1_-_ASM1913760v1__JAHSPN010000013.1__101__663", "label": "Vibrio_alginolyticus__GCA_019137605.1_-_ASM1913760v1__JAHSPN010000013.1__101__663", "ngenes": 101, "org": "Vibrio_alginolyticus", "shape": "square", "size": 25, "source": "BAPS", "title": "Vibrio_alginolyticus__GCA_019137605.1_-_ASM1913760v1__JAHSPN010000013.1__101__663\n\u003cbr\u003e76958bp\n\u003cbr\u003eVibrio_alginolyticus\n\u003cbr\u003e101 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/JAHSPN010000013.1\" target=\"_blank\"\u003eJAHSPN010000013.1\u003c/a\u003e"}, {"__dummy": "dummy", "acc": "Vibrio_alginolyticus__GCA_019137595.1_-_ASM1913759v1__JAHSPM010000011.1__103__663", "cloud": 2809, "color": {"background": "salmon", "border": "white"}, "genome_size": 77117, "id": "Vibrio_alginolyticus__GCA_019137595.1_-_ASM1913759v1__JAHSPM010000011.1__103__663", "label": "Vibrio_alginolyticus__GCA_019137595.1_-_ASM1913759v1__JAHSPM010000011.1__103__663", "ngenes": 103, "org": "Vibrio_alginolyticus", "shape": "square", "size": 25, "source": "BAPS", "title": "Vibrio_alginolyticus__GCA_019137595.1_-_ASM1913759v1__JAHSPM010000011.1__103__663\n\u003cbr\u003e77117bp\n\u003cbr\u003eVibrio_alginolyticus\n\u003cbr\u003e103 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/JAHSPM010000011.1\" target=\"_blank\"\u003eJAHSPM010000011.1\u003c/a\u003e"}, {"__dummy": "dummy", "acc": "Vibrio_alginolyticus__GCA_019137695.1_-_ASM1913769v1__JAHSPJ010000016.1__102__663", "cloud": 2809, "color": {"background": "salmon", "border": "white"}, "genome_size": 77184, "id": "Vibrio_alginolyticus__GCA_019137695.1_-_ASM1913769v1__JAHSPJ010000016.1__102__663", "label": "Vibrio_alginolyticus__GCA_019137695.1_-_ASM1913769v1__JAHSPJ010000016.1__102__663", "ngenes": 102, "org": "Vibrio_alginolyticus", "shape": "square", "size": 25, "source": "BAPS", "title": "Vibrio_alginolyticus__GCA_019137695.1_-_ASM1913769v1__JAHSPJ010000016.1__102__663\n\u003cbr\u003e77184bp\n\u003cbr\u003eVibrio_alginolyticus\n\u003cbr\u003e102 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/JAHSPJ010000016.1\" target=\"_blank\"\u003eJAHSPJ010000016.1\u003c/a\u003e"}]);
+                  edges = new vis.DataSet([{"color": "lightgray", "dist": 0.0205455, "from": "NCBI__MZ592922__Vibrio_phage_vB_VpS_C2", "title": "dist: 0.0205", "to": "Vibrio_alginolyticus__GCA_019137655.1_-_ASM1913765v1__JAHSPP010000013.1__103__663", "value": 0.9794545}, {"color": "lightgray", "dist": 0.0232328, "from": "NCBI__MZ592922__Vibrio_phage_vB_VpS_C2", "title": "dist: 0.0232", "to": "Vibrio_alginolyticus__GCA_019137605.1_-_ASM1913760v1__JAHSPN010000013.1__101__663", "value": 0.9767672}, {"color": "lightgray", "dist": 0.0187532, "from": "NCBI__MZ592922__Vibrio_phage_vB_VpS_C2", "title": "dist: 0.0188", "to": "Vibrio_alginolyticus__GCA_019137695.1_-_ASM1913769v1__JAHSPJ010000016.1__102__663", "value": 0.9812468}, {"color": "lightgray", "dist": 0.0221281, "from": "NCBI__MZ592922__Vibrio_phage_vB_VpS_C2", "title": "dist: 0.0221", "to": "Vibrio_alginolyticus__GCA_019137595.1_-_ASM1913759v1__JAHSPM010000011.1__103__663", "value": 0.9778719}, {"color": "lightgray", "dist": 0.0183457, "from": "NCBI__MZ592922__Vibrio_phage_vB_VpS_C2", "title": "dist: 0.0183", "to": "NCBI__MG602476__Vibrio_phage_VVP001", "value": 0.9816543}, {"color": "lightgray", "dist": 0.0261825, "from": "NCBI__MZ592922__Vibrio_phage_vB_VpS_C2", "title": "dist: 0.0262", "to": "NCBI__OK483201__Vibrio_phage_F23s1", "value": 0.9738175}, {"color": "lightgray", "dist": 0.0211903, "from": "NCBI__MZ592922__Vibrio_phage_vB_VpS_C2", "title": "dist: 0.0212", "to": "NCBI__JQ692107__Vibrio_phage_SSP002", "value": 0.9788097}, {"color": "lightgray", "dist": 0.0238859, "from": "NCBI__MZ592922__Vibrio_phage_vB_VpS_C2", "title": "dist: 0.0239", "to": "NCBI__MF754115__Vibrio_phage_vB_VpaS_KF5", "value": 0.9761141}, {"color": "lightgray", "dist": 0.0201275, "from": "NCBI__MZ592922__Vibrio_phage_vB_VpS_C2", "title": "dist: 0.0201", "to": "NCBI__OQ622097__Vibrio_phage_13KS502A", "value": 0.9798725}, {"color": "lightgray", "dist": 0.015507, "from": "NCBI__MZ592922__Vibrio_phage_vB_VpS_C2", "title": "dist: 0.0155", "to": "NCBI__PP346802__Vibrio_phage_vB_VpaS_SD2", "value": 0.984493}, {"color": "lightgray", "dist": 0.0201786, "from": "NCBI__MZ592922__Vibrio_phage_vB_VpS_C2", "title": "dist: 0.0202", "to": "NCBI__HG992588__Vibrio_phage_B1_1", "value": 0.9798214}, {"color": "lightgray", "dist": 0.0254418, "from": "NCBI__MZ592922__Vibrio_phage_vB_VpS_C2", "title": "dist: 0.0254", "to": "NCBI__OP595602__Vibrio_phage_33Fb_4", "value": 0.9745582}, {"color": "lightgray", "dist": 0.0254418, "from": "NCBI__MZ592922__Vibrio_phage_vB_VpS_C2", "title": "dist: 0.0254", "to": "NCBI__OP595601__Vibrio_phage_31Fb_4", "value": 0.9745582}, {"color": "lightgray", "dist": 0.0192985, "from": "NCBI__MZ592922__Vibrio_phage_vB_VpS_C2", "title": "dist: 0.0193", "to": "NCBI__MW451251__Vibrio_phage_TY21", "value": 0.9807015}, {"color": "lightgray", "dist": 0.0185256, "from": "NCBI__MZ592922__Vibrio_phage_vB_VpS_C2", "title": "dist: 0.0185", "to": "NCBI__OQ680630__Vibrio_phage_PG288", "value": 0.9814744}, {"color": "lightgray", "dist": 0.0214273, "from": "NCBI__MZ592922__Vibrio_phage_vB_VpS_C2", "title": "dist: 0.0214", "to": "NCBI__OK625546__Vibrio_phage_vB_VpS_CC6", "value": 0.9785727}, {"color": "lightgray", "dist": 0.0209068, "from": "NCBI__JQ692107__Vibrio_phage_SSP002", "title": "dist: 0.0209", "to": "Vibrio_alginolyticus__GCA_019137655.1_-_ASM1913765v1__JAHSPP010000013.1__103__663", "value": 0.9790932}, {"color": "lightgray", "dist": 0.0232034, "from": "NCBI__JQ692107__Vibrio_phage_SSP002", "title": "dist: 0.0232", "to": "Vibrio_alginolyticus__GCA_019137605.1_-_ASM1913760v1__JAHSPN010000013.1__101__663", "value": 0.9767966}, {"color": "lightgray", "dist": 0.0197145, "from": "NCBI__JQ692107__Vibrio_phage_SSP002", "title": "dist: 0.0197", "to": "Vibrio_alginolyticus__GCA_019137695.1_-_ASM1913769v1__JAHSPJ010000016.1__102__663", "value": 0.9802855}, {"color": "lightgray", "dist": 0.0205673, "from": "NCBI__JQ692107__Vibrio_phage_SSP002", "title": "dist: 0.0206", "to": "Vibrio_alginolyticus__GCA_019137595.1_-_ASM1913759v1__JAHSPM010000011.1__103__663", "value": 0.9794327}, {"color": "lightgray", "dist": 0.0190861, "from": "NCBI__JQ692107__Vibrio_phage_SSP002", "title": "dist: 0.0191", "to": "NCBI__MG602476__Vibrio_phage_VVP001", "value": 0.9809139}, {"color": "lightgray", "dist": 0.0250806, "from": "NCBI__JQ692107__Vibrio_phage_SSP002", "title": "dist: 0.0251", "to": "NCBI__OK483201__Vibrio_phage_F23s1", "value": 0.9749194}, {"color": "lightgray", "dist": 0.0146344, "from": "NCBI__JQ692107__Vibrio_phage_SSP002", "title": "dist: 0.0146", "to": "NCBI__MF754115__Vibrio_phage_vB_VpaS_KF5", "value": 0.9853656}, {"color": "lightgray", "dist": 0.0193606, "from": "NCBI__JQ692107__Vibrio_phage_SSP002", "title": "dist: 0.0194", "to": "NCBI__OQ622097__Vibrio_phage_13KS502A", "value": 0.9806394}, {"color": "lightgray", "dist": 0.0200286, "from": "NCBI__JQ692107__Vibrio_phage_SSP002", "title": "dist: 0.0200", "to": "NCBI__PP346802__Vibrio_phage_vB_VpaS_SD2", "value": 0.9799714}, {"color": "lightgray", "dist": 0.0225899, "from": "NCBI__JQ692107__Vibrio_phage_SSP002", "title": "dist: 0.0226", "to": "NCBI__HG992588__Vibrio_phage_B1_1", "value": 0.9774101}, {"color": "lightgray", "dist": 0.0209144, "from": "NCBI__JQ692107__Vibrio_phage_SSP002", "title": "dist: 0.0209", "to": "NCBI__OP595602__Vibrio_phage_33Fb_4", "value": 0.9790856}, {"color": "lightgray", "dist": 0.0209144, "from": "NCBI__JQ692107__Vibrio_phage_SSP002", "title": "dist: 0.0209", "to": "NCBI__OP595601__Vibrio_phage_31Fb_4", "value": 0.9790856}, {"color": "lightgray", "dist": 0.0154979, "from": "NCBI__JQ692107__Vibrio_phage_SSP002", "title": "dist: 0.0155", "to": "NCBI__MW451251__Vibrio_phage_TY21", "value": 0.9845021}, {"color": "lightgray", "dist": 0.0160891, "from": "NCBI__JQ692107__Vibrio_phage_SSP002", "title": "dist: 0.0161", "to": "NCBI__OQ680630__Vibrio_phage_PG288", "value": 0.9839109}, {"color": "lightgray", "dist": 0.0157525, "from": "NCBI__JQ692107__Vibrio_phage_SSP002", "title": "dist: 0.0158", "to": "NCBI__OK625546__Vibrio_phage_vB_VpS_CC6", "value": 0.9842475}, {"color": "lightgray", "dist": 0.0214991, "from": "NCBI__HG992588__Vibrio_phage_B1_1", "title": "dist: 0.0215", "to": "Vibrio_alginolyticus__GCA_019137655.1_-_ASM1913765v1__JAHSPP010000013.1__103__663", "value": 0.9785009}, {"color": "lightgray", "dist": 0.0259602, "from": "NCBI__HG992588__Vibrio_phage_B1_1", "title": "dist: 0.0260", "to": "Vibrio_alginolyticus__GCA_019137605.1_-_ASM1913760v1__JAHSPN010000013.1__101__663", "value": 0.9740398}, {"color": "lightgray", "dist": 0.0232917, "from": "NCBI__HG992588__Vibrio_phage_B1_1", "title": "dist: 0.0233", "to": "Vibrio_alginolyticus__GCA_019137695.1_-_ASM1913769v1__JAHSPJ010000016.1__102__663", "value": 0.9767083}, {"color": "lightgray", "dist": 0.024448, "from": "NCBI__HG992588__Vibrio_phage_B1_1", "title": "dist: 0.0244", "to": "Vibrio_alginolyticus__GCA_019137595.1_-_ASM1913759v1__JAHSPM010000011.1__103__663", "value": 0.975552}, {"color": "lightgray", "dist": 0.0184377, "from": "NCBI__HG992588__Vibrio_phage_B1_1", "title": "dist: 0.0184", "to": "NCBI__MG602476__Vibrio_phage_VVP001", "value": 0.9815623}, {"color": "lightgray", "dist": 0.0256546, "from": "NCBI__HG992588__Vibrio_phage_B1_1", "title": "dist: 0.0257", "to": "NCBI__OK483201__Vibrio_phage_F23s1", "value": 0.9743454}, {"color": "lightgray", "dist": 0.0220744, "from": "NCBI__HG992588__Vibrio_phage_B1_1", "title": "dist: 0.0221", "to": "NCBI__MF754115__Vibrio_phage_vB_VpaS_KF5", "value": 0.9779256}, {"color": "lightgray", "dist": 0.022028, "from": "NCBI__HG992588__Vibrio_phage_B1_1", "title": "dist: 0.0220", "to": "NCBI__OQ622097__Vibrio_phage_13KS502A", "value": 0.977972}, {"color": "lightgray", "dist": 0.0160766, "from": "NCBI__HG992588__Vibrio_phage_B1_1", "title": "dist: 0.0161", "to": "NCBI__PP346802__Vibrio_phage_vB_VpaS_SD2", "value": 0.9839234}, {"color": "lightgray", "dist": 0.0244488, "from": "NCBI__HG992588__Vibrio_phage_B1_1", "title": "dist: 0.0244", "to": "NCBI__OP595602__Vibrio_phage_33Fb_4", "value": 0.9755512}, {"color": "lightgray", "dist": 0.0244488, "from": "NCBI__HG992588__Vibrio_phage_B1_1", "title": "dist: 0.0244", "to": "NCBI__OP595601__Vibrio_phage_31Fb_4", "value": 0.9755512}, {"color": "lightgray", "dist": 0.0191785, "from": "NCBI__HG992588__Vibrio_phage_B1_1", "title": "dist: 0.0192", "to": "NCBI__MW451251__Vibrio_phage_TY21", "value": 0.9808215}, {"color": "lightgray", "dist": 0.0192423, "from": "NCBI__HG992588__Vibrio_phage_B1_1", "title": "dist: 0.0192", "to": "NCBI__OQ680630__Vibrio_phage_PG288", "value": 0.9807577}, {"color": "lightgray", "dist": 0.0196443, "from": "NCBI__HG992588__Vibrio_phage_B1_1", "title": "dist: 0.0196", "to": "NCBI__OK625546__Vibrio_phage_vB_VpS_CC6", "value": 0.9803557}, {"color": "lightgray", "dist": 0.0183365, "from": "Vibrio_alginolyticus__GCA_019137605.1_-_ASM1913760v1__JAHSPN010000013.1__101__663", "title": "dist: 0.0183", "to": "Vibrio_alginolyticus__GCA_019137655.1_-_ASM1913765v1__JAHSPP010000013.1__103__663", "value": 0.9816635}, {"color": "lightgray", "dist": 0.00555685, "from": "Vibrio_alginolyticus__GCA_019137605.1_-_ASM1913760v1__JAHSPN010000013.1__101__663", "title": "dist: 0.0056", "to": "Vibrio_alginolyticus__GCA_019137695.1_-_ASM1913769v1__JAHSPJ010000016.1__102__663", "value": 0.99444315}, {"color": "lightgray", "dist": 0.00880834, "from": "Vibrio_alginolyticus__GCA_019137605.1_-_ASM1913760v1__JAHSPN010000013.1__101__663", "title": "dist: 0.0088", "to": "Vibrio_alginolyticus__GCA_019137595.1_-_ASM1913759v1__JAHSPM010000011.1__103__663", "value": 0.99119166}, {"color": "lightgray", "dist": 0.0252549, "from": "Vibrio_alginolyticus__GCA_019137605.1_-_ASM1913760v1__JAHSPN010000013.1__101__663", "title": "dist: 0.0253", "to": "NCBI__MG602476__Vibrio_phage_VVP001", "value": 0.9747451}, {"color": "lightgray", "dist": 0.0131879, "from": "Vibrio_alginolyticus__GCA_019137605.1_-_ASM1913760v1__JAHSPN010000013.1__101__663", "title": "dist: 0.0132", "to": "NCBI__OK483201__Vibrio_phage_F23s1", "value": 0.9868121}, {"color": "lightgray", "dist": 0.023435, "from": "Vibrio_alginolyticus__GCA_019137605.1_-_ASM1913760v1__JAHSPN010000013.1__101__663", "title": "dist: 0.0234", "to": "NCBI__MF754115__Vibrio_phage_vB_VpaS_KF5", "value": 0.976565}, {"color": "lightgray", "dist": 0.0170382, "from": "Vibrio_alginolyticus__GCA_019137605.1_-_ASM1913760v1__JAHSPN010000013.1__101__663", "title": "dist: 0.0170", "to": "NCBI__OQ622097__Vibrio_phage_13KS502A", "value": 0.9829618}, {"color": "lightgray", "dist": 0.0264796, "from": "Vibrio_alginolyticus__GCA_019137605.1_-_ASM1913760v1__JAHSPN010000013.1__101__663", "title": "dist: 0.0265", "to": "NCBI__PP346802__Vibrio_phage_vB_VpaS_SD2", "value": 0.9735204}, {"color": "lightgray", "dist": 0.018566, "from": "Vibrio_alginolyticus__GCA_019137605.1_-_ASM1913760v1__JAHSPN010000013.1__101__663", "title": "dist: 0.0186", "to": "NCBI__OP595602__Vibrio_phage_33Fb_4", "value": 0.981434}, {"color": "lightgray", "dist": 0.018566, "from": "Vibrio_alginolyticus__GCA_019137605.1_-_ASM1913760v1__JAHSPN010000013.1__101__663", "title": "dist: 0.0186", "to": "NCBI__OP595601__Vibrio_phage_31Fb_4", "value": 0.981434}, {"color": "lightgray", "dist": 0.0228915, "from": "Vibrio_alginolyticus__GCA_019137605.1_-_ASM1913760v1__JAHSPN010000013.1__101__663", "title": "dist: 0.0229", "to": "NCBI__MW451251__Vibrio_phage_TY21", "value": 0.9771085}, {"color": "lightgray", "dist": 0.0226331, "from": "Vibrio_alginolyticus__GCA_019137605.1_-_ASM1913760v1__JAHSPN010000013.1__101__663", "title": "dist: 0.0226", "to": "NCBI__OQ680630__Vibrio_phage_PG288", "value": 0.9773669}, {"color": "lightgray", "dist": 0.0238284, "from": "Vibrio_alginolyticus__GCA_019137605.1_-_ASM1913760v1__JAHSPN010000013.1__101__663", "title": "dist: 0.0238", "to": "NCBI__OK625546__Vibrio_phage_vB_VpS_CC6", "value": 0.9761716}, {"color": "lightgray", "dist": 0.0182868, "from": "NCBI__PP346802__Vibrio_phage_vB_VpaS_SD2", "title": "dist: 0.0183", "to": "Vibrio_alginolyticus__GCA_019137655.1_-_ASM1913765v1__JAHSPP010000013.1__103__663", "value": 0.9817132}, {"color": "lightgray", "dist": 0.0218115, "from": "NCBI__PP346802__Vibrio_phage_vB_VpaS_SD2", "title": "dist: 0.0218", "to": "Vibrio_alginolyticus__GCA_019137695.1_-_ASM1913769v1__JAHSPJ010000016.1__102__663", "value": 0.9781885}, {"color": "lightgray", "dist": 0.0210885, "from": "NCBI__PP346802__Vibrio_phage_vB_VpaS_SD2", "title": "dist: 0.0211", "to": "Vibrio_alginolyticus__GCA_019137595.1_-_ASM1913759v1__JAHSPM010000011.1__103__663", "value": 0.9789115}, {"color": "lightgray", "dist": 0.017387, "from": "NCBI__PP346802__Vibrio_phage_vB_VpaS_SD2", "title": "dist: 0.0174", "to": "NCBI__MG602476__Vibrio_phage_VVP001", "value": 0.982613}, {"color": "lightgray", "dist": 0.0239283, "from": "NCBI__PP346802__Vibrio_phage_vB_VpaS_SD2", "title": "dist: 0.0239", "to": "NCBI__OK483201__Vibrio_phage_F23s1", "value": 0.9760717}, {"color": "lightgray", "dist": 0.0216676, "from": "NCBI__PP346802__Vibrio_phage_vB_VpaS_SD2", "title": "dist: 0.0217", "to": "NCBI__MF754115__Vibrio_phage_vB_VpaS_KF5", "value": 0.9783324}, {"color": "lightgray", "dist": 0.018802, "from": "NCBI__PP346802__Vibrio_phage_vB_VpaS_SD2", "title": "dist: 0.0188", "to": "NCBI__OQ622097__Vibrio_phage_13KS502A", "value": 0.981198}, {"color": "lightgray", "dist": 0.0232426, "from": "NCBI__PP346802__Vibrio_phage_vB_VpaS_SD2", "title": "dist: 0.0232", "to": "NCBI__OP595602__Vibrio_phage_33Fb_4", "value": 0.9767574}, {"color": "lightgray", "dist": 0.0232426, "from": "NCBI__PP346802__Vibrio_phage_vB_VpaS_SD2", "title": "dist: 0.0232", "to": "NCBI__OP595601__Vibrio_phage_31Fb_4", "value": 0.9767574}, {"color": "lightgray", "dist": 0.0175221, "from": "NCBI__PP346802__Vibrio_phage_vB_VpaS_SD2", "title": "dist: 0.0175", "to": "NCBI__MW451251__Vibrio_phage_TY21", "value": 0.9824779}, {"color": "lightgray", "dist": 0.0179006, "from": "NCBI__PP346802__Vibrio_phage_vB_VpaS_SD2", "title": "dist: 0.0179", "to": "NCBI__OQ680630__Vibrio_phage_PG288", "value": 0.9820994}, {"color": "lightgray", "dist": 0.018398, "from": "NCBI__PP346802__Vibrio_phage_vB_VpaS_SD2", "title": "dist: 0.0184", "to": "NCBI__OK625546__Vibrio_phage_vB_VpS_CC6", "value": 0.981602}, {"color": "lightgray", "dist": 0.0182189, "from": "NCBI__OQ680630__Vibrio_phage_PG288", "title": "dist: 0.0182", "to": "Vibrio_alginolyticus__GCA_019137655.1_-_ASM1913765v1__JAHSPP010000013.1__103__663", "value": 0.9817811}, {"color": "lightgray", "dist": 0.0187468, "from": "NCBI__OQ680630__Vibrio_phage_PG288", "title": "dist: 0.0187", "to": "Vibrio_alginolyticus__GCA_019137695.1_-_ASM1913769v1__JAHSPJ010000016.1__102__663", "value": 0.9812532}, {"color": "lightgray", "dist": 0.0213433, "from": "NCBI__OQ680630__Vibrio_phage_PG288", "title": "dist: 0.0213", "to": "Vibrio_alginolyticus__GCA_019137595.1_-_ASM1913759v1__JAHSPM010000011.1__103__663", "value": 0.9786567}, {"color": "lightgray", "dist": 0.0209831, "from": "NCBI__OQ680630__Vibrio_phage_PG288", "title": "dist: 0.0210", "to": "NCBI__MG602476__Vibrio_phage_VVP001", "value": 0.9790169}, {"color": "lightgray", "dist": 0.0230246, "from": "NCBI__OQ680630__Vibrio_phage_PG288", "title": "dist: 0.0230", "to": "NCBI__OK483201__Vibrio_phage_F23s1", "value": 0.9769754}, {"color": "lightgray", "dist": 0.0222704, "from": "NCBI__OQ680630__Vibrio_phage_PG288", "title": "dist: 0.0223", "to": "NCBI__MF754115__Vibrio_phage_vB_VpaS_KF5", "value": 0.9777296}, {"color": "lightgray", "dist": 0.0196392, "from": "NCBI__OQ680630__Vibrio_phage_PG288", "title": "dist: 0.0196", "to": "NCBI__OQ622097__Vibrio_phage_13KS502A", "value": 0.9803608}, {"color": "lightgray", "dist": 0.0228144, "from": "NCBI__OQ680630__Vibrio_phage_PG288", "title": "dist: 0.0228", "to": "NCBI__OP595602__Vibrio_phage_33Fb_4", "value": 0.9771856}, {"color": "lightgray", "dist": 0.0228144, "from": "NCBI__OQ680630__Vibrio_phage_PG288", "title": "dist: 0.0228", "to": "NCBI__OP595601__Vibrio_phage_31Fb_4", "value": 0.9771856}, {"color": "lightgray", "dist": 0.0111261, "from": "NCBI__OQ680630__Vibrio_phage_PG288", "title": "dist: 0.0111", "to": "NCBI__MW451251__Vibrio_phage_TY21", "value": 0.9888739}, {"color": "lightgray", "dist": 0.0136079, "from": "NCBI__OQ680630__Vibrio_phage_PG288", "title": "dist: 0.0136", "to": "NCBI__OK625546__Vibrio_phage_vB_VpS_CC6", "value": 0.9863921}, {"color": "lightgray", "dist": 0.0237758, "from": "NCBI__OP595602__Vibrio_phage_33Fb_4", "title": "dist: 0.0238", "to": "Vibrio_alginolyticus__GCA_019137655.1_-_ASM1913765v1__JAHSPP010000013.1__103__663", "value": 0.9762242}, {"color": "lightgray", "dist": 0.0150705, "from": "NCBI__OP595602__Vibrio_phage_33Fb_4", "title": "dist: 0.0151", "to": "Vibrio_alginolyticus__GCA_019137695.1_-_ASM1913769v1__JAHSPJ010000016.1__102__663", "value": 0.9849295}, {"color": "lightgray", "dist": 0.0154086, "from": "NCBI__OP595602__Vibrio_phage_33Fb_4", "title": "dist: 0.0154", "to": "Vibrio_alginolyticus__GCA_019137595.1_-_ASM1913759v1__JAHSPM010000011.1__103__663", "value": 0.9845914}, {"color": "lightgray", "dist": 0.0211169, "from": "NCBI__OP595602__Vibrio_phage_33Fb_4", "title": "dist: 0.0211", "to": "NCBI__MG602476__Vibrio_phage_VVP001", "value": 0.9788831}, {"color": "lightgray", "dist": 0.018133, "from": "NCBI__OP595602__Vibrio_phage_33Fb_4", "title": "dist: 0.0181", "to": "NCBI__OK483201__Vibrio_phage_F23s1", "value": 0.981867}, {"color": "lightgray", "dist": 0.0160515, "from": "NCBI__OP595602__Vibrio_phage_33Fb_4", "title": "dist: 0.0161", "to": "NCBI__MF754115__Vibrio_phage_vB_VpaS_KF5", "value": 0.9839485}, {"color": "lightgray", "dist": 0.0216664, "from": "NCBI__OP595602__Vibrio_phage_33Fb_4", "title": "dist: 0.0217", "to": "NCBI__OQ622097__Vibrio_phage_13KS502A", "value": 0.9783336}, {"color": "lightgray", "dist": 0.0, "from": "NCBI__OP595602__Vibrio_phage_33Fb_4", "title": "dist: 0.0000", "to": "NCBI__OP595601__Vibrio_phage_31Fb_4", "value": 1.0}, {"color": "lightgray", "dist": 0.0237064, "from": "NCBI__OP595602__Vibrio_phage_33Fb_4", "title": "dist: 0.0237", "to": "NCBI__MW451251__Vibrio_phage_TY21", "value": 0.9762936}, {"color": "lightgray", "dist": 0.02243, "from": "NCBI__OP595602__Vibrio_phage_33Fb_4", "title": "dist: 0.0224", "to": "NCBI__OK625546__Vibrio_phage_vB_VpS_CC6", "value": 0.97757}, {"color": "lightgray", "dist": 0.0179308, "from": "NCBI__MW451251__Vibrio_phage_TY21", "title": "dist: 0.0179", "to": "Vibrio_alginolyticus__GCA_019137655.1_-_ASM1913765v1__JAHSPP010000013.1__103__663", "value": 0.9820692}, {"color": "lightgray", "dist": 0.019298, "from": "NCBI__MW451251__Vibrio_phage_TY21", "title": "dist: 0.0193", "to": "Vibrio_alginolyticus__GCA_019137695.1_-_ASM1913769v1__JAHSPJ010000016.1__102__663", "value": 0.980702}, {"color": "lightgray", "dist": 0.0225607, "from": "NCBI__MW451251__Vibrio_phage_TY21", "title": "dist: 0.0226", "to": "Vibrio_alginolyticus__GCA_019137595.1_-_ASM1913759v1__JAHSPM010000011.1__103__663", "value": 0.9774393}, {"color": "lightgray", "dist": 0.0209876, "from": "NCBI__MW451251__Vibrio_phage_TY21", "title": "dist: 0.0210", "to": "NCBI__MG602476__Vibrio_phage_VVP001", "value": 0.9790124}, {"color": "lightgray", "dist": 0.0217173, "from": "NCBI__MW451251__Vibrio_phage_TY21", "title": "dist: 0.0217", "to": "NCBI__OK483201__Vibrio_phage_F23s1", "value": 0.9782827}, {"color": "lightgray", "dist": 0.0213193, "from": "NCBI__MW451251__Vibrio_phage_TY21", "title": "dist: 0.0213", "to": "NCBI__MF754115__Vibrio_phage_vB_VpaS_KF5", "value": 0.9786807}, {"color": "lightgray", "dist": 0.0201061, "from": "NCBI__MW451251__Vibrio_phage_TY21", "title": "dist: 0.0201", "to": "NCBI__OQ622097__Vibrio_phage_13KS502A", "value": 0.9798939}, {"color": "lightgray", "dist": 0.0237064, "from": "NCBI__MW451251__Vibrio_phage_TY21", "title": "dist: 0.0237", "to": "NCBI__OP595601__Vibrio_phage_31Fb_4", "value": 0.9762936}, {"color": "lightgray", "dist": 0.0149603, "from": "NCBI__MW451251__Vibrio_phage_TY21", "title": "dist: 0.0150", "to": "NCBI__OK625546__Vibrio_phage_vB_VpS_CC6", "value": 0.9850397}, {"color": "lightgray", "dist": 0.012319, "from": "Vibrio_alginolyticus__GCA_019137655.1_-_ASM1913765v1__JAHSPP010000013.1__103__663", "title": "dist: 0.0123", "to": "Vibrio_alginolyticus__GCA_019137695.1_-_ASM1913769v1__JAHSPJ010000016.1__102__663", "value": 0.987681}, {"color": "lightgray", "dist": 0.0162874, "from": "Vibrio_alginolyticus__GCA_019137655.1_-_ASM1913765v1__JAHSPP010000013.1__103__663", "title": "dist: 0.0163", "to": "Vibrio_alginolyticus__GCA_019137595.1_-_ASM1913759v1__JAHSPM010000011.1__103__663", "value": 0.9837126}, {"color": "lightgray", "dist": 0.0239112, "from": "Vibrio_alginolyticus__GCA_019137655.1_-_ASM1913765v1__JAHSPP010000013.1__103__663", "title": "dist: 0.0239", "to": "NCBI__MG602476__Vibrio_phage_VVP001", "value": 0.9760888}, {"color": "lightgray", "dist": 0.0225313, "from": "Vibrio_alginolyticus__GCA_019137655.1_-_ASM1913765v1__JAHSPP010000013.1__103__663", "title": "dist: 0.0225", "to": "NCBI__OK483201__Vibrio_phage_F23s1", "value": 0.9774687}, {"color": "lightgray", "dist": 0.0160633, "from": "Vibrio_alginolyticus__GCA_019137655.1_-_ASM1913765v1__JAHSPP010000013.1__103__663", "title": "dist: 0.0161", "to": "NCBI__MF754115__Vibrio_phage_vB_VpaS_KF5", "value": 0.9839367}, {"color": "lightgray", "dist": 0.0151262, "from": "Vibrio_alginolyticus__GCA_019137655.1_-_ASM1913765v1__JAHSPP010000013.1__103__663", "title": "dist: 0.0151", "to": "NCBI__OQ622097__Vibrio_phage_13KS502A", "value": 0.9848738}, {"color": "lightgray", "dist": 0.0237758, "from": "Vibrio_alginolyticus__GCA_019137655.1_-_ASM1913765v1__JAHSPP010000013.1__103__663", "title": "dist: 0.0238", "to": "NCBI__OP595601__Vibrio_phage_31Fb_4", "value": 0.9762242}, {"color": "lightgray", "dist": 0.0209786, "from": "Vibrio_alginolyticus__GCA_019137655.1_-_ASM1913765v1__JAHSPP010000013.1__103__663", "title": "dist: 0.0210", "to": "NCBI__OK625546__Vibrio_phage_vB_VpS_CC6", "value": 0.9790214}, {"color": "lightgray", "dist": 0.0167925, "from": "NCBI__OK483201__Vibrio_phage_F23s1", "title": "dist: 0.0168", "to": "Vibrio_alginolyticus__GCA_019137695.1_-_ASM1913769v1__JAHSPJ010000016.1__102__663", "value": 0.9832075}, {"color": "lightgray", "dist": 0.0193243, "from": "NCBI__OK483201__Vibrio_phage_F23s1", "title": "dist: 0.0193", "to": "Vibrio_alginolyticus__GCA_019137595.1_-_ASM1913759v1__JAHSPM010000011.1__103__663", "value": 0.9806757}, {"color": "lightgray", "dist": 0.0287981, "from": "NCBI__OK483201__Vibrio_phage_F23s1", "title": "dist: 0.0288", "to": "NCBI__MG602476__Vibrio_phage_VVP001", "value": 0.9712019}, {"color": "lightgray", "dist": 0.026396, "from": "NCBI__OK483201__Vibrio_phage_F23s1", "title": "dist: 0.0264", "to": "NCBI__MF754115__Vibrio_phage_vB_VpaS_KF5", "value": 0.973604}, {"color": "lightgray", "dist": 0.0242159, "from": "NCBI__OK483201__Vibrio_phage_F23s1", "title": "dist: 0.0242", "to": "NCBI__OQ622097__Vibrio_phage_13KS502A", "value": 0.9757841}, {"color": "lightgray", "dist": 0.018133, "from": "NCBI__OK483201__Vibrio_phage_F23s1", "title": "dist: 0.0181", "to": "NCBI__OP595601__Vibrio_phage_31Fb_4", "value": 0.981867}, {"color": "lightgray", "dist": 0.0259756, "from": "NCBI__OK483201__Vibrio_phage_F23s1", "title": "dist: 0.0260", "to": "NCBI__OK625546__Vibrio_phage_vB_VpS_CC6", "value": 0.9740244}, {"color": "lightgray", "dist": 0.0150705, "from": "NCBI__OP595601__Vibrio_phage_31Fb_4", "title": "dist: 0.0151", "to": "Vibrio_alginolyticus__GCA_019137695.1_-_ASM1913769v1__JAHSPJ010000016.1__102__663", "value": 0.9849295}, {"color": "lightgray", "dist": 0.0154086, "from": "NCBI__OP595601__Vibrio_phage_31Fb_4", "title": "dist: 0.0154", "to": "Vibrio_alginolyticus__GCA_019137595.1_-_ASM1913759v1__JAHSPM010000011.1__103__663", "value": 0.9845914}, {"color": "lightgray", "dist": 0.0211169, "from": "NCBI__OP595601__Vibrio_phage_31Fb_4", "title": "dist: 0.0211", "to": "NCBI__MG602476__Vibrio_phage_VVP001", "value": 0.9788831}, {"color": "lightgray", "dist": 0.0160515, "from": "NCBI__OP595601__Vibrio_phage_31Fb_4", "title": "dist: 0.0161", "to": "NCBI__MF754115__Vibrio_phage_vB_VpaS_KF5", "value": 0.9839485}, {"color": "lightgray", "dist": 0.0216664, "from": "NCBI__OP595601__Vibrio_phage_31Fb_4", "title": "dist: 0.0217", "to": "NCBI__OQ622097__Vibrio_phage_13KS502A", "value": 0.9783336}, {"color": "lightgray", "dist": 0.02243, "from": "NCBI__OP595601__Vibrio_phage_31Fb_4", "title": "dist: 0.0224", "to": "NCBI__OK625546__Vibrio_phage_vB_VpS_CC6", "value": 0.97757}, {"color": "lightgray", "dist": 0.020567, "from": "NCBI__OK625546__Vibrio_phage_vB_VpS_CC6", "title": "dist: 0.0206", "to": "Vibrio_alginolyticus__GCA_019137695.1_-_ASM1913769v1__JAHSPJ010000016.1__102__663", "value": 0.979433}, {"color": "lightgray", "dist": 0.0211758, "from": "NCBI__OK625546__Vibrio_phage_vB_VpS_CC6", "title": "dist: 0.0212", "to": "Vibrio_alginolyticus__GCA_019137595.1_-_ASM1913759v1__JAHSPM010000011.1__103__663", "value": 0.9788242}, {"color": "lightgray", "dist": 0.0197907, "from": "NCBI__OK625546__Vibrio_phage_vB_VpS_CC6", "title": "dist: 0.0198", "to": "NCBI__MG602476__Vibrio_phage_VVP001", "value": 0.9802093}, {"color": "lightgray", "dist": 0.0203431, "from": "NCBI__OK625546__Vibrio_phage_vB_VpS_CC6", "title": "dist: 0.0203", "to": "NCBI__MF754115__Vibrio_phage_vB_VpaS_KF5", "value": 0.9796569}, {"color": "lightgray", "dist": 0.0218197, "from": "NCBI__OK625546__Vibrio_phage_vB_VpS_CC6", "title": "dist: 0.0218", "to": "NCBI__OQ622097__Vibrio_phage_13KS502A", "value": 0.9781803}, {"color": "lightgray", "dist": 0.00458878, "from": "Vibrio_alginolyticus__GCA_019137595.1_-_ASM1913759v1__JAHSPM010000011.1__103__663", "title": "dist: 0.0046", "to": "Vibrio_alginolyticus__GCA_019137695.1_-_ASM1913769v1__JAHSPJ010000016.1__102__663", "value": 0.99541122}, {"color": "lightgray", "dist": 0.0241234, "from": "Vibrio_alginolyticus__GCA_019137595.1_-_ASM1913759v1__JAHSPM010000011.1__103__663", "title": "dist: 0.0241", "to": "NCBI__MG602476__Vibrio_phage_VVP001", "value": 0.9758766}, {"color": "lightgray", "dist": 0.0214033, "from": "Vibrio_alginolyticus__GCA_019137595.1_-_ASM1913759v1__JAHSPM010000011.1__103__663", "title": "dist: 0.0214", "to": "NCBI__MF754115__Vibrio_phage_vB_VpaS_KF5", "value": 0.9785967}, {"color": "lightgray", "dist": 0.0174558, "from": "Vibrio_alginolyticus__GCA_019137595.1_-_ASM1913759v1__JAHSPM010000011.1__103__663", "title": "dist: 0.0175", "to": "NCBI__OQ622097__Vibrio_phage_13KS502A", "value": 0.9825442}, {"color": "lightgray", "dist": 0.0225054, "from": "Vibrio_alginolyticus__GCA_019137695.1_-_ASM1913769v1__JAHSPJ010000016.1__102__663", "title": "dist: 0.0225", "to": "NCBI__MG602476__Vibrio_phage_VVP001", "value": 0.9774946}, {"color": "lightgray", "dist": 0.0208043, "from": "Vibrio_alginolyticus__GCA_019137695.1_-_ASM1913769v1__JAHSPJ010000016.1__102__663", "title": "dist: 0.0208", "to": "NCBI__MF754115__Vibrio_phage_vB_VpaS_KF5", "value": 0.9791957}, {"color": "lightgray", "dist": 0.0147953, "from": "Vibrio_alginolyticus__GCA_019137695.1_-_ASM1913769v1__JAHSPJ010000016.1__102__663", "title": "dist: 0.0148", "to": "NCBI__OQ622097__Vibrio_phage_13KS502A", "value": 0.9852047}, {"color": "lightgray", "dist": 0.018016, "from": "NCBI__MF754115__Vibrio_phage_vB_VpaS_KF5", "title": "dist: 0.0180", "to": "NCBI__MG602476__Vibrio_phage_VVP001", "value": 0.981984}, {"color": "lightgray", "dist": 0.0133068, "from": "NCBI__MF754115__Vibrio_phage_vB_VpaS_KF5", "title": "dist: 0.0133", "to": "NCBI__OQ622097__Vibrio_phage_13KS502A", "value": 0.9866932}, {"color": "lightgray", "dist": 0.0204819, "from": "NCBI__OQ622097__Vibrio_phage_13KS502A", "title": "dist: 0.0205", "to": "NCBI__MG602476__Vibrio_phage_VVP001", "value": 0.9795181}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"nodes": {"font": {"size": 0}, "shadow": {"enabled": true}}, "configure": {"enabled": true, "showButton": true}, "edges": {"color": {"inherit": true}, "smooth": false}, "physics": {"enabled": true, "forceAtlas2Based": {"gravitationalConstant": -88, "centralGravity": 0.02, "springLength": 100}, "minVelocity": 0.75, "solver": "forceAtlas2Based"}, "interaction": {"hover": true}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+		  function placePopupAt(domPoint, html) {
+		      if (!html) return;
+		      popup.innerHTML = html;
+		      popup.style.display = 'block';
+		      popup.style.left = (domPoint.x + 25) + 'px';
+		      popup.style.top  = (domPoint.y - 35) + 'px';
+		  }
+
+		  function hidePopupNow() {
+		      popup.style.display = 'none';
+		  }
+
+		  network.on("hoverNode", function (params) {
+		      const n = nodes.get(params.node);
+		      if (!n || !n.title) return;
+		      placePopupAt(params.pointer.DOM, n.title);
+		  });
+
+		  network.on("blurNode", hidePopupNow);
+
+		  network.on("hoverEdge", function (params) {
+		      const e = edges.get(params.edge);
+		      if (!e || !e.title) return;
+		      placePopupAt(params.pointer.DOM, e.title);
+		  });
+
+		  network.on("blurEdge", hidePopupNow);
+		  
+                  
+
+                  
+
+                  
+                  // make a custom popup
+                      var popup = document.createElement("div");
+                      popup.className = 'popup';
+                      popupTimeout = null;
+                      popup.addEventListener('mouseover', function () {
+                          console.log(popup)
+                          if (popupTimeout !== null) {
+                              clearTimeout(popupTimeout);
+                              popupTimeout = null;
+                          }
+                      });
+                      popup.addEventListener('mouseout', function () {
+                          if (popupTimeout === null) {
+                              hidePopup();
+                          }
+                      });
+                      container.appendChild(popup);
+
+
+
+                      // hiding the popup through css
+                      function hidePopup() {
+                          popupTimeout = setTimeout(function () { popup.style.display = 'none'; }, 500);
+                      }
+
+		  function showPopup(id) {
+		      let dataObj, posCanvas;
+
+		      if (nodes.get(id)) {
+			  dataObj = nodes.get(id);
+			  posCanvas = network.getPositions([id])[id];
+		      } else if (edges.get(id)) {
+			  dataObj = edges.get(id);
+			  var bbox = network.getBoundingBox(id);
+			  posCanvas = {
+			      x: (bbox.left + bbox.right) / 2,
+			      y: (bbox.top + bbox.bottom) / 2
+			  };
+		      } else {
+			  return;
+		      }
+		      
+		      if (!dataObj.title) return;
+
+		      popup.innerHTML = dataObj.title;
+		      
+		      var posDOM = network.canvasToDOM(posCanvas);
+		      popup.style.display = 'block';
+		      popup.style.left = (posDOM.x + 10) + 'px';
+		      popup.style.top  = (posDOM.y - 20) + 'px';
+		  }
+                  
+
+
+                  
+		  network.on("stabilizationIterationsDone", function() {
+                      network.setOptions( { physics: false } );
+		  });
+		  //end block addition
+		  
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+    <div id="info-box" style="position:fixed; top:10px; right:10px; width:300px; background:white; border:1px solid #888; padding:10px; z-index:9999; font-family:Arial;"></div>
+    <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+    network.on("click", function (params) {
+    if (params.nodes.length > 0) {
+    var nodeId = params.nodes[0];
+    var node = nodes.get(nodeId);
+    document.getElementById("info-box").innerHTML = node.title || "No info available.";
+    } else {
+    document.getElementById("info-box").innerHTML = "";
+    }
+    });
+    });
+    </script>
+    
+</body>
+</html>

@@ -2,53 +2,141 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>BAPS – Interactive resources</title>
+  <title>Interactive PhageClouds for selected BAPS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      max-width: 900px;
-      margin: 3rem auto;
-      line-height: 1.6;
-      padding: 0 1rem;
+    <style>
+
+    header {
+	margin-bottom: 40px;
     }
-    h1 {
-      font-size: 1.8rem;
+
+    header span {
+	display: inline-block;
+	font-size: 0.9rem;
+	color: #777;
+	margin-top: 6px;
+    }
+    body {
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	background: #f6f7f9;
+	color: #222;
+	line-height: 1.6;
+	margin: 0;
+    }
+
+.container {
+  max-width: 900px;
+  margin: 60px auto;
+  background: white;
+  padding: 40px 50px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.5em;
+}
+
+h2 {
+  margin-top: 2.5em;
+  padding-bottom: 0.3em;
+  border-bottom: 2px solid #e3e6ea;
+  color: #2f3a5a;
+}
+
+p {
+  color: #555;
+  max-width: 750px;
     }
     ul {
-      padding-left: 1.2rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+li {
+  margin: 0.4em 0;
+}
+
+a {
+  color: #5b2dcc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: underline;
     }
-    li {
-      margin: 0.5rem 0;
+
+    .link-list a {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #f1f3f6;
+}
+
+.link-list a:hover {
+  background: #e6e9ef;
     }
-    a {
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+    
+</style>
 </head>
 <body>
+  <div class="container">
 
-<h1>BAPS: Interactive PhageClouds visualisations</h1>
+    <header>
+      <h1>BAPS: Interactive PhageClouds</h1>
+      <span>Exploring lytic phage diversity from bacterial assemblies</span>
+    </header>
 
 <p>
 This page will host interactive network visualisations generated as part of the
 BAPS project. Each link opens a standalone PhageClouds HTML file.
 </p>
 
-<h2>Available visualisations</h2>
+<h2>Currently available named PhageClouds</h2>
 
-<ul>
-  <li>
-    <a href="SPFM.html">SPFM phageclouds</a>
-  </li>
-  <!-- add more as needed -->
-  <!--
-  <li><a href="another_graph.html">Another network</a></li>
-  -->
+<ul class="link-list">
+  <li><a href="PhageClouds/Seoulvirus.html">Seoulvirus</a></li>
+  <li><a href="PhageClouds/Munch.html">Munch</a></li>
+  <li><a href="PhageClouds/Goslar.html">Goslar</a></li>
+  <li><a href="PhageClouds/Ecoli_A4.html">Ecoli_A4</a></li>
+  <li><a href="PhageClouds/bapsvirus.html">Bapsvirus</a></li>
+  <li><a href="PhageClouds/T4.html">T4</a></li>
+  <li><a href="PhageClouds/T5.html">T5</a></li>
 </ul>
 
+<h2>Currently available Phage Therapy PhageClouds</h2>
+<ul class="link-list">
+  <li><a href="PhageClouds/PT01_Achromobacter_NC_028768.html">Achromobacter NC_028768</a></li>
+  <li><a href="PhageClouds/PT01_Achromobacter_OQ938574.html">Achromobacter OQ938574</a></li>
+  <li><a href="PhageClouds/PT01_Acinetobacter_MK278859.html">Acinetobacter MK278859</a></li>
+  <li><a href="PhageClouds/PT01_Acinetobacter_OL770260.html">Acinetobacter OL770260</a></li>
+  <li><a href="PhageClouds/PT01_Acinetobacter_OL770263.html">Acinetobacter OL770263</a></li>
+  <li><a href="PhageClouds/PT01_Bacteroides_OQ116603.html">Bacteroides OQ116603</a></li>
+  <li><a href="PhageClouds/PT01_Enterococcus_MW004545.html">Enterococcus MW004545</a></li>
+  <li><a href="PhageClouds/PT01_Escherichia_MW883059.html">Escherichia MW883059</a></li>
+  <li><a href="PhageClouds/PT01_Escherichia_OL870317.html">Escherichia OL870317</a></li>
+  <li><a href="PhageClouds/PT01_Klebsiella_MW448170.html">Klebsiella MW448170</a></li>
+  <li><a href="PhageClouds/PT01_Klebsiella_NC_048143.html">Klebsiella NC_048143</a></li>
+  <li><a href="PhageClouds/PT01_Proteus_OL741431.html">Proteus OL741431</a></li>
+  <li><a href="PhageClouds/PT01_Pseudomonas_OM870969.html">Pseudomonas OM870969</a></li>
+  <li><a href="PhageClouds/PT01_Pseudomonas_ON631220.html">Pseudomonas ON631220</a></li>
+  <li><a href="PhageClouds/PT01_Pseudomonas_ON815903.html">Pseudomonas ON815903</a></li>
+  <li><a href="PhageClouds/PT01_Pseudomonas_OP875101.html">Pseudomonas OP875101</a></li>
+  <li><a href="PhageClouds/PT01_Pseudomonas_OQ872152.html">Pseudomonas OQ872152</a></li>
+  <li><a href="PhageClouds/PT01_Shigella_KX130863.html">Shigella KX130863</a></li>
+  <li><a href="PhageClouds/PT01_Shigella_KX130865.html">Shigella KX130865</a></li>
+  <li><a href="PhageClouds/PT01_Staphylococcus_MK417515.html">Staphylococcus MK417515</a></li>
+  <li><a href="PhageClouds/PT01_Staphylococcus_MT596503.html">Staphylococcus MT596503</a></li>
+  <li><a href="PhageClouds/PT01_Staphylococcus_NC_047720.html">Staphylococcus NC_047720</a></li>
+  <li><a href="PhageClouds/PT01_Vibrio_OQ680630.html">Vibrio OQ680630</a></li>
+</ul>
+
+<footer style="margin-top:60px; font-size:0.85rem; color:#777;">
+  Generated as part of the BAPS project · University of Copenhagen and the Becky Mayer Centre for Phage Research
+</footer>
+  </div>
+  
 </body>
 </html>
