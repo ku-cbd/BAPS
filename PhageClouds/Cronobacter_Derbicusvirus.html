@@ -1,0 +1,245 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h2>Cronobacter Derbicusvirus.html (12 genomes) 2026-01-10_20:02:27</h2>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 1100px;
+                 height: 900px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+             /* position absolute is important and the container has to be relative or absolute as well. */
+          div.popup {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 display:none;
+                 background-color:#f5f4ed;
+                 -moz-border-radius: 3px;
+                 -webkit-border-radius: 3px;
+                 border-radius: 3px;
+                 border: 1px solid #808074;
+             box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+             }
+
+          /* hide the original tooltip */
+          .vis-tooltip {
+            display:none;
+          }
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"__dummy": "dummy", "acc": "KX397367", "cloud": 38, "color": "#9e9ac8", "genome_size": 223935, "id": "NCBI__KX397367__Erwinia_phage_vB_EamM_EarlPhillipIV", "label": "NCBI__KX397367__Erwinia_phage_vB_EamM_EarlPhillipIV", "ngenes": 241, "org": "Erwinia phage vB_EamM_EarlPhillipIV", "shape": "dot", "size": 74, "source": "NCBI", "title": "NCBI__KX397367__Erwinia_phage_vB_EamM_EarlPhillipIV\n\u003cbr\u003e223935bp\n\u003cbr\u003eErwinia phage vB_EamM_EarlPhillipIV\n\u003cbr\u003e241 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/KX397367\" target=\"_blank\"\u003eKX397367\u003c/a\u003e", "working_name": "Cronobacter_Derbicusvirus"}, {"__dummy": "dummy", "acc": "KX397372", "cloud": 38, "color": "#9e9ac8", "genome_size": 229501, "id": "NCBI__KX397372__Erwinia_phage_vB_EamM_Phobos", "label": "NCBI__KX397372__Erwinia_phage_vB_EamM_Phobos", "ngenes": 247, "org": "Erwinia phage vB_EamM_Phobos", "shape": "dot", "size": 76, "source": "NCBI", "title": "NCBI__KX397372__Erwinia_phage_vB_EamM_Phobos\n\u003cbr\u003e229501bp\n\u003cbr\u003eErwinia phage vB_EamM_Phobos\n\u003cbr\u003e247 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/KX397372\" target=\"_blank\"\u003eKX397372\u003c/a\u003e", "working_name": "Cronobacter_Derbicusvirus"}, {"__dummy": "dummy", "acc": "NC_048173", "cloud": 38, "color": "#9e9ac8", "genome_size": 224514, "id": "NCBI__NC_048173__Erwinia_phage_Derbicus", "label": "NCBI__NC_048173__Erwinia_phage_Derbicus", "ngenes": 240, "org": "Erwinia phage Derbicus", "shape": "dot", "size": 74, "source": "NCBI", "title": "NCBI__NC_048173__Erwinia_phage_Derbicus\n\u003cbr\u003e224514bp\n\u003cbr\u003eErwinia phage Derbicus\n\u003cbr\u003e240 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/NC_048173\" target=\"_blank\"\u003eNC_048173\u003c/a\u003e", "working_name": "Cronobacter_Derbicusvirus"}, {"__dummy": "dummy", "acc": "NC_031043", "cloud": 38, "color": "#9e9ac8", "genome_size": 229085, "id": "NCBI__NC_031043__Erwinia_phage_vB_EamM_Phobos", "label": "NCBI__NC_031043__Erwinia_phage_vB_EamM_Phobos", "ngenes": 247, "org": "Erwinia phage vB_EamM_Phobos", "shape": "dot", "size": 76, "source": "NCBI", "title": "NCBI__NC_031043__Erwinia_phage_vB_EamM_Phobos\n\u003cbr\u003e229085bp\n\u003cbr\u003eErwinia phage vB_EamM_Phobos\n\u003cbr\u003e247 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/NC_031043\" target=\"_blank\"\u003eNC_031043\u003c/a\u003e", "working_name": "Cronobacter_Derbicusvirus"}, {"__dummy": "dummy", "acc": "JX094500", "cloud": 38, "color": "whitesmoke", "genome_size": 223989, "id": "NCBI__JX094500__Cronobacter_phage_CR5", "label": "NCBI__JX094500__Cronobacter_phage_CR5", "ngenes": 231, "org": "Cronobacter phage CR5", "shape": "dot", "size": 74, "source": "NCBI", "title": "NCBI__JX094500__Cronobacter_phage_CR5\n\u003cbr\u003e223989bp\n\u003cbr\u003eCronobacter phage CR5\n\u003cbr\u003e231 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/JX094500\" target=\"_blank\"\u003eJX094500\u003c/a\u003e", "working_name": "Cronobacter_Derbicusvirus"}, {"__dummy": "dummy", "acc": "MW845759", "cloud": 38, "color": "#9e9ac8", "genome_size": 224179, "id": "NCBI__MW845759__Erwinia_phage_pEa_SNUABM_38", "label": "NCBI__MW845759__Erwinia_phage_pEa_SNUABM_38", "ngenes": 239, "org": "Erwinia phage pEa_SNUABM_38", "shape": "dot", "size": 74, "source": "NCBI", "title": "NCBI__MW845759__Erwinia_phage_pEa_SNUABM_38\n\u003cbr\u003e224179bp\n\u003cbr\u003eErwinia phage pEa_SNUABM_38\n\u003cbr\u003e239 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MW845759\" target=\"_blank\"\u003eMW845759\u003c/a\u003e", "working_name": "Cronobacter_Derbicusvirus"}, {"__dummy": "dummy", "acc": "MK514282", "cloud": 38, "color": "#9e9ac8", "genome_size": 223950, "id": "NCBI__MK514282__Erwinia_phage_Derbicus", "label": "NCBI__MK514282__Erwinia_phage_Derbicus", "ngenes": 240, "org": "Erwinia phage Derbicus", "shape": "dot", "size": 74, "source": "NCBI", "title": "NCBI__MK514282__Erwinia_phage_Derbicus\n\u003cbr\u003e223950bp\n\u003cbr\u003eErwinia phage Derbicus\n\u003cbr\u003e240 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MK514282\" target=\"_blank\"\u003eMK514282\u003c/a\u003e", "working_name": "Cronobacter_Derbicusvirus"}, {"__dummy": "dummy", "acc": "NC_031007", "cloud": 38, "color": "#9e9ac8", "genome_size": 224337, "id": "NCBI__NC_031007__Erwinia_phage_vB_EamM_EarlPhillipIV", "label": "NCBI__NC_031007__Erwinia_phage_vB_EamM_EarlPhillipIV", "ngenes": 241, "org": "Erwinia phage vB_EamM_EarlPhillipIV", "shape": "dot", "size": 74, "source": "NCBI", "title": "NCBI__NC_031007__Erwinia_phage_vB_EamM_EarlPhillipIV\n\u003cbr\u003e224337bp\n\u003cbr\u003eErwinia phage vB_EamM_EarlPhillipIV\n\u003cbr\u003e241 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/NC_031007\" target=\"_blank\"\u003eNC_031007\u003c/a\u003e", "working_name": "Cronobacter_Derbicusvirus"}, {"__dummy": "dummy", "acc": "Salmonella_enterica__GCA_006986505.1_-_PDT000345021.1__AAGUDP010000006.1__236__28901", "cloud": 38, "color": {"background": "dimgray", "border": "white"}, "genome_size": 224722, "id": "Salmonella_enterica__GCA_006986505.1_-_PDT000345021.1__AAGUDP010000006.1__236__28901", "label": "Salmonella_enterica__GCA_006986505.1_-_PDT000345021.1__AAGUDP010000006.1__236__28901", "ngenes": 236, "org": "Salmonella_enterica", "shape": "square", "size": 74, "source": "BAPS", "title": "Salmonella_enterica__GCA_006986505.1_-_PDT000345021.1__AAGUDP010000006.1__236__28901\n\u003cbr\u003e224722bp\n\u003cbr\u003eSalmonella_enterica\n\u003cbr\u003e236 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/AAGUDP010000006.1\" target=\"_blank\"\u003eAAGUDP010000006.1\u003c/a\u003e", "working_name": "Cronobacter_Derbicusvirus"}, {"__dummy": "dummy", "acc": "Escherichia_coli__GCA_030713925.1_-_ASM3071392v1__JAUOWN010000010.1__237__562", "cloud": 38, "color": {"background": "khaki", "border": "white"}, "genome_size": 224100, "id": "Escherichia_coli__GCA_030713925.1_-_ASM3071392v1__JAUOWN010000010.1__237__562", "label": "Escherichia_coli__GCA_030713925.1_-_ASM3071392v1__JAUOWN010000010.1__237__562", "ngenes": 237, "org": "Escherichia_coli", "shape": "square", "size": 74, "source": "BAPS", "title": "Escherichia_coli__GCA_030713925.1_-_ASM3071392v1__JAUOWN010000010.1__237__562\n\u003cbr\u003e224100bp\n\u003cbr\u003eEscherichia_coli\n\u003cbr\u003e237 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/JAUOWN010000010.1\" target=\"_blank\"\u003eJAUOWN010000010.1\u003c/a\u003e", "working_name": "Cronobacter_Derbicusvirus"}, {"__dummy": "dummy", "acc": "Salmonella_enterica__GCA_007652695.1_-_PDT000383232.1__AAINNV010000006.1__235__28901", "cloud": 38, "color": {"background": "dimgray", "border": "white"}, "genome_size": 224404, "id": "Salmonella_enterica__GCA_007652695.1_-_PDT000383232.1__AAINNV010000006.1__235__28901", "label": "Salmonella_enterica__GCA_007652695.1_-_PDT000383232.1__AAINNV010000006.1__235__28901", "ngenes": 235, "org": "Salmonella_enterica", "shape": "square", "size": 74, "source": "BAPS", "title": "Salmonella_enterica__GCA_007652695.1_-_PDT000383232.1__AAINNV010000006.1__235__28901\n\u003cbr\u003e224404bp\n\u003cbr\u003eSalmonella_enterica\n\u003cbr\u003e235 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/AAINNV010000006.1\" target=\"_blank\"\u003eAAINNV010000006.1\u003c/a\u003e", "working_name": "Cronobacter_Derbicusvirus"}, {"__dummy": "dummy", "acc": "Salmonella_enterica__GCA_007657635.1_-_PDT000459930.1__AAIOAB010000005.1__237__28901", "cloud": 38, "color": {"background": "dimgray", "border": "white"}, "genome_size": 224347, "id": "Salmonella_enterica__GCA_007657635.1_-_PDT000459930.1__AAIOAB010000005.1__237__28901", "label": "Salmonella_enterica__GCA_007657635.1_-_PDT000459930.1__AAIOAB010000005.1__237__28901", "ngenes": 237, "org": "Salmonella_enterica", "shape": "square", "size": 74, "source": "BAPS", "title": "Salmonella_enterica__GCA_007657635.1_-_PDT000459930.1__AAIOAB010000005.1__237__28901\n\u003cbr\u003e224347bp\n\u003cbr\u003eSalmonella_enterica\n\u003cbr\u003e237 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/AAIOAB010000005.1\" target=\"_blank\"\u003eAAIOAB010000005.1\u003c/a\u003e", "working_name": "Cronobacter_Derbicusvirus"}]);
+                  edges = new vis.DataSet([{"color": "lightgray", "dist": 0.137641, "from": "NCBI__KX397367__Erwinia_phage_vB_EamM_EarlPhillipIV", "title": "dist: 0.1376", "to": "Salmonella_enterica__GCA_007657635.1_-_PDT000459930.1__AAIOAB010000005.1__237__28901", "value": 0.862359}, {"color": "lightgray", "dist": 0.143533, "from": "NCBI__KX397367__Erwinia_phage_vB_EamM_EarlPhillipIV", "title": "dist: 0.1435", "to": "Salmonella_enterica__GCA_006986505.1_-_PDT000345021.1__AAGUDP010000006.1__236__28901", "value": 0.856467}, {"color": "lightgray", "dist": 0.140649, "from": "NCBI__KX397367__Erwinia_phage_vB_EamM_EarlPhillipIV", "title": "dist: 0.1406", "to": "Salmonella_enterica__GCA_007652695.1_-_PDT000383232.1__AAINNV010000006.1__235__28901", "value": 0.859351}, {"color": "lightgray", "dist": 0.143587, "from": "NCBI__KX397367__Erwinia_phage_vB_EamM_EarlPhillipIV", "title": "dist: 0.1436", "to": "Escherichia_coli__GCA_030713925.1_-_ASM3071392v1__JAUOWN010000010.1__237__562", "value": 0.856413}, {"color": "lightgray", "dist": 0.0, "from": "NCBI__KX397367__Erwinia_phage_vB_EamM_EarlPhillipIV", "title": "dist: 0.0000", "to": "NCBI__NC_031007__Erwinia_phage_vB_EamM_EarlPhillipIV", "value": 1.0}, {"color": "lightgray", "dist": 0.00335997, "from": "NCBI__KX397367__Erwinia_phage_vB_EamM_EarlPhillipIV", "title": "dist: 0.0034", "to": "NCBI__MK514282__Erwinia_phage_Derbicus", "value": 0.99664003}, {"color": "lightgray", "dist": 0.00335997, "from": "NCBI__KX397367__Erwinia_phage_vB_EamM_EarlPhillipIV", "title": "dist: 0.0034", "to": "NCBI__NC_048173__Erwinia_phage_Derbicus", "value": 0.99664003}, {"color": "lightgray", "dist": 0.139049, "from": "NCBI__KX397367__Erwinia_phage_vB_EamM_EarlPhillipIV", "title": "dist: 0.1390", "to": "NCBI__JX094500__Cronobacter_phage_CR5", "value": 0.860951}, {"color": "lightgray", "dist": 0.042084, "from": "NCBI__KX397367__Erwinia_phage_vB_EamM_EarlPhillipIV", "title": "dist: 0.0421", "to": "NCBI__MW845759__Erwinia_phage_pEa_SNUABM_38", "value": 0.957916}, {"color": "lightgray", "dist": 0.19618, "from": "NCBI__KX397372__Erwinia_phage_vB_EamM_Phobos", "title": "dist: 0.1962", "to": "Salmonella_enterica__GCA_007652695.1_-_PDT000383232.1__AAINNV010000006.1__235__28901", "value": 0.80382}, {"color": "lightgray", "dist": 0.0, "from": "NCBI__KX397372__Erwinia_phage_vB_EamM_Phobos", "title": "dist: 0.0000", "to": "NCBI__NC_031043__Erwinia_phage_vB_EamM_Phobos", "value": 1.0}, {"color": "lightgray", "dist": 0.137305, "from": "NCBI__NC_048173__Erwinia_phage_Derbicus", "title": "dist: 0.1373", "to": "Salmonella_enterica__GCA_007657635.1_-_PDT000459930.1__AAIOAB010000005.1__237__28901", "value": 0.862695}, {"color": "lightgray", "dist": 0.142678, "from": "NCBI__NC_048173__Erwinia_phage_Derbicus", "title": "dist: 0.1427", "to": "Salmonella_enterica__GCA_006986505.1_-_PDT000345021.1__AAGUDP010000006.1__236__28901", "value": 0.857322}, {"color": "lightgray", "dist": 0.141125, "from": "NCBI__NC_048173__Erwinia_phage_Derbicus", "title": "dist: 0.1411", "to": "Salmonella_enterica__GCA_007652695.1_-_PDT000383232.1__AAINNV010000006.1__235__28901", "value": 0.858875}, {"color": "lightgray", "dist": 0.1442, "from": "NCBI__NC_048173__Erwinia_phage_Derbicus", "title": "dist: 0.1442", "to": "Escherichia_coli__GCA_030713925.1_-_ASM3071392v1__JAUOWN010000010.1__237__562", "value": 0.8558}, {"color": "lightgray", "dist": 0.00335997, "from": "NCBI__NC_048173__Erwinia_phage_Derbicus", "title": "dist: 0.0034", "to": "NCBI__NC_031007__Erwinia_phage_vB_EamM_EarlPhillipIV", "value": 0.99664003}, {"color": "lightgray", "dist": 0.0, "from": "NCBI__NC_048173__Erwinia_phage_Derbicus", "title": "dist: 0.0000", "to": "NCBI__MK514282__Erwinia_phage_Derbicus", "value": 1.0}, {"color": "lightgray", "dist": 0.139133, "from": "NCBI__NC_048173__Erwinia_phage_Derbicus", "title": "dist: 0.1391", "to": "NCBI__JX094500__Cronobacter_phage_CR5", "value": 0.860867}, {"color": "lightgray", "dist": 0.0423762, "from": "NCBI__NC_048173__Erwinia_phage_Derbicus", "title": "dist: 0.0424", "to": "NCBI__MW845759__Erwinia_phage_pEa_SNUABM_38", "value": 0.9576238}, {"color": "lightgray", "dist": 0.19618, "from": "NCBI__NC_031043__Erwinia_phage_vB_EamM_Phobos", "title": "dist: 0.1962", "to": "Salmonella_enterica__GCA_007652695.1_-_PDT000383232.1__AAINNV010000006.1__235__28901", "value": 0.80382}, {"color": "lightgray", "dist": 0.0326686, "from": "Salmonella_enterica__GCA_007652695.1_-_PDT000383232.1__AAINNV010000006.1__235__28901", "title": "dist: 0.0327", "to": "Salmonella_enterica__GCA_007657635.1_-_PDT000459930.1__AAIOAB010000005.1__237__28901", "value": 0.9673314}, {"color": "lightgray", "dist": 0.0431497, "from": "Salmonella_enterica__GCA_007652695.1_-_PDT000383232.1__AAINNV010000006.1__235__28901", "title": "dist: 0.0431", "to": "Salmonella_enterica__GCA_006986505.1_-_PDT000345021.1__AAGUDP010000006.1__236__28901", "value": 0.9568503}, {"color": "lightgray", "dist": 0.0256472, "from": "Salmonella_enterica__GCA_007652695.1_-_PDT000383232.1__AAINNV010000006.1__235__28901", "title": "dist: 0.0256", "to": "Escherichia_coli__GCA_030713925.1_-_ASM3071392v1__JAUOWN010000010.1__237__562", "value": 0.9743528}, {"color": "lightgray", "dist": 0.140649, "from": "Salmonella_enterica__GCA_007652695.1_-_PDT000383232.1__AAINNV010000006.1__235__28901", "title": "dist: 0.1406", "to": "NCBI__NC_031007__Erwinia_phage_vB_EamM_EarlPhillipIV", "value": 0.859351}, {"color": "lightgray", "dist": 0.141125, "from": "Salmonella_enterica__GCA_007652695.1_-_PDT000383232.1__AAINNV010000006.1__235__28901", "title": "dist: 0.1411", "to": "NCBI__MK514282__Erwinia_phage_Derbicus", "value": 0.858875}, {"color": "lightgray", "dist": 0.0329586, "from": "Salmonella_enterica__GCA_007652695.1_-_PDT000383232.1__AAINNV010000006.1__235__28901", "title": "dist: 0.0330", "to": "NCBI__JX094500__Cronobacter_phage_CR5", "value": 0.9670414}, {"color": "lightgray", "dist": 0.1415, "from": "Salmonella_enterica__GCA_007652695.1_-_PDT000383232.1__AAINNV010000006.1__235__28901", "title": "dist: 0.1415", "to": "NCBI__MW845759__Erwinia_phage_pEa_SNUABM_38", "value": 0.8585}, {"color": "lightgray", "dist": 0.0324461, "from": "NCBI__JX094500__Cronobacter_phage_CR5", "title": "dist: 0.0324", "to": "Salmonella_enterica__GCA_007657635.1_-_PDT000459930.1__AAIOAB010000005.1__237__28901", "value": 0.9675539}, {"color": "lightgray", "dist": 0.0431178, "from": "NCBI__JX094500__Cronobacter_phage_CR5", "title": "dist: 0.0431", "to": "Salmonella_enterica__GCA_006986505.1_-_PDT000345021.1__AAGUDP010000006.1__236__28901", "value": 0.9568822}, {"color": "lightgray", "dist": 0.0333256, "from": "NCBI__JX094500__Cronobacter_phage_CR5", "title": "dist: 0.0333", "to": "Escherichia_coli__GCA_030713925.1_-_ASM3071392v1__JAUOWN010000010.1__237__562", "value": 0.9666744}, {"color": "lightgray", "dist": 0.139049, "from": "NCBI__JX094500__Cronobacter_phage_CR5", "title": "dist: 0.1390", "to": "NCBI__NC_031007__Erwinia_phage_vB_EamM_EarlPhillipIV", "value": 0.860951}, {"color": "lightgray", "dist": 0.139133, "from": "NCBI__JX094500__Cronobacter_phage_CR5", "title": "dist: 0.1391", "to": "NCBI__MK514282__Erwinia_phage_Derbicus", "value": 0.860867}, {"color": "lightgray", "dist": 0.13963, "from": "NCBI__JX094500__Cronobacter_phage_CR5", "title": "dist: 0.1396", "to": "NCBI__MW845759__Erwinia_phage_pEa_SNUABM_38", "value": 0.86037}, {"color": "lightgray", "dist": 0.139281, "from": "NCBI__MW845759__Erwinia_phage_pEa_SNUABM_38", "title": "dist: 0.1393", "to": "Salmonella_enterica__GCA_007657635.1_-_PDT000459930.1__AAIOAB010000005.1__237__28901", "value": 0.860719}, {"color": "lightgray", "dist": 0.14347, "from": "NCBI__MW845759__Erwinia_phage_pEa_SNUABM_38", "title": "dist: 0.1435", "to": "Salmonella_enterica__GCA_006986505.1_-_PDT000345021.1__AAGUDP010000006.1__236__28901", "value": 0.85653}, {"color": "lightgray", "dist": 0.143139, "from": "NCBI__MW845759__Erwinia_phage_pEa_SNUABM_38", "title": "dist: 0.1431", "to": "Escherichia_coli__GCA_030713925.1_-_ASM3071392v1__JAUOWN010000010.1__237__562", "value": 0.856861}, {"color": "lightgray", "dist": 0.042084, "from": "NCBI__MW845759__Erwinia_phage_pEa_SNUABM_38", "title": "dist: 0.0421", "to": "NCBI__NC_031007__Erwinia_phage_vB_EamM_EarlPhillipIV", "value": 0.957916}, {"color": "lightgray", "dist": 0.0423762, "from": "NCBI__MW845759__Erwinia_phage_pEa_SNUABM_38", "title": "dist: 0.0424", "to": "NCBI__MK514282__Erwinia_phage_Derbicus", "value": 0.9576238}, {"color": "lightgray", "dist": 0.0366814, "from": "Salmonella_enterica__GCA_006986505.1_-_PDT000345021.1__AAGUDP010000006.1__236__28901", "title": "dist: 0.0367", "to": "Salmonella_enterica__GCA_007657635.1_-_PDT000459930.1__AAIOAB010000005.1__237__28901", "value": 0.9633186}, {"color": "lightgray", "dist": 0.0429083, "from": "Salmonella_enterica__GCA_006986505.1_-_PDT000345021.1__AAGUDP010000006.1__236__28901", "title": "dist: 0.0429", "to": "Escherichia_coli__GCA_030713925.1_-_ASM3071392v1__JAUOWN010000010.1__237__562", "value": 0.9570917}, {"color": "lightgray", "dist": 0.143533, "from": "Salmonella_enterica__GCA_006986505.1_-_PDT000345021.1__AAGUDP010000006.1__236__28901", "title": "dist: 0.1435", "to": "NCBI__NC_031007__Erwinia_phage_vB_EamM_EarlPhillipIV", "value": 0.856467}, {"color": "lightgray", "dist": 0.142678, "from": "Salmonella_enterica__GCA_006986505.1_-_PDT000345021.1__AAGUDP010000006.1__236__28901", "title": "dist: 0.1427", "to": "NCBI__MK514282__Erwinia_phage_Derbicus", "value": 0.857322}, {"color": "lightgray", "dist": 0.137305, "from": "NCBI__MK514282__Erwinia_phage_Derbicus", "title": "dist: 0.1373", "to": "Salmonella_enterica__GCA_007657635.1_-_PDT000459930.1__AAIOAB010000005.1__237__28901", "value": 0.862695}, {"color": "lightgray", "dist": 0.1442, "from": "NCBI__MK514282__Erwinia_phage_Derbicus", "title": "dist: 0.1442", "to": "Escherichia_coli__GCA_030713925.1_-_ASM3071392v1__JAUOWN010000010.1__237__562", "value": 0.8558}, {"color": "lightgray", "dist": 0.00335997, "from": "NCBI__MK514282__Erwinia_phage_Derbicus", "title": "dist: 0.0034", "to": "NCBI__NC_031007__Erwinia_phage_vB_EamM_EarlPhillipIV", "value": 0.99664003}, {"color": "lightgray", "dist": 0.0346645, "from": "Escherichia_coli__GCA_030713925.1_-_ASM3071392v1__JAUOWN010000010.1__237__562", "title": "dist: 0.0347", "to": "Salmonella_enterica__GCA_007657635.1_-_PDT000459930.1__AAIOAB010000005.1__237__28901", "value": 0.9653355}, {"color": "lightgray", "dist": 0.143587, "from": "Escherichia_coli__GCA_030713925.1_-_ASM3071392v1__JAUOWN010000010.1__237__562", "title": "dist: 0.1436", "to": "NCBI__NC_031007__Erwinia_phage_vB_EamM_EarlPhillipIV", "value": 0.856413}, {"color": "lightgray", "dist": 0.137641, "from": "NCBI__NC_031007__Erwinia_phage_vB_EamM_EarlPhillipIV", "title": "dist: 0.1376", "to": "Salmonella_enterica__GCA_007657635.1_-_PDT000459930.1__AAIOAB010000005.1__237__28901", "value": 0.862359}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"nodes": {"font": {"size": 0}, "shadow": {"enabled": true}}, "configure": {"enabled": true, "showButton": true}, "edges": {"color": {"inherit": true}, "smooth": false}, "physics": {"enabled": true, "forceAtlas2Based": {"gravitationalConstant": -88, "centralGravity": 0.02, "springLength": 100}, "minVelocity": 0.75, "solver": "forceAtlas2Based"}, "interaction": {"hover": true}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+		  function placePopupAt(domPoint, html) {
+		      if (!html) return;
+		      popup.innerHTML = html;
+		      popup.style.display = 'block';
+		      popup.style.left = (domPoint.x + 25) + 'px';
+		      popup.style.top  = (domPoint.y - 35) + 'px';
+		  }
+
+		  function hidePopupNow() {
+		      popup.style.display = 'none';
+		  }
+
+		  network.on("hoverNode", function (params) {
+		      const n = nodes.get(params.node);
+		      if (!n || !n.title) return;
+		      placePopupAt(params.pointer.DOM, n.title);
+		  });
+
+		  network.on("blurNode", hidePopupNow);
+
+		  network.on("hoverEdge", function (params) {
+		      const e = edges.get(params.edge);
+		      if (!e || !e.title) return;
+		      placePopupAt(params.pointer.DOM, e.title);
+		  });
+
+		  network.on("blurEdge", hidePopupNow);
+		  
+                  
+
+                  
+
+                  
+                  // make a custom popup
+                      var popup = document.createElement("div");
+                      popup.className = 'popup';
+                      popupTimeout = null;
+                      popup.addEventListener('mouseover', function () {
+                          console.log(popup)
+                          if (popupTimeout !== null) {
+                              clearTimeout(popupTimeout);
+                              popupTimeout = null;
+                          }
+                      });
+                      popup.addEventListener('mouseout', function () {
+                          if (popupTimeout === null) {
+                              hidePopup();
+                          }
+                      });
+                      container.appendChild(popup);
+
+
+
+                      // hiding the popup through css
+                      function hidePopup() {
+                          popupTimeout = setTimeout(function () { popup.style.display = 'none'; }, 500);
+                      }
+
+		  function showPopup(id) {
+		      let dataObj, posCanvas;
+
+		      if (nodes.get(id)) {
+			  dataObj = nodes.get(id);
+			  posCanvas = network.getPositions([id])[id];
+		      } else if (edges.get(id)) {
+			  dataObj = edges.get(id);
+			  var bbox = network.getBoundingBox(id);
+			  posCanvas = {
+			      x: (bbox.left + bbox.right) / 2,
+			      y: (bbox.top + bbox.bottom) / 2
+			  };
+		      } else {
+			  return;
+		      }
+		      
+		      if (!dataObj.title) return;
+
+		      popup.innerHTML = dataObj.title;
+		      
+		      var posDOM = network.canvasToDOM(posCanvas);
+		      popup.style.display = 'block';
+		      popup.style.left = (posDOM.x + 10) + 'px';
+		      popup.style.top  = (posDOM.y - 20) + 'px';
+		  }
+                  
+
+
+                  
+		  network.on("stabilizationIterationsDone", function() {
+                      network.setOptions( { physics: false } );
+		  });
+		  //end block addition
+		  
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+    <div id="info-box" style="position:fixed; top:10px; right:10px; width:300px; background:white; border:1px solid #888; padding:10px; z-index:9999; font-family:Arial;"></div>
+    <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+    network.on("click", function (params) {
+    if (params.nodes.length > 0) {
+    var nodeId = params.nodes[0];
+    var node = nodes.get(nodeId);
+    document.getElementById("info-box").innerHTML = node.title || "No info available.";
+    } else {
+    document.getElementById("info-box").innerHTML = "";
+    }
+    });
+    });
+    </script>
+    
+</body>
+</html>

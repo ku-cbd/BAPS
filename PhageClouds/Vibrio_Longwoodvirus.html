@@ -1,0 +1,245 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h2>Vibrio Longwoodvirus.html (14 genomes) 2026-01-10_20:02:26</h2>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 1100px;
+                 height: 900px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+             /* position absolute is important and the container has to be relative or absolute as well. */
+          div.popup {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 display:none;
+                 background-color:#f5f4ed;
+                 -moz-border-radius: 3px;
+                 -webkit-border-radius: 3px;
+                 border-radius: 3px;
+                 border: 1px solid #808074;
+             box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+             }
+
+          /* hide the original tooltip */
+          .vis-tooltip {
+            display:none;
+          }
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"__dummy": "dummy", "acc": "AF125163", "cloud": 7842, "color": "whitesmoke", "genome_size": 33068, "id": "NCBI__AF125163__Bacteriophage_K139", "label": "NCBI__AF125163__Bacteriophage_K139", "ngenes": 44, "org": "Bacteriophage K139", "shape": "dot", "size": 11, "source": "NCBI", "title": "NCBI__AF125163__Bacteriophage_K139\n\u003cbr\u003e33068bp\n\u003cbr\u003eBacteriophage K139\n\u003cbr\u003e44 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/AF125163\" target=\"_blank\"\u003eAF125163\u003c/a\u003e", "working_name": "Vibrio_Longwoodvirus"}, {"__dummy": "dummy", "acc": "AB374228", "cloud": 7842, "color": "salmon", "genome_size": 33439, "id": "NCBI__AB374228__Vibrio_phage_Kappa", "label": "NCBI__AB374228__Vibrio_phage_Kappa", "ngenes": 45, "org": "Vibrio phage Kappa", "shape": "dot", "size": 11, "source": "NCBI", "title": "NCBI__AB374228__Vibrio_phage_Kappa\n\u003cbr\u003e33439bp\n\u003cbr\u003eVibrio phage Kappa\n\u003cbr\u003e45 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/AB374228\" target=\"_blank\"\u003eAB374228\u003c/a\u003e", "working_name": "Vibrio_Longwoodvirus"}, {"__dummy": "dummy", "acc": "KU504502", "cloud": 7842, "color": "salmon", "genome_size": 33133, "id": "NCBI__KU504502__Vibrio_phage_919TP", "label": "NCBI__KU504502__Vibrio_phage_919TP", "ngenes": 0, "org": "Vibrio phage 919TP", "shape": "dot", "size": 11, "source": "NCBI", "title": "NCBI__KU504502__Vibrio_phage_919TP\n\u003cbr\u003e33133bp\n\u003cbr\u003eVibrio phage 919TP\n\u003cbr\u003e0 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/KU504502\" target=\"_blank\"\u003eKU504502\u003c/a\u003e", "working_name": "Vibrio_Longwoodvirus"}, {"__dummy": "dummy", "acc": "KX058879", "cloud": 7842, "color": "salmon", "genome_size": 33108, "id": "NCBI__KX058879__Vibrio_phage_VcP032", "label": "NCBI__KX058879__Vibrio_phage_VcP032", "ngenes": 46, "org": "Vibrio phage VcP032", "shape": "dot", "size": 11, "source": "NCBI", "title": "NCBI__KX058879__Vibrio_phage_VcP032\n\u003cbr\u003e33108bp\n\u003cbr\u003eVibrio phage VcP032\n\u003cbr\u003e46 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/KX058879\" target=\"_blank\"\u003eKX058879\u003c/a\u003e", "working_name": "Vibrio_Longwoodvirus"}, {"__dummy": "dummy", "acc": "KF361475", "cloud": 7842, "color": "salmon", "genome_size": 34145, "id": "NCBI__KF361475__Vibrio_phage_VPUSM_8", "label": "NCBI__KF361475__Vibrio_phage_VPUSM_8", "ngenes": 43, "org": "Vibrio phage VPUSM 8", "shape": "dot", "size": 11, "source": "NCBI", "title": "NCBI__KF361475__Vibrio_phage_VPUSM_8\n\u003cbr\u003e34145bp\n\u003cbr\u003eVibrio phage VPUSM 8\n\u003cbr\u003e43 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/KF361475\" target=\"_blank\"\u003eKF361475\u003c/a\u003e", "working_name": "Vibrio_Longwoodvirus"}, {"__dummy": "dummy", "acc": "NC_003313", "cloud": 7842, "color": "whitesmoke", "genome_size": 33068, "id": "NCBI__NC_003313__Bacteriophage_K139", "label": "NCBI__NC_003313__Bacteriophage_K139", "ngenes": 44, "org": "Bacteriophage K139", "shape": "dot", "size": 11, "source": "NCBI", "title": "NCBI__NC_003313__Bacteriophage_K139\n\u003cbr\u003e33068bp\n\u003cbr\u003eBacteriophage K139\n\u003cbr\u003e44 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/NC_003313\" target=\"_blank\"\u003eNC_003313\u003c/a\u003e", "working_name": "Vibrio_Longwoodvirus"}, {"__dummy": "dummy", "acc": "NC_010275", "cloud": 7842, "color": "salmon", "genome_size": 33439, "id": "NCBI__NC_010275__Vibrio_phage_Kappa", "label": "NCBI__NC_010275__Vibrio_phage_Kappa", "ngenes": 45, "org": "Vibrio phage Kappa", "shape": "dot", "size": 11, "source": "NCBI", "title": "NCBI__NC_010275__Vibrio_phage_Kappa\n\u003cbr\u003e33439bp\n\u003cbr\u003eVibrio phage Kappa\n\u003cbr\u003e45 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/NC_010275\" target=\"_blank\"\u003eNC_010275\u003c/a\u003e", "working_name": "Vibrio_Longwoodvirus"}, {"__dummy": "dummy", "acc": "NC_022747", "cloud": 7842, "color": "salmon", "genome_size": 33207, "id": "NCBI__NC_022747__Vibrio_phage_VPUSM_8", "label": "NCBI__NC_022747__Vibrio_phage_VPUSM_8", "ngenes": 43, "org": "Vibrio phage VPUSM 8", "shape": "dot", "size": 11, "source": "NCBI", "title": "NCBI__NC_022747__Vibrio_phage_VPUSM_8\n\u003cbr\u003e33207bp\n\u003cbr\u003eVibrio phage VPUSM 8\n\u003cbr\u003e43 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/NC_022747\" target=\"_blank\"\u003eNC_022747\u003c/a\u003e", "working_name": "Vibrio_Longwoodvirus"}, {"__dummy": "dummy", "acc": "Vibrio_cholerae__GCA_015775775.1_-_PDT000656329.1__AAXMPJ010000036.1__40__666", "cloud": 7842, "color": {"background": "salmon", "border": "white"}, "genome_size": 34105, "id": "Vibrio_cholerae__GCA_015775775.1_-_PDT000656329.1__AAXMPJ010000036.1__40__666", "label": "Vibrio_cholerae__GCA_015775775.1_-_PDT000656329.1__AAXMPJ010000036.1__40__666", "ngenes": 40, "org": "Vibrio_cholerae", "shape": "square", "size": 11, "source": "BAPS", "title": "Vibrio_cholerae__GCA_015775775.1_-_PDT000656329.1__AAXMPJ010000036.1__40__666\n\u003cbr\u003e34105bp\n\u003cbr\u003eVibrio_cholerae\n\u003cbr\u003e40 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/AAXMPJ010000036.1\" target=\"_blank\"\u003eAAXMPJ010000036.1\u003c/a\u003e", "working_name": "Vibrio_Longwoodvirus"}, {"__dummy": "dummy", "acc": "Vibrio_cholerae__GCA_026766275.1_-_PDT001517884.1__ABJTBP010000026.1__37__666", "cloud": 7842, "color": {"background": "salmon", "border": "white"}, "genome_size": 32819, "id": "Vibrio_cholerae__GCA_026766275.1_-_PDT001517884.1__ABJTBP010000026.1__37__666", "label": "Vibrio_cholerae__GCA_026766275.1_-_PDT001517884.1__ABJTBP010000026.1__37__666", "ngenes": 37, "org": "Vibrio_cholerae", "shape": "square", "size": 10, "source": "BAPS", "title": "Vibrio_cholerae__GCA_026766275.1_-_PDT001517884.1__ABJTBP010000026.1__37__666\n\u003cbr\u003e32819bp\n\u003cbr\u003eVibrio_cholerae\n\u003cbr\u003e37 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/ABJTBP010000026.1\" target=\"_blank\"\u003eABJTBP010000026.1\u003c/a\u003e", "working_name": "Vibrio_Longwoodvirus"}, {"__dummy": "dummy", "acc": "Vibrio_cholerae__GCA_023965355.1_-_PDT001343576.1__DAHPGE010000031.1__39__666", "cloud": 7842, "color": {"background": "salmon", "border": "white"}, "genome_size": 31745, "id": "Vibrio_cholerae__GCA_023965355.1_-_PDT001343576.1__DAHPGE010000031.1__39__666", "label": "Vibrio_cholerae__GCA_023965355.1_-_PDT001343576.1__DAHPGE010000031.1__39__666", "ngenes": 39, "org": "Vibrio_cholerae", "shape": "square", "size": 10, "source": "BAPS", "title": "Vibrio_cholerae__GCA_023965355.1_-_PDT001343576.1__DAHPGE010000031.1__39__666\n\u003cbr\u003e31745bp\n\u003cbr\u003eVibrio_cholerae\n\u003cbr\u003e39 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/DAHPGE010000031.1\" target=\"_blank\"\u003eDAHPGE010000031.1\u003c/a\u003e", "working_name": "Vibrio_Longwoodvirus"}, {"__dummy": "dummy", "acc": "Vibrio_cholerae__GCA_026613495.1_-_ASM2661349v1__JACYQV010000040.1__38__666", "cloud": 7842, "color": {"background": "salmon", "border": "white"}, "genome_size": 31064, "id": "Vibrio_cholerae__GCA_026613495.1_-_ASM2661349v1__JACYQV010000040.1__38__666", "label": "Vibrio_cholerae__GCA_026613495.1_-_ASM2661349v1__JACYQV010000040.1__38__666", "ngenes": 38, "org": "Vibrio_cholerae", "shape": "square", "size": 10, "source": "BAPS", "title": "Vibrio_cholerae__GCA_026613495.1_-_ASM2661349v1__JACYQV010000040.1__38__666\n\u003cbr\u003e31064bp\n\u003cbr\u003eVibrio_cholerae\n\u003cbr\u003e38 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/JACYQV010000040.1\" target=\"_blank\"\u003eJACYQV010000040.1\u003c/a\u003e", "working_name": "Vibrio_Longwoodvirus"}, {"__dummy": "dummy", "acc": "Vibrio_cholerae__GCA_015788715.1_-_PDT000504071.1__AAXNHN010000036.1__38__666", "cloud": 7842, "color": {"background": "salmon", "border": "white"}, "genome_size": 32562, "id": "Vibrio_cholerae__GCA_015788715.1_-_PDT000504071.1__AAXNHN010000036.1__38__666", "label": "Vibrio_cholerae__GCA_015788715.1_-_PDT000504071.1__AAXNHN010000036.1__38__666", "ngenes": 38, "org": "Vibrio_cholerae", "shape": "square", "size": 10, "source": "BAPS", "title": "Vibrio_cholerae__GCA_015788715.1_-_PDT000504071.1__AAXNHN010000036.1__38__666\n\u003cbr\u003e32562bp\n\u003cbr\u003eVibrio_cholerae\n\u003cbr\u003e38 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/AAXNHN010000036.1\" target=\"_blank\"\u003eAAXNHN010000036.1\u003c/a\u003e", "working_name": "Vibrio_Longwoodvirus"}, {"__dummy": "dummy", "acc": "Vibrio_cholerae__GCA_036968885.1_-_PDT002094793.1__ABQMWV010000046.1__37__666", "cloud": 7842, "color": {"background": "salmon", "border": "white"}, "genome_size": 31098, "id": "Vibrio_cholerae__GCA_036968885.1_-_PDT002094793.1__ABQMWV010000046.1__37__666", "label": "Vibrio_cholerae__GCA_036968885.1_-_PDT002094793.1__ABQMWV010000046.1__37__666", "ngenes": 37, "org": "Vibrio_cholerae", "shape": "square", "size": 10, "source": "BAPS", "title": "Vibrio_cholerae__GCA_036968885.1_-_PDT002094793.1__ABQMWV010000046.1__37__666\n\u003cbr\u003e31098bp\n\u003cbr\u003eVibrio_cholerae\n\u003cbr\u003e37 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/ABQMWV010000046.1\" target=\"_blank\"\u003eABQMWV010000046.1\u003c/a\u003e", "working_name": "Vibrio_Longwoodvirus"}]);
+                  edges = new vis.DataSet([{"color": "lightgray", "dist": 0.0531679, "from": "NCBI__AF125163__Bacteriophage_K139", "title": "dist: 0.0532", "to": "Vibrio_cholerae__GCA_015775775.1_-_PDT000656329.1__AAXMPJ010000036.1__40__666", "value": 0.9468321}, {"color": "lightgray", "dist": 0.0496367, "from": "NCBI__AF125163__Bacteriophage_K139", "title": "dist: 0.0496", "to": "Vibrio_cholerae__GCA_026766275.1_-_PDT001517884.1__ABJTBP010000026.1__37__666", "value": 0.9503633}, {"color": "lightgray", "dist": 0.0516277, "from": "NCBI__AF125163__Bacteriophage_K139", "title": "dist: 0.0516", "to": "Vibrio_cholerae__GCA_015788715.1_-_PDT000504071.1__AAXNHN010000036.1__38__666", "value": 0.9483723}, {"color": "lightgray", "dist": 0.0584863, "from": "NCBI__AF125163__Bacteriophage_K139", "title": "dist: 0.0585", "to": "Vibrio_cholerae__GCA_023965355.1_-_PDT001343576.1__DAHPGE010000031.1__39__666", "value": 0.9415137}, {"color": "lightgray", "dist": 0.0478862, "from": "NCBI__AF125163__Bacteriophage_K139", "title": "dist: 0.0479", "to": "Vibrio_cholerae__GCA_036968885.1_-_PDT002094793.1__ABQMWV010000046.1__37__666", "value": 0.9521138}, {"color": "lightgray", "dist": 0.0470017, "from": "NCBI__AF125163__Bacteriophage_K139", "title": "dist: 0.0470", "to": "Vibrio_cholerae__GCA_026613495.1_-_ASM2661349v1__JACYQV010000040.1__38__666", "value": 0.9529983}, {"color": "lightgray", "dist": 0.00277233, "from": "NCBI__AF125163__Bacteriophage_K139", "title": "dist: 0.0028", "to": "NCBI__KX058879__Vibrio_phage_VcP032", "value": 0.99722767}, {"color": "lightgray", "dist": 0.0, "from": "NCBI__AF125163__Bacteriophage_K139", "title": "dist: 0.0000", "to": "NCBI__NC_003313__Bacteriophage_K139", "value": 1.0}, {"color": "lightgray", "dist": 0.000405192, "from": "NCBI__AF125163__Bacteriophage_K139", "title": "dist: 0.0004", "to": "NCBI__KU504502__Vibrio_phage_919TP", "value": 0.999594808}, {"color": "lightgray", "dist": 0.000527932, "from": "NCBI__AF125163__Bacteriophage_K139", "title": "dist: 0.0005", "to": "NCBI__AB374228__Vibrio_phage_Kappa", "value": 0.999472068}, {"color": "lightgray", "dist": 0.000527932, "from": "NCBI__AF125163__Bacteriophage_K139", "title": "dist: 0.0005", "to": "NCBI__NC_010275__Vibrio_phage_Kappa", "value": 0.999472068}, {"color": "lightgray", "dist": 0.000548, "from": "NCBI__AF125163__Bacteriophage_K139", "title": "dist: 0.0005", "to": "NCBI__KF361475__Vibrio_phage_VPUSM_8", "value": 0.999452}, {"color": "lightgray", "dist": 0.000548, "from": "NCBI__AF125163__Bacteriophage_K139", "title": "dist: 0.0005", "to": "NCBI__NC_022747__Vibrio_phage_VPUSM_8", "value": 0.999452}, {"color": "lightgray", "dist": 0.0532981, "from": "NCBI__AB374228__Vibrio_phage_Kappa", "title": "dist: 0.0533", "to": "Vibrio_cholerae__GCA_015775775.1_-_PDT000656329.1__AAXMPJ010000036.1__40__666", "value": 0.9467019}, {"color": "lightgray", "dist": 0.0498489, "from": "NCBI__AB374228__Vibrio_phage_Kappa", "title": "dist: 0.0498", "to": "Vibrio_cholerae__GCA_026766275.1_-_PDT001517884.1__ABJTBP010000026.1__37__666", "value": 0.9501511}, {"color": "lightgray", "dist": 0.0517684, "from": "NCBI__AB374228__Vibrio_phage_Kappa", "title": "dist: 0.0518", "to": "Vibrio_cholerae__GCA_015788715.1_-_PDT000504071.1__AAXNHN010000036.1__38__666", "value": 0.9482316}, {"color": "lightgray", "dist": 0.0586838, "from": "NCBI__AB374228__Vibrio_phage_Kappa", "title": "dist: 0.0587", "to": "Vibrio_cholerae__GCA_023965355.1_-_PDT001343576.1__DAHPGE010000031.1__39__666", "value": 0.9413162}, {"color": "lightgray", "dist": 0.0481189, "from": "NCBI__AB374228__Vibrio_phage_Kappa", "title": "dist: 0.0481", "to": "Vibrio_cholerae__GCA_036968885.1_-_PDT002094793.1__ABQMWV010000046.1__37__666", "value": 0.9518811}, {"color": "lightgray", "dist": 0.0472734, "from": "NCBI__AB374228__Vibrio_phage_Kappa", "title": "dist: 0.0473", "to": "Vibrio_cholerae__GCA_026613495.1_-_ASM2661349v1__JACYQV010000040.1__38__666", "value": 0.9527266}, {"color": "lightgray", "dist": 0.00305343, "from": "NCBI__AB374228__Vibrio_phage_Kappa", "title": "dist: 0.0031", "to": "NCBI__KX058879__Vibrio_phage_VcP032", "value": 0.99694657}, {"color": "lightgray", "dist": 0.000527932, "from": "NCBI__AB374228__Vibrio_phage_Kappa", "title": "dist: 0.0005", "to": "NCBI__NC_003313__Bacteriophage_K139", "value": 0.999472068}, {"color": "lightgray", "dist": 0.000595706, "from": "NCBI__AB374228__Vibrio_phage_Kappa", "title": "dist: 0.0006", "to": "NCBI__KU504502__Vibrio_phage_919TP", "value": 0.999404294}, {"color": "lightgray", "dist": 0.0, "from": "NCBI__AB374228__Vibrio_phage_Kappa", "title": "dist: 0.0000", "to": "NCBI__NC_010275__Vibrio_phage_Kappa", "value": 1.0}, {"color": "lightgray", "dist": 0.00079043, "from": "NCBI__AB374228__Vibrio_phage_Kappa", "title": "dist: 0.0008", "to": "NCBI__KF361475__Vibrio_phage_VPUSM_8", "value": 0.99920957}, {"color": "lightgray", "dist": 0.00079043, "from": "NCBI__AB374228__Vibrio_phage_Kappa", "title": "dist: 0.0008", "to": "NCBI__NC_022747__Vibrio_phage_VPUSM_8", "value": 0.99920957}, {"color": "lightgray", "dist": 0.052475, "from": "NCBI__KU504502__Vibrio_phage_919TP", "title": "dist: 0.0525", "to": "Vibrio_cholerae__GCA_015775775.1_-_PDT000656329.1__AAXMPJ010000036.1__40__666", "value": 0.947525}, {"color": "lightgray", "dist": 0.0491971, "from": "NCBI__KU504502__Vibrio_phage_919TP", "title": "dist: 0.0492", "to": "Vibrio_cholerae__GCA_026766275.1_-_PDT001517884.1__ABJTBP010000026.1__37__666", "value": 0.9508029}, {"color": "lightgray", "dist": 0.0509467, "from": "NCBI__KU504502__Vibrio_phage_919TP", "title": "dist: 0.0509", "to": "Vibrio_cholerae__GCA_015788715.1_-_PDT000504071.1__AAXNHN010000036.1__38__666", "value": 0.9490533}, {"color": "lightgray", "dist": 0.0579159, "from": "NCBI__KU504502__Vibrio_phage_919TP", "title": "dist: 0.0579", "to": "Vibrio_cholerae__GCA_023965355.1_-_PDT001343576.1__DAHPGE010000031.1__39__666", "value": 0.9420841}, {"color": "lightgray", "dist": 0.0474492, "from": "NCBI__KU504502__Vibrio_phage_919TP", "title": "dist: 0.0474", "to": "Vibrio_cholerae__GCA_036968885.1_-_PDT002094793.1__ABQMWV010000046.1__37__666", "value": 0.9525508}, {"color": "lightgray", "dist": 0.0464756, "from": "NCBI__KU504502__Vibrio_phage_919TP", "title": "dist: 0.0465", "to": "Vibrio_cholerae__GCA_026613495.1_-_ASM2661349v1__JACYQV010000040.1__38__666", "value": 0.9535244}, {"color": "lightgray", "dist": 0.0024727, "from": "NCBI__KU504502__Vibrio_phage_919TP", "title": "dist: 0.0025", "to": "NCBI__KX058879__Vibrio_phage_VcP032", "value": 0.9975273}, {"color": "lightgray", "dist": 0.000405192, "from": "NCBI__KU504502__Vibrio_phage_919TP", "title": "dist: 0.0004", "to": "NCBI__NC_003313__Bacteriophage_K139", "value": 0.999594808}, {"color": "lightgray", "dist": 0.000595706, "from": "NCBI__KU504502__Vibrio_phage_919TP", "title": "dist: 0.0006", "to": "NCBI__NC_010275__Vibrio_phage_Kappa", "value": 0.999404294}, {"color": "lightgray", "dist": 0.000212252, "from": "NCBI__KU504502__Vibrio_phage_919TP", "title": "dist: 0.0002", "to": "NCBI__KF361475__Vibrio_phage_VPUSM_8", "value": 0.999787748}, {"color": "lightgray", "dist": 0.000212252, "from": "NCBI__KU504502__Vibrio_phage_919TP", "title": "dist: 0.0002", "to": "NCBI__NC_022747__Vibrio_phage_VPUSM_8", "value": 0.999787748}, {"color": "lightgray", "dist": 0.053332, "from": "NCBI__KX058879__Vibrio_phage_VcP032", "title": "dist: 0.0533", "to": "Vibrio_cholerae__GCA_015775775.1_-_PDT000656329.1__AAXMPJ010000036.1__40__666", "value": 0.946668}, {"color": "lightgray", "dist": 0.0496901, "from": "NCBI__KX058879__Vibrio_phage_VcP032", "title": "dist: 0.0497", "to": "Vibrio_cholerae__GCA_026766275.1_-_PDT001517884.1__ABJTBP010000026.1__37__666", "value": 0.9503099}, {"color": "lightgray", "dist": 0.0517553, "from": "NCBI__KX058879__Vibrio_phage_VcP032", "title": "dist: 0.0518", "to": "Vibrio_cholerae__GCA_015788715.1_-_PDT000504071.1__AAXNHN010000036.1__38__666", "value": 0.9482447}, {"color": "lightgray", "dist": 0.0574703, "from": "NCBI__KX058879__Vibrio_phage_VcP032", "title": "dist: 0.0575", "to": "Vibrio_cholerae__GCA_023965355.1_-_PDT001343576.1__DAHPGE010000031.1__39__666", "value": 0.9425297}, {"color": "lightgray", "dist": 0.0479292, "from": "NCBI__KX058879__Vibrio_phage_VcP032", "title": "dist: 0.0479", "to": "Vibrio_cholerae__GCA_036968885.1_-_PDT002094793.1__ABQMWV010000046.1__37__666", "value": 0.9520708}, {"color": "lightgray", "dist": 0.0462473, "from": "NCBI__KX058879__Vibrio_phage_VcP032", "title": "dist: 0.0462", "to": "Vibrio_cholerae__GCA_026613495.1_-_ASM2661349v1__JACYQV010000040.1__38__666", "value": 0.9537527}, {"color": "lightgray", "dist": 0.00277233, "from": "NCBI__KX058879__Vibrio_phage_VcP032", "title": "dist: 0.0028", "to": "NCBI__NC_003313__Bacteriophage_K139", "value": 0.99722767}, {"color": "lightgray", "dist": 0.00305343, "from": "NCBI__KX058879__Vibrio_phage_VcP032", "title": "dist: 0.0031", "to": "NCBI__NC_010275__Vibrio_phage_Kappa", "value": 0.99694657}, {"color": "lightgray", "dist": 0.00262038, "from": "NCBI__KX058879__Vibrio_phage_VcP032", "title": "dist: 0.0026", "to": "NCBI__KF361475__Vibrio_phage_VPUSM_8", "value": 0.99737962}, {"color": "lightgray", "dist": 0.00262038, "from": "NCBI__KX058879__Vibrio_phage_VcP032", "title": "dist: 0.0026", "to": "NCBI__NC_022747__Vibrio_phage_VPUSM_8", "value": 0.99737962}, {"color": "lightgray", "dist": 0.0476355, "from": "Vibrio_cholerae__GCA_023965355.1_-_PDT001343576.1__DAHPGE010000031.1__39__666", "title": "dist: 0.0476", "to": "Vibrio_cholerae__GCA_015775775.1_-_PDT000656329.1__AAXMPJ010000036.1__40__666", "value": 0.9523645000000001}, {"color": "lightgray", "dist": 0.0460847, "from": "Vibrio_cholerae__GCA_023965355.1_-_PDT001343576.1__DAHPGE010000031.1__39__666", "title": "dist: 0.0461", "to": "Vibrio_cholerae__GCA_026766275.1_-_PDT001517884.1__ABJTBP010000026.1__37__666", "value": 0.9539153}, {"color": "lightgray", "dist": 0.0461432, "from": "Vibrio_cholerae__GCA_023965355.1_-_PDT001343576.1__DAHPGE010000031.1__39__666", "title": "dist: 0.0461", "to": "Vibrio_cholerae__GCA_015788715.1_-_PDT000504071.1__AAXNHN010000036.1__38__666", "value": 0.9538568}, {"color": "lightgray", "dist": 0.044697, "from": "Vibrio_cholerae__GCA_023965355.1_-_PDT001343576.1__DAHPGE010000031.1__39__666", "title": "dist: 0.0447", "to": "Vibrio_cholerae__GCA_036968885.1_-_PDT002094793.1__ABQMWV010000046.1__37__666", "value": 0.955303}, {"color": "lightgray", "dist": 0.0461606, "from": "Vibrio_cholerae__GCA_023965355.1_-_PDT001343576.1__DAHPGE010000031.1__39__666", "title": "dist: 0.0462", "to": "Vibrio_cholerae__GCA_026613495.1_-_ASM2661349v1__JACYQV010000040.1__38__666", "value": 0.9538394}, {"color": "lightgray", "dist": 0.0584863, "from": "Vibrio_cholerae__GCA_023965355.1_-_PDT001343576.1__DAHPGE010000031.1__39__666", "title": "dist: 0.0585", "to": "NCBI__NC_003313__Bacteriophage_K139", "value": 0.9415137}, {"color": "lightgray", "dist": 0.0586838, "from": "Vibrio_cholerae__GCA_023965355.1_-_PDT001343576.1__DAHPGE010000031.1__39__666", "title": "dist: 0.0587", "to": "NCBI__NC_010275__Vibrio_phage_Kappa", "value": 0.9413162}, {"color": "lightgray", "dist": 0.0580181, "from": "Vibrio_cholerae__GCA_023965355.1_-_PDT001343576.1__DAHPGE010000031.1__39__666", "title": "dist: 0.0580", "to": "NCBI__KF361475__Vibrio_phage_VPUSM_8", "value": 0.9419819}, {"color": "lightgray", "dist": 0.0580181, "from": "Vibrio_cholerae__GCA_023965355.1_-_PDT001343576.1__DAHPGE010000031.1__39__666", "title": "dist: 0.0580", "to": "NCBI__NC_022747__Vibrio_phage_VPUSM_8", "value": 0.9419819}, {"color": "lightgray", "dist": 0.00154786, "from": "Vibrio_cholerae__GCA_015788715.1_-_PDT000504071.1__AAXNHN010000036.1__38__666", "title": "dist: 0.0015", "to": "Vibrio_cholerae__GCA_015775775.1_-_PDT000656329.1__AAXMPJ010000036.1__40__666", "value": 0.99845214}, {"color": "lightgray", "dist": 0.0210023, "from": "Vibrio_cholerae__GCA_015788715.1_-_PDT000504071.1__AAXNHN010000036.1__38__666", "title": "dist: 0.0210", "to": "Vibrio_cholerae__GCA_026766275.1_-_PDT001517884.1__ABJTBP010000026.1__37__666", "value": 0.9789977}, {"color": "lightgray", "dist": 0.0199499, "from": "Vibrio_cholerae__GCA_015788715.1_-_PDT000504071.1__AAXNHN010000036.1__38__666", "title": "dist: 0.0199", "to": "Vibrio_cholerae__GCA_036968885.1_-_PDT002094793.1__ABQMWV010000046.1__37__666", "value": 0.9800501}, {"color": "lightgray", "dist": 0.0208426, "from": "Vibrio_cholerae__GCA_015788715.1_-_PDT000504071.1__AAXNHN010000036.1__38__666", "title": "dist: 0.0208", "to": "Vibrio_cholerae__GCA_026613495.1_-_ASM2661349v1__JACYQV010000040.1__38__666", "value": 0.9791574}, {"color": "lightgray", "dist": 0.0516277, "from": "Vibrio_cholerae__GCA_015788715.1_-_PDT000504071.1__AAXNHN010000036.1__38__666", "title": "dist: 0.0516", "to": "NCBI__NC_003313__Bacteriophage_K139", "value": 0.9483723}, {"color": "lightgray", "dist": 0.0517684, "from": "Vibrio_cholerae__GCA_015788715.1_-_PDT000504071.1__AAXNHN010000036.1__38__666", "title": "dist: 0.0518", "to": "NCBI__NC_010275__Vibrio_phage_Kappa", "value": 0.9482316}, {"color": "lightgray", "dist": 0.0511594, "from": "Vibrio_cholerae__GCA_015788715.1_-_PDT000504071.1__AAXNHN010000036.1__38__666", "title": "dist: 0.0512", "to": "NCBI__KF361475__Vibrio_phage_VPUSM_8", "value": 0.9488406}, {"color": "lightgray", "dist": 0.0511594, "from": "Vibrio_cholerae__GCA_015788715.1_-_PDT000504071.1__AAXNHN010000036.1__38__666", "title": "dist: 0.0512", "to": "NCBI__NC_022747__Vibrio_phage_VPUSM_8", "value": 0.9488406}, {"color": "lightgray", "dist": 0.0527058, "from": "NCBI__KF361475__Vibrio_phage_VPUSM_8", "title": "dist: 0.0527", "to": "Vibrio_cholerae__GCA_015775775.1_-_PDT000656329.1__AAXMPJ010000036.1__40__666", "value": 0.9472942}, {"color": "lightgray", "dist": 0.049408, "from": "NCBI__KF361475__Vibrio_phage_VPUSM_8", "title": "dist: 0.0494", "to": "Vibrio_cholerae__GCA_026766275.1_-_PDT001517884.1__ABJTBP010000026.1__37__666", "value": 0.950592}, {"color": "lightgray", "dist": 0.0476572, "from": "NCBI__KF361475__Vibrio_phage_VPUSM_8", "title": "dist: 0.0477", "to": "Vibrio_cholerae__GCA_036968885.1_-_PDT002094793.1__ABQMWV010000046.1__37__666", "value": 0.9523428}, {"color": "lightgray", "dist": 0.0466922, "from": "NCBI__KF361475__Vibrio_phage_VPUSM_8", "title": "dist: 0.0467", "to": "Vibrio_cholerae__GCA_026613495.1_-_ASM2661349v1__JACYQV010000040.1__38__666", "value": 0.9533078}, {"color": "lightgray", "dist": 0.000548, "from": "NCBI__KF361475__Vibrio_phage_VPUSM_8", "title": "dist: 0.0005", "to": "NCBI__NC_003313__Bacteriophage_K139", "value": 0.999452}, {"color": "lightgray", "dist": 0.00079043, "from": "NCBI__KF361475__Vibrio_phage_VPUSM_8", "title": "dist: 0.0008", "to": "NCBI__NC_010275__Vibrio_phage_Kappa", "value": 0.99920957}, {"color": "lightgray", "dist": 0.0, "from": "NCBI__KF361475__Vibrio_phage_VPUSM_8", "title": "dist: 0.0000", "to": "NCBI__NC_022747__Vibrio_phage_VPUSM_8", "value": 1.0}, {"color": "lightgray", "dist": 0.0219786, "from": "Vibrio_cholerae__GCA_015775775.1_-_PDT000656329.1__AAXMPJ010000036.1__40__666", "title": "dist: 0.0220", "to": "Vibrio_cholerae__GCA_026766275.1_-_PDT001517884.1__ABJTBP010000026.1__37__666", "value": 0.9780214}, {"color": "lightgray", "dist": 0.0215717, "from": "Vibrio_cholerae__GCA_015775775.1_-_PDT000656329.1__AAXMPJ010000036.1__40__666", "title": "dist: 0.0216", "to": "Vibrio_cholerae__GCA_036968885.1_-_PDT002094793.1__ABQMWV010000046.1__37__666", "value": 0.9784283}, {"color": "lightgray", "dist": 0.0224164, "from": "Vibrio_cholerae__GCA_015775775.1_-_PDT000656329.1__AAXMPJ010000036.1__40__666", "title": "dist: 0.0224", "to": "Vibrio_cholerae__GCA_026613495.1_-_ASM2661349v1__JACYQV010000040.1__38__666", "value": 0.9775836}, {"color": "lightgray", "dist": 0.0531679, "from": "Vibrio_cholerae__GCA_015775775.1_-_PDT000656329.1__AAXMPJ010000036.1__40__666", "title": "dist: 0.0532", "to": "NCBI__NC_003313__Bacteriophage_K139", "value": 0.9468321}, {"color": "lightgray", "dist": 0.0532981, "from": "Vibrio_cholerae__GCA_015775775.1_-_PDT000656329.1__AAXMPJ010000036.1__40__666", "title": "dist: 0.0533", "to": "NCBI__NC_010275__Vibrio_phage_Kappa", "value": 0.9467019}, {"color": "lightgray", "dist": 0.0527058, "from": "Vibrio_cholerae__GCA_015775775.1_-_PDT000656329.1__AAXMPJ010000036.1__40__666", "title": "dist: 0.0527", "to": "NCBI__NC_022747__Vibrio_phage_VPUSM_8", "value": 0.9472942}, {"color": "lightgray", "dist": 0.00233334, "from": "Vibrio_cholerae__GCA_026766275.1_-_PDT001517884.1__ABJTBP010000026.1__37__666", "title": "dist: 0.0023", "to": "Vibrio_cholerae__GCA_036968885.1_-_PDT002094793.1__ABQMWV010000046.1__37__666", "value": 0.99766666}, {"color": "lightgray", "dist": 0.0242357, "from": "Vibrio_cholerae__GCA_026766275.1_-_PDT001517884.1__ABJTBP010000026.1__37__666", "title": "dist: 0.0242", "to": "Vibrio_cholerae__GCA_026613495.1_-_ASM2661349v1__JACYQV010000040.1__38__666", "value": 0.9757643}, {"color": "lightgray", "dist": 0.0496367, "from": "Vibrio_cholerae__GCA_026766275.1_-_PDT001517884.1__ABJTBP010000026.1__37__666", "title": "dist: 0.0496", "to": "NCBI__NC_003313__Bacteriophage_K139", "value": 0.9503633}, {"color": "lightgray", "dist": 0.0498489, "from": "Vibrio_cholerae__GCA_026766275.1_-_PDT001517884.1__ABJTBP010000026.1__37__666", "title": "dist: 0.0498", "to": "NCBI__NC_010275__Vibrio_phage_Kappa", "value": 0.9501511}, {"color": "lightgray", "dist": 0.049408, "from": "Vibrio_cholerae__GCA_026766275.1_-_PDT001517884.1__ABJTBP010000026.1__37__666", "title": "dist: 0.0494", "to": "NCBI__NC_022747__Vibrio_phage_VPUSM_8", "value": 0.950592}, {"color": "lightgray", "dist": 0.0478862, "from": "NCBI__NC_003313__Bacteriophage_K139", "title": "dist: 0.0479", "to": "Vibrio_cholerae__GCA_036968885.1_-_PDT002094793.1__ABQMWV010000046.1__37__666", "value": 0.9521138}, {"color": "lightgray", "dist": 0.0470017, "from": "NCBI__NC_003313__Bacteriophage_K139", "title": "dist: 0.0470", "to": "Vibrio_cholerae__GCA_026613495.1_-_ASM2661349v1__JACYQV010000040.1__38__666", "value": 0.9529983}, {"color": "lightgray", "dist": 0.000527932, "from": "NCBI__NC_003313__Bacteriophage_K139", "title": "dist: 0.0005", "to": "NCBI__NC_010275__Vibrio_phage_Kappa", "value": 0.999472068}, {"color": "lightgray", "dist": 0.000548, "from": "NCBI__NC_003313__Bacteriophage_K139", "title": "dist: 0.0005", "to": "NCBI__NC_022747__Vibrio_phage_VPUSM_8", "value": 0.999452}, {"color": "lightgray", "dist": 0.0481189, "from": "NCBI__NC_010275__Vibrio_phage_Kappa", "title": "dist: 0.0481", "to": "Vibrio_cholerae__GCA_036968885.1_-_PDT002094793.1__ABQMWV010000046.1__37__666", "value": 0.9518811}, {"color": "lightgray", "dist": 0.0472734, "from": "NCBI__NC_010275__Vibrio_phage_Kappa", "title": "dist: 0.0473", "to": "Vibrio_cholerae__GCA_026613495.1_-_ASM2661349v1__JACYQV010000040.1__38__666", "value": 0.9527266}, {"color": "lightgray", "dist": 0.00079043, "from": "NCBI__NC_010275__Vibrio_phage_Kappa", "title": "dist: 0.0008", "to": "NCBI__NC_022747__Vibrio_phage_VPUSM_8", "value": 0.99920957}, {"color": "lightgray", "dist": 0.0225038, "from": "Vibrio_cholerae__GCA_026613495.1_-_ASM2661349v1__JACYQV010000040.1__38__666", "title": "dist: 0.0225", "to": "Vibrio_cholerae__GCA_036968885.1_-_PDT002094793.1__ABQMWV010000046.1__37__666", "value": 0.9774962}, {"color": "lightgray", "dist": 0.0466922, "from": "Vibrio_cholerae__GCA_026613495.1_-_ASM2661349v1__JACYQV010000040.1__38__666", "title": "dist: 0.0467", "to": "NCBI__NC_022747__Vibrio_phage_VPUSM_8", "value": 0.9533078}, {"color": "lightgray", "dist": 0.0476572, "from": "NCBI__NC_022747__Vibrio_phage_VPUSM_8", "title": "dist: 0.0477", "to": "Vibrio_cholerae__GCA_036968885.1_-_PDT002094793.1__ABQMWV010000046.1__37__666", "value": 0.9523428}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"nodes": {"font": {"size": 0}, "shadow": {"enabled": true}}, "configure": {"enabled": true, "showButton": true}, "edges": {"color": {"inherit": true}, "smooth": false}, "physics": {"enabled": true, "forceAtlas2Based": {"gravitationalConstant": -88, "centralGravity": 0.02, "springLength": 100}, "minVelocity": 0.75, "solver": "forceAtlas2Based"}, "interaction": {"hover": true}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+		  function placePopupAt(domPoint, html) {
+		      if (!html) return;
+		      popup.innerHTML = html;
+		      popup.style.display = 'block';
+		      popup.style.left = (domPoint.x + 25) + 'px';
+		      popup.style.top  = (domPoint.y - 35) + 'px';
+		  }
+
+		  function hidePopupNow() {
+		      popup.style.display = 'none';
+		  }
+
+		  network.on("hoverNode", function (params) {
+		      const n = nodes.get(params.node);
+		      if (!n || !n.title) return;
+		      placePopupAt(params.pointer.DOM, n.title);
+		  });
+
+		  network.on("blurNode", hidePopupNow);
+
+		  network.on("hoverEdge", function (params) {
+		      const e = edges.get(params.edge);
+		      if (!e || !e.title) return;
+		      placePopupAt(params.pointer.DOM, e.title);
+		  });
+
+		  network.on("blurEdge", hidePopupNow);
+		  
+                  
+
+                  
+
+                  
+                  // make a custom popup
+                      var popup = document.createElement("div");
+                      popup.className = 'popup';
+                      popupTimeout = null;
+                      popup.addEventListener('mouseover', function () {
+                          console.log(popup)
+                          if (popupTimeout !== null) {
+                              clearTimeout(popupTimeout);
+                              popupTimeout = null;
+                          }
+                      });
+                      popup.addEventListener('mouseout', function () {
+                          if (popupTimeout === null) {
+                              hidePopup();
+                          }
+                      });
+                      container.appendChild(popup);
+
+
+
+                      // hiding the popup through css
+                      function hidePopup() {
+                          popupTimeout = setTimeout(function () { popup.style.display = 'none'; }, 500);
+                      }
+
+		  function showPopup(id) {
+		      let dataObj, posCanvas;
+
+		      if (nodes.get(id)) {
+			  dataObj = nodes.get(id);
+			  posCanvas = network.getPositions([id])[id];
+		      } else if (edges.get(id)) {
+			  dataObj = edges.get(id);
+			  var bbox = network.getBoundingBox(id);
+			  posCanvas = {
+			      x: (bbox.left + bbox.right) / 2,
+			      y: (bbox.top + bbox.bottom) / 2
+			  };
+		      } else {
+			  return;
+		      }
+		      
+		      if (!dataObj.title) return;
+
+		      popup.innerHTML = dataObj.title;
+		      
+		      var posDOM = network.canvasToDOM(posCanvas);
+		      popup.style.display = 'block';
+		      popup.style.left = (posDOM.x + 10) + 'px';
+		      popup.style.top  = (posDOM.y - 20) + 'px';
+		  }
+                  
+
+
+                  
+		  network.on("stabilizationIterationsDone", function() {
+                      network.setOptions( { physics: false } );
+		  });
+		  //end block addition
+		  
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+    <div id="info-box" style="position:fixed; top:10px; right:10px; width:300px; background:white; border:1px solid #888; padding:10px; z-index:9999; font-family:Arial;"></div>
+    <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+    network.on("click", function (params) {
+    if (params.nodes.length > 0) {
+    var nodeId = params.nodes[0];
+    var node = nodes.get(nodeId);
+    document.getElementById("info-box").innerHTML = node.title || "No info available.";
+    } else {
+    document.getElementById("info-box").innerHTML = "";
+    }
+    });
+    });
+    </script>
+    
+</body>
+</html>

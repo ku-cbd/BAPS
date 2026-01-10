@@ -1,0 +1,245 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h2>Staphylococcus Sepunavirus.html (12 genomes) 2026-01-10_20:02:27</h2>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 1100px;
+                 height: 900px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+             /* position absolute is important and the container has to be relative or absolute as well. */
+          div.popup {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 display:none;
+                 background-color:#f5f4ed;
+                 -moz-border-radius: 3px;
+                 -webkit-border-radius: 3px;
+                 border-radius: 3px;
+                 border: 1px solid #808074;
+             box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+             }
+
+          /* hide the original tooltip */
+          .vis-tooltip {
+            display:none;
+          }
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"__dummy": "dummy", "acc": "MT596501", "cloud": 14, "color": "#393b79", "genome_size": 142331, "id": "NCBI__MT596501__Staphylococcus_phage_vB_SepM_BE04", "label": "NCBI__MT596501__Staphylococcus_phage_vB_SepM_BE04", "ngenes": 208, "org": "Staphylococcus phage vB_SepM_BE04", "shape": "dot", "size": 47, "source": "NCBI", "title": "NCBI__MT596501__Staphylococcus_phage_vB_SepM_BE04\n\u003cbr\u003e142331bp\n\u003cbr\u003eStaphylococcus phage vB_SepM_BE04\n\u003cbr\u003e208 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MT596501\" target=\"_blank\"\u003eMT596501\u003c/a\u003e", "working_name": "Staphylococcus_Sepunavirus"}, {"__dummy": "dummy", "acc": "MT596503", "cloud": 14, "color": "#393b79", "genome_size": 140659, "id": "NCBI__MT596503__Staphylococcus_phage_vB_SepM_BE06", "label": "NCBI__MT596503__Staphylococcus_phage_vB_SepM_BE06", "ngenes": 200, "org": "Staphylococcus phage vB_SepM_BE06", "shape": "dot", "size": 46, "source": "NCBI", "title": "NCBI__MT596503__Staphylococcus_phage_vB_SepM_BE06\n\u003cbr\u003e140659bp\n\u003cbr\u003eStaphylococcus phage vB_SepM_BE06\n\u003cbr\u003e200 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MT596503\" target=\"_blank\"\u003eMT596503\u003c/a\u003e", "working_name": "Staphylococcus_Sepunavirus"}, {"__dummy": "dummy", "acc": "MT596504", "cloud": 14, "color": "#393b79", "genome_size": 140661, "id": "NCBI__MT596504__Staphylococcus_phage_vB_SepM_BE07", "label": "NCBI__MT596504__Staphylococcus_phage_vB_SepM_BE07", "ngenes": 200, "org": "Staphylococcus phage vB_SepM_BE07", "shape": "dot", "size": 46, "source": "NCBI", "title": "NCBI__MT596504__Staphylococcus_phage_vB_SepM_BE07\n\u003cbr\u003e140661bp\n\u003cbr\u003eStaphylococcus phage vB_SepM_BE07\n\u003cbr\u003e200 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MT596504\" target=\"_blank\"\u003eMT596504\u003c/a\u003e", "working_name": "Staphylococcus_Sepunavirus"}, {"__dummy": "dummy", "acc": "MT596506", "cloud": 14, "color": "#393b79", "genome_size": 140668, "id": "NCBI__MT596506__Staphylococcus_phage_vB_SepM_BE09", "label": "NCBI__MT596506__Staphylococcus_phage_vB_SepM_BE09", "ngenes": 201, "org": "Staphylococcus phage vB_SepM_BE09", "shape": "dot", "size": 46, "source": "NCBI", "title": "NCBI__MT596506__Staphylococcus_phage_vB_SepM_BE09\n\u003cbr\u003e140668bp\n\u003cbr\u003eStaphylococcus phage vB_SepM_BE09\n\u003cbr\u003e201 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MT596506\" target=\"_blank\"\u003eMT596506\u003c/a\u003e", "working_name": "Staphylococcus_Sepunavirus"}, {"__dummy": "dummy", "acc": "OQ355702", "cloud": 14, "color": "#393b79", "genome_size": 140570, "id": "NCBI__OQ355702__Staphylococcus_phage_vB_SepM_BE24", "label": "NCBI__OQ355702__Staphylococcus_phage_vB_SepM_BE24", "ngenes": 232, "org": "Staphylococcus phage vB_SepM_BE24", "shape": "dot", "size": 46, "source": "NCBI", "title": "NCBI__OQ355702__Staphylococcus_phage_vB_SepM_BE24\n\u003cbr\u003e140570bp\n\u003cbr\u003eStaphylococcus phage vB_SepM_BE24\n\u003cbr\u003e232 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OQ355702\" target=\"_blank\"\u003eOQ355702\u003c/a\u003e", "working_name": "Staphylococcus_Sepunavirus"}, {"__dummy": "dummy", "acc": "MH321490", "cloud": 14, "color": "#393b79", "genome_size": 141446, "id": "NCBI__MH321490__Staphylococcus_phage_Quidividi", "label": "NCBI__MH321490__Staphylococcus_phage_Quidividi", "ngenes": 203, "org": "Staphylococcus phage Quidividi", "shape": "dot", "size": 47, "source": "NCBI", "title": "NCBI__MH321490__Staphylococcus_phage_Quidividi\n\u003cbr\u003e141446bp\n\u003cbr\u003eStaphylococcus phage Quidividi\n\u003cbr\u003e203 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MH321490\" target=\"_blank\"\u003eMH321490\u003c/a\u003e", "working_name": "Staphylococcus_Sepunavirus"}, {"__dummy": "dummy", "acc": "MH542234", "cloud": 14, "color": "#393b79", "genome_size": 141288, "id": "NCBI__MH542234__Staphylococcus_phage_Terranova", "label": "NCBI__MH542234__Staphylococcus_phage_Terranova", "ngenes": 205, "org": "Staphylococcus phage Terranova", "shape": "dot", "size": 47, "source": "NCBI", "title": "NCBI__MH542234__Staphylococcus_phage_Terranova\n\u003cbr\u003e141288bp\n\u003cbr\u003eStaphylococcus phage Terranova\n\u003cbr\u003e205 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MH542234\" target=\"_blank\"\u003eMH542234\u003c/a\u003e", "working_name": "Staphylococcus_Sepunavirus"}, {"__dummy": "dummy", "acc": "MH321491", "cloud": 14, "color": "#393b79", "genome_size": 142592, "id": "NCBI__MH321491__Staphylococcus_phage_Twillingate", "label": "NCBI__MH321491__Staphylococcus_phage_Twillingate", "ngenes": 206, "org": "Staphylococcus phage Twillingate", "shape": "dot", "size": 47, "source": "NCBI", "title": "NCBI__MH321491__Staphylococcus_phage_Twillingate\n\u003cbr\u003e142592bp\n\u003cbr\u003eStaphylococcus phage Twillingate\n\u003cbr\u003e206 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MH321491\" target=\"_blank\"\u003eMH321491\u003c/a\u003e", "working_name": "Staphylococcus_Sepunavirus"}, {"__dummy": "dummy", "acc": "OQ448195", "cloud": 14, "color": "#393b79", "genome_size": 140911, "id": "NCBI__OQ448195__Staphylococcus_phage_110", "label": "NCBI__OQ448195__Staphylococcus_phage_110", "ngenes": 197, "org": "Staphylococcus phage 110", "shape": "dot", "size": 46, "source": "NCBI", "title": "NCBI__OQ448195__Staphylococcus_phage_110\n\u003cbr\u003e140911bp\n\u003cbr\u003eStaphylococcus phage 110\n\u003cbr\u003e197 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OQ448195\" target=\"_blank\"\u003eOQ448195\u003c/a\u003e", "working_name": "Staphylococcus_Sepunavirus"}, {"__dummy": "dummy", "acc": "MZ417323", "cloud": 14, "color": "#393b79", "genome_size": 142974, "id": "NCBI__MZ417323__Staphylococcus_phage_PG-2021_1", "label": "NCBI__MZ417323__Staphylococcus_phage_PG-2021_1", "ngenes": 214, "org": "Staphylococcus phage PG-2021_1", "shape": "dot", "size": 47, "source": "NCBI", "title": "NCBI__MZ417323__Staphylococcus_phage_PG-2021_1\n\u003cbr\u003e142974bp\n\u003cbr\u003eStaphylococcus phage PG-2021_1\n\u003cbr\u003e214 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MZ417323\" target=\"_blank\"\u003eMZ417323\u003c/a\u003e", "working_name": "Staphylococcus_Sepunavirus"}, {"__dummy": "dummy", "acc": "MT596505", "cloud": 14, "color": "#393b79", "genome_size": 140659, "id": "NCBI__MT596505__Staphylococcus_phage_vB_SepM_BE08", "label": "NCBI__MT596505__Staphylococcus_phage_vB_SepM_BE08", "ngenes": 200, "org": "Staphylococcus phage vB_SepM_BE08", "shape": "dot", "size": 46, "source": "NCBI", "title": "NCBI__MT596505__Staphylococcus_phage_vB_SepM_BE08\n\u003cbr\u003e140659bp\n\u003cbr\u003eStaphylococcus phage vB_SepM_BE08\n\u003cbr\u003e200 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MT596505\" target=\"_blank\"\u003eMT596505\u003c/a\u003e", "working_name": "Staphylococcus_Sepunavirus"}, {"__dummy": "dummy", "acc": "Clostridium_perfringens__GCA_032574395.1_-_ASM3257439v1__JAWGUY010000001.1__205__1502", "cloud": 14, "color": {"background": "yellow", "border": "white"}, "genome_size": 145283, "id": "Clostridium_perfringens__GCA_032574395.1_-_ASM3257439v1__JAWGUY010000001.1__205__1502", "label": "Clostridium_perfringens__GCA_032574395.1_-_ASM3257439v1__JAWGUY010000001.1__205__1502", "ngenes": 205, "org": "Clostridium_perfringens", "shape": "square", "size": 48, "source": "BAPS", "title": "Clostridium_perfringens__GCA_032574395.1_-_ASM3257439v1__JAWGUY010000001.1__205__1502\n\u003cbr\u003e145283bp\n\u003cbr\u003eClostridium_perfringens\n\u003cbr\u003e205 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/JAWGUY010000001.1\" target=\"_blank\"\u003eJAWGUY010000001.1\u003c/a\u003e", "working_name": "Staphylococcus_Sepunavirus"}]);
+                  edges = new vis.DataSet([{"color": "lightgray", "dist": 0.0202807, "from": "Clostridium_perfringens__GCA_032574395.1_-_ASM3257439v1__JAWGUY010000001.1__205__1502", "title": "dist: 0.0203", "to": "NCBI__MT596503__Staphylococcus_phage_vB_SepM_BE06", "value": 0.9797193}, {"color": "lightgray", "dist": 0.020275, "from": "Clostridium_perfringens__GCA_032574395.1_-_ASM3257439v1__JAWGUY010000001.1__205__1502", "title": "dist: 0.0203", "to": "NCBI__MT596504__Staphylococcus_phage_vB_SepM_BE07", "value": 0.979725}, {"color": "lightgray", "dist": 0.0202824, "from": "Clostridium_perfringens__GCA_032574395.1_-_ASM3257439v1__JAWGUY010000001.1__205__1502", "title": "dist: 0.0203", "to": "NCBI__MT596506__Staphylococcus_phage_vB_SepM_BE09", "value": 0.9797176}, {"color": "lightgray", "dist": 0.0202685, "from": "Clostridium_perfringens__GCA_032574395.1_-_ASM3257439v1__JAWGUY010000001.1__205__1502", "title": "dist: 0.0203", "to": "NCBI__OQ355702__Staphylococcus_phage_vB_SepM_BE24", "value": 0.9797315}, {"color": "lightgray", "dist": 0.020275, "from": "Clostridium_perfringens__GCA_032574395.1_-_ASM3257439v1__JAWGUY010000001.1__205__1502", "title": "dist: 0.0203", "to": "NCBI__MT596505__Staphylococcus_phage_vB_SepM_BE08", "value": 0.979725}, {"color": "lightgray", "dist": 0.0254431, "from": "Clostridium_perfringens__GCA_032574395.1_-_ASM3257439v1__JAWGUY010000001.1__205__1502", "title": "dist: 0.0254", "to": "NCBI__MH542234__Staphylococcus_phage_Terranova", "value": 0.9745569}, {"color": "lightgray", "dist": 0.0203643, "from": "Clostridium_perfringens__GCA_032574395.1_-_ASM3257439v1__JAWGUY010000001.1__205__1502", "title": "dist: 0.0204", "to": "NCBI__MH321490__Staphylococcus_phage_Quidividi", "value": 0.9796357}, {"color": "lightgray", "dist": 0.0205393, "from": "Clostridium_perfringens__GCA_032574395.1_-_ASM3257439v1__JAWGUY010000001.1__205__1502", "title": "dist: 0.0205", "to": "NCBI__OQ448195__Staphylococcus_phage_110", "value": 0.9794607}, {"color": "lightgray", "dist": 0.0192531, "from": "Clostridium_perfringens__GCA_032574395.1_-_ASM3257439v1__JAWGUY010000001.1__205__1502", "title": "dist: 0.0193", "to": "NCBI__MT596501__Staphylococcus_phage_vB_SepM_BE04", "value": 0.9807469}, {"color": "lightgray", "dist": 0.0197772, "from": "Clostridium_perfringens__GCA_032574395.1_-_ASM3257439v1__JAWGUY010000001.1__205__1502", "title": "dist: 0.0198", "to": "NCBI__MH321491__Staphylococcus_phage_Twillingate", "value": 0.9802228}, {"color": "lightgray", "dist": 0.0229575, "from": "Clostridium_perfringens__GCA_032574395.1_-_ASM3257439v1__JAWGUY010000001.1__205__1502", "title": "dist: 0.0230", "to": "NCBI__MZ417323__Staphylococcus_phage_PG-2021_1", "value": 0.9770425}, {"color": "lightgray", "dist": 0.0174997, "from": "NCBI__MT596501__Staphylococcus_phage_vB_SepM_BE04", "title": "dist: 0.0175", "to": "NCBI__MT596503__Staphylococcus_phage_vB_SepM_BE06", "value": 0.9825003}, {"color": "lightgray", "dist": 0.0174921, "from": "NCBI__MT596501__Staphylococcus_phage_vB_SepM_BE04", "title": "dist: 0.0175", "to": "NCBI__MT596504__Staphylococcus_phage_vB_SepM_BE07", "value": 0.9825079}, {"color": "lightgray", "dist": 0.017498, "from": "NCBI__MT596501__Staphylococcus_phage_vB_SepM_BE04", "title": "dist: 0.0175", "to": "NCBI__MT596506__Staphylococcus_phage_vB_SepM_BE09", "value": 0.982502}, {"color": "lightgray", "dist": 0.0174995, "from": "NCBI__MT596501__Staphylococcus_phage_vB_SepM_BE04", "title": "dist: 0.0175", "to": "NCBI__OQ355702__Staphylococcus_phage_vB_SepM_BE24", "value": 0.9825005}, {"color": "lightgray", "dist": 0.0174921, "from": "NCBI__MT596501__Staphylococcus_phage_vB_SepM_BE04", "title": "dist: 0.0175", "to": "NCBI__MT596505__Staphylococcus_phage_vB_SepM_BE08", "value": 0.9825079}, {"color": "lightgray", "dist": 0.0184304, "from": "NCBI__MT596501__Staphylococcus_phage_vB_SepM_BE04", "title": "dist: 0.0184", "to": "NCBI__MH542234__Staphylococcus_phage_Terranova", "value": 0.9815696}, {"color": "lightgray", "dist": 0.0274535, "from": "NCBI__MT596501__Staphylococcus_phage_vB_SepM_BE04", "title": "dist: 0.0275", "to": "NCBI__MH321490__Staphylococcus_phage_Quidividi", "value": 0.9725465}, {"color": "lightgray", "dist": 0.01574, "from": "NCBI__MT596501__Staphylococcus_phage_vB_SepM_BE04", "title": "dist: 0.0157", "to": "NCBI__OQ448195__Staphylococcus_phage_110", "value": 0.98426}, {"color": "lightgray", "dist": 0.0197908, "from": "NCBI__MT596501__Staphylococcus_phage_vB_SepM_BE04", "title": "dist: 0.0198", "to": "NCBI__MH321491__Staphylococcus_phage_Twillingate", "value": 0.9802092}, {"color": "lightgray", "dist": 0.0124448, "from": "NCBI__MT596501__Staphylococcus_phage_vB_SepM_BE04", "title": "dist: 0.0124", "to": "NCBI__MZ417323__Staphylococcus_phage_PG-2021_1", "value": 0.9875552}, {"color": "lightgray", "dist": 5.89718e-06, "from": "NCBI__MT596503__Staphylococcus_phage_vB_SepM_BE06", "title": "dist: 0.0000", "to": "NCBI__MT596504__Staphylococcus_phage_vB_SepM_BE07", "value": 0.99999410282}, {"color": "lightgray", "dist": 1.00955e-05, "from": "NCBI__MT596503__Staphylococcus_phage_vB_SepM_BE06", "title": "dist: 0.0000", "to": "NCBI__MT596506__Staphylococcus_phage_vB_SepM_BE09", "value": 0.9999899045}, {"color": "lightgray", "dist": 1.61957e-05, "from": "NCBI__MT596503__Staphylococcus_phage_vB_SepM_BE06", "title": "dist: 0.0000", "to": "NCBI__OQ355702__Staphylococcus_phage_vB_SepM_BE24", "value": 0.9999838043}, {"color": "lightgray", "dist": 5.89718e-06, "from": "NCBI__MT596503__Staphylococcus_phage_vB_SepM_BE06", "title": "dist: 0.0000", "to": "NCBI__MT596505__Staphylococcus_phage_vB_SepM_BE08", "value": 0.99999410282}, {"color": "lightgray", "dist": 0.0207903, "from": "NCBI__MT596503__Staphylococcus_phage_vB_SepM_BE06", "title": "dist: 0.0208", "to": "NCBI__MH542234__Staphylococcus_phage_Terranova", "value": 0.9792097}, {"color": "lightgray", "dist": 0.0301028, "from": "NCBI__MT596503__Staphylococcus_phage_vB_SepM_BE06", "title": "dist: 0.0301", "to": "NCBI__MH321490__Staphylococcus_phage_Quidividi", "value": 0.9698972}, {"color": "lightgray", "dist": 0.0173152, "from": "NCBI__MT596503__Staphylococcus_phage_vB_SepM_BE06", "title": "dist: 0.0173", "to": "NCBI__OQ448195__Staphylococcus_phage_110", "value": 0.9826848}, {"color": "lightgray", "dist": 0.0165466, "from": "NCBI__MT596503__Staphylococcus_phage_vB_SepM_BE06", "title": "dist: 0.0165", "to": "NCBI__MH321491__Staphylococcus_phage_Twillingate", "value": 0.9834534}, {"color": "lightgray", "dist": 0.0171174, "from": "NCBI__MT596503__Staphylococcus_phage_vB_SepM_BE06", "title": "dist: 0.0171", "to": "NCBI__MZ417323__Staphylococcus_phage_PG-2021_1", "value": 0.9828826}, {"color": "lightgray", "dist": 4.19733e-06, "from": "NCBI__MT596504__Staphylococcus_phage_vB_SepM_BE07", "title": "dist: 0.0000", "to": "NCBI__MT596506__Staphylococcus_phage_vB_SepM_BE09", "value": 0.99999580267}, {"color": "lightgray", "dist": 1.02964e-05, "from": "NCBI__MT596504__Staphylococcus_phage_vB_SepM_BE07", "title": "dist: 0.0000", "to": "NCBI__OQ355702__Staphylococcus_phage_vB_SepM_BE24", "value": 0.9999897036}, {"color": "lightgray", "dist": 0.0, "from": "NCBI__MT596504__Staphylococcus_phage_vB_SepM_BE07", "title": "dist: 0.0000", "to": "NCBI__MT596505__Staphylococcus_phage_vB_SepM_BE08", "value": 1.0}, {"color": "lightgray", "dist": 0.0207818, "from": "NCBI__MT596504__Staphylococcus_phage_vB_SepM_BE07", "title": "dist: 0.0208", "to": "NCBI__MH542234__Staphylococcus_phage_Terranova", "value": 0.9792182}, {"color": "lightgray", "dist": 0.0300929, "from": "NCBI__MT596504__Staphylococcus_phage_vB_SepM_BE07", "title": "dist: 0.0301", "to": "NCBI__MH321490__Staphylococcus_phage_Quidividi", "value": 0.9699071}, {"color": "lightgray", "dist": 0.0173077, "from": "NCBI__MT596504__Staphylococcus_phage_vB_SepM_BE07", "title": "dist: 0.0173", "to": "NCBI__OQ448195__Staphylococcus_phage_110", "value": 0.9826923}, {"color": "lightgray", "dist": 0.0165401, "from": "NCBI__MT596504__Staphylococcus_phage_vB_SepM_BE07", "title": "dist: 0.0165", "to": "NCBI__MH321491__Staphylococcus_phage_Twillingate", "value": 0.9834599}, {"color": "lightgray", "dist": 0.0171107, "from": "NCBI__MT596504__Staphylococcus_phage_vB_SepM_BE07", "title": "dist: 0.0171", "to": "NCBI__MZ417323__Staphylococcus_phage_PG-2021_1", "value": 0.9828893}, {"color": "lightgray", "dist": 1.44953e-05, "from": "NCBI__MT596506__Staphylococcus_phage_vB_SepM_BE09", "title": "dist: 0.0000", "to": "NCBI__OQ355702__Staphylococcus_phage_vB_SepM_BE24", "value": 0.9999855047}, {"color": "lightgray", "dist": 4.19733e-06, "from": "NCBI__MT596506__Staphylococcus_phage_vB_SepM_BE09", "title": "dist: 0.0000", "to": "NCBI__MT596505__Staphylococcus_phage_vB_SepM_BE08", "value": 0.99999580267}, {"color": "lightgray", "dist": 0.0207893, "from": "NCBI__MT596506__Staphylococcus_phage_vB_SepM_BE09", "title": "dist: 0.0208", "to": "NCBI__MH542234__Staphylococcus_phage_Terranova", "value": 0.9792107}, {"color": "lightgray", "dist": 0.030098, "from": "NCBI__MT596506__Staphylococcus_phage_vB_SepM_BE09", "title": "dist: 0.0301", "to": "NCBI__MH321490__Staphylococcus_phage_Quidividi", "value": 0.969902}, {"color": "lightgray", "dist": 0.0173136, "from": "NCBI__MT596506__Staphylococcus_phage_vB_SepM_BE09", "title": "dist: 0.0173", "to": "NCBI__OQ448195__Staphylococcus_phage_110", "value": 0.9826864}, {"color": "lightgray", "dist": 0.0165458, "from": "NCBI__MT596506__Staphylococcus_phage_vB_SepM_BE09", "title": "dist: 0.0165", "to": "NCBI__MH321491__Staphylococcus_phage_Twillingate", "value": 0.9834542}, {"color": "lightgray", "dist": 0.0171174, "from": "NCBI__MT596506__Staphylococcus_phage_vB_SepM_BE09", "title": "dist: 0.0171", "to": "NCBI__MZ417323__Staphylococcus_phage_PG-2021_1", "value": 0.9828826}, {"color": "lightgray", "dist": 1.02964e-05, "from": "NCBI__OQ355702__Staphylococcus_phage_vB_SepM_BE24", "title": "dist: 0.0000", "to": "NCBI__MT596505__Staphylococcus_phage_vB_SepM_BE08", "value": 0.9999897036}, {"color": "lightgray", "dist": 0.0207962, "from": "NCBI__OQ355702__Staphylococcus_phage_vB_SepM_BE24", "title": "dist: 0.0208", "to": "NCBI__MH542234__Staphylococcus_phage_Terranova", "value": 0.9792038}, {"color": "lightgray", "dist": 0.0301032, "from": "NCBI__OQ355702__Staphylococcus_phage_vB_SepM_BE24", "title": "dist: 0.0301", "to": "NCBI__MH321490__Staphylococcus_phage_Quidividi", "value": 0.9698968}, {"color": "lightgray", "dist": 0.017313, "from": "NCBI__OQ355702__Staphylococcus_phage_vB_SepM_BE24", "title": "dist: 0.0173", "to": "NCBI__OQ448195__Staphylococcus_phage_110", "value": 0.982687}, {"color": "lightgray", "dist": 0.0165528, "from": "NCBI__OQ355702__Staphylococcus_phage_vB_SepM_BE24", "title": "dist: 0.0166", "to": "NCBI__MH321491__Staphylococcus_phage_Twillingate", "value": 0.9834472}, {"color": "lightgray", "dist": 0.017122, "from": "NCBI__OQ355702__Staphylococcus_phage_vB_SepM_BE24", "title": "dist: 0.0171", "to": "NCBI__MZ417323__Staphylococcus_phage_PG-2021_1", "value": 0.982878}, {"color": "lightgray", "dist": 0.0300929, "from": "NCBI__MH321490__Staphylococcus_phage_Quidividi", "title": "dist: 0.0301", "to": "NCBI__MT596505__Staphylococcus_phage_vB_SepM_BE08", "value": 0.9699071}, {"color": "lightgray", "dist": 0.0286605, "from": "NCBI__MH321490__Staphylococcus_phage_Quidividi", "title": "dist: 0.0287", "to": "NCBI__MH542234__Staphylococcus_phage_Terranova", "value": 0.9713395}, {"color": "lightgray", "dist": 0.0309793, "from": "NCBI__MH321490__Staphylococcus_phage_Quidividi", "title": "dist: 0.0310", "to": "NCBI__OQ448195__Staphylococcus_phage_110", "value": 0.9690207}, {"color": "lightgray", "dist": 0.0260397, "from": "NCBI__MH321490__Staphylococcus_phage_Quidividi", "title": "dist: 0.0260", "to": "NCBI__MH321491__Staphylococcus_phage_Twillingate", "value": 0.9739603}, {"color": "lightgray", "dist": 0.0299926, "from": "NCBI__MH321490__Staphylococcus_phage_Quidividi", "title": "dist: 0.0300", "to": "NCBI__MZ417323__Staphylococcus_phage_PG-2021_1", "value": 0.9700074}, {"color": "lightgray", "dist": 0.0207818, "from": "NCBI__MH542234__Staphylococcus_phage_Terranova", "title": "dist: 0.0208", "to": "NCBI__MT596505__Staphylococcus_phage_vB_SepM_BE08", "value": 0.9792182}, {"color": "lightgray", "dist": 0.0239894, "from": "NCBI__MH542234__Staphylococcus_phage_Terranova", "title": "dist: 0.0240", "to": "NCBI__OQ448195__Staphylococcus_phage_110", "value": 0.9760106}, {"color": "lightgray", "dist": 0.0218333, "from": "NCBI__MH542234__Staphylococcus_phage_Terranova", "title": "dist: 0.0218", "to": "NCBI__MH321491__Staphylococcus_phage_Twillingate", "value": 0.9781667000000001}, {"color": "lightgray", "dist": 0.0207938, "from": "NCBI__MH542234__Staphylococcus_phage_Terranova", "title": "dist: 0.0208", "to": "NCBI__MZ417323__Staphylococcus_phage_PG-2021_1", "value": 0.9792062}, {"color": "lightgray", "dist": 0.0165401, "from": "NCBI__MH321491__Staphylococcus_phage_Twillingate", "title": "dist: 0.0165", "to": "NCBI__MT596505__Staphylococcus_phage_vB_SepM_BE08", "value": 0.9834599}, {"color": "lightgray", "dist": 0.0210506, "from": "NCBI__MH321491__Staphylococcus_phage_Twillingate", "title": "dist: 0.0211", "to": "NCBI__OQ448195__Staphylococcus_phage_110", "value": 0.9789494}, {"color": "lightgray", "dist": 0.0205442, "from": "NCBI__MH321491__Staphylococcus_phage_Twillingate", "title": "dist: 0.0205", "to": "NCBI__MZ417323__Staphylococcus_phage_PG-2021_1", "value": 0.9794558}, {"color": "lightgray", "dist": 0.0173077, "from": "NCBI__OQ448195__Staphylococcus_phage_110", "title": "dist: 0.0173", "to": "NCBI__MT596505__Staphylococcus_phage_vB_SepM_BE08", "value": 0.9826923}, {"color": "lightgray", "dist": 0.0167446, "from": "NCBI__OQ448195__Staphylococcus_phage_110", "title": "dist: 0.0167", "to": "NCBI__MZ417323__Staphylococcus_phage_PG-2021_1", "value": 0.9832554}, {"color": "lightgray", "dist": 0.0171107, "from": "NCBI__MZ417323__Staphylococcus_phage_PG-2021_1", "title": "dist: 0.0171", "to": "NCBI__MT596505__Staphylococcus_phage_vB_SepM_BE08", "value": 0.9828893}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"nodes": {"font": {"size": 0}, "shadow": {"enabled": true}}, "configure": {"enabled": true, "showButton": true}, "edges": {"color": {"inherit": true}, "smooth": false}, "physics": {"enabled": true, "forceAtlas2Based": {"gravitationalConstant": -88, "centralGravity": 0.02, "springLength": 100}, "minVelocity": 0.75, "solver": "forceAtlas2Based"}, "interaction": {"hover": true}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+		  function placePopupAt(domPoint, html) {
+		      if (!html) return;
+		      popup.innerHTML = html;
+		      popup.style.display = 'block';
+		      popup.style.left = (domPoint.x + 25) + 'px';
+		      popup.style.top  = (domPoint.y - 35) + 'px';
+		  }
+
+		  function hidePopupNow() {
+		      popup.style.display = 'none';
+		  }
+
+		  network.on("hoverNode", function (params) {
+		      const n = nodes.get(params.node);
+		      if (!n || !n.title) return;
+		      placePopupAt(params.pointer.DOM, n.title);
+		  });
+
+		  network.on("blurNode", hidePopupNow);
+
+		  network.on("hoverEdge", function (params) {
+		      const e = edges.get(params.edge);
+		      if (!e || !e.title) return;
+		      placePopupAt(params.pointer.DOM, e.title);
+		  });
+
+		  network.on("blurEdge", hidePopupNow);
+		  
+                  
+
+                  
+
+                  
+                  // make a custom popup
+                      var popup = document.createElement("div");
+                      popup.className = 'popup';
+                      popupTimeout = null;
+                      popup.addEventListener('mouseover', function () {
+                          console.log(popup)
+                          if (popupTimeout !== null) {
+                              clearTimeout(popupTimeout);
+                              popupTimeout = null;
+                          }
+                      });
+                      popup.addEventListener('mouseout', function () {
+                          if (popupTimeout === null) {
+                              hidePopup();
+                          }
+                      });
+                      container.appendChild(popup);
+
+
+
+                      // hiding the popup through css
+                      function hidePopup() {
+                          popupTimeout = setTimeout(function () { popup.style.display = 'none'; }, 500);
+                      }
+
+		  function showPopup(id) {
+		      let dataObj, posCanvas;
+
+		      if (nodes.get(id)) {
+			  dataObj = nodes.get(id);
+			  posCanvas = network.getPositions([id])[id];
+		      } else if (edges.get(id)) {
+			  dataObj = edges.get(id);
+			  var bbox = network.getBoundingBox(id);
+			  posCanvas = {
+			      x: (bbox.left + bbox.right) / 2,
+			      y: (bbox.top + bbox.bottom) / 2
+			  };
+		      } else {
+			  return;
+		      }
+		      
+		      if (!dataObj.title) return;
+
+		      popup.innerHTML = dataObj.title;
+		      
+		      var posDOM = network.canvasToDOM(posCanvas);
+		      popup.style.display = 'block';
+		      popup.style.left = (posDOM.x + 10) + 'px';
+		      popup.style.top  = (posDOM.y - 20) + 'px';
+		  }
+                  
+
+
+                  
+		  network.on("stabilizationIterationsDone", function() {
+                      network.setOptions( { physics: false } );
+		  });
+		  //end block addition
+		  
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+    <div id="info-box" style="position:fixed; top:10px; right:10px; width:300px; background:white; border:1px solid #888; padding:10px; z-index:9999; font-family:Arial;"></div>
+    <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+    network.on("click", function (params) {
+    if (params.nodes.length > 0) {
+    var nodeId = params.nodes[0];
+    var node = nodes.get(nodeId);
+    document.getElementById("info-box").innerHTML = node.title || "No info available.";
+    } else {
+    document.getElementById("info-box").innerHTML = "";
+    }
+    });
+    });
+    </script>
+    
+</body>
+</html>

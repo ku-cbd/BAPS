@@ -1,0 +1,245 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h2>Enterobacter Cronobacter Certrevirus.html (13 genomes) 2026-01-10_20:02:27</h2>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 1100px;
+                 height: 900px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+             /* position absolute is important and the container has to be relative or absolute as well. */
+          div.popup {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 display:none;
+                 background-color:#f5f4ed;
+                 -moz-border-radius: 3px;
+                 -webkit-border-radius: 3px;
+                 border-radius: 3px;
+                 border: 1px solid #808074;
+             box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+             }
+
+          /* hide the original tooltip */
+          .vis-tooltip {
+            display:none;
+          }
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"__dummy": "dummy", "acc": "JQ691611", "cloud": 477, "color": "whitesmoke", "genome_size": 151924, "id": "NCBI__JQ691611__Cronobacter_phage_CR9", "label": "NCBI__JQ691611__Cronobacter_phage_CR9", "ngenes": 281, "org": "Cronobacter phage CR9", "shape": "dot", "size": 50, "source": "NCBI", "title": "NCBI__JQ691611__Cronobacter_phage_CR9\n\u003cbr\u003e151924bp\n\u003cbr\u003eCronobacter phage CR9\n\u003cbr\u003e281 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/JQ691611\" target=\"_blank\"\u003eJQ691611\u003c/a\u003e", "working_name": "Enterobacter_Cronobacter_Certrevirus"}, {"__dummy": "dummy", "acc": "OL744211", "cloud": 477, "color": "#e7969c", "genome_size": 149828, "id": "NCBI__OL744211__Enterobacter_phage_vB_ExiM_F1M1E", "label": "NCBI__OL744211__Enterobacter_phage_vB_ExiM_F1M1E", "ngenes": 320, "org": "Enterobacter phage vB_ExiM_F1M1E", "shape": "dot", "size": 49, "source": "NCBI", "title": "NCBI__OL744211__Enterobacter_phage_vB_ExiM_F1M1E\n\u003cbr\u003e149828bp\n\u003cbr\u003eEnterobacter phage vB_ExiM_F1M1E\n\u003cbr\u003e320 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OL744211\" target=\"_blank\"\u003eOL744211\u003c/a\u003e", "working_name": "Enterobacter_Cronobacter_Certrevirus"}, {"__dummy": "dummy", "acc": "OL744216", "cloud": 477, "color": "#e7969c", "genome_size": 149912, "id": "NCBI__OL744216__Enterobacter_phage_vB_ExiM_F4M1E", "label": "NCBI__OL744216__Enterobacter_phage_vB_ExiM_F4M1E", "ngenes": 320, "org": "Enterobacter phage vB_ExiM_F4M1E", "shape": "dot", "size": 49, "source": "NCBI", "title": "NCBI__OL744216__Enterobacter_phage_vB_ExiM_F4M1E\n\u003cbr\u003e149912bp\n\u003cbr\u003eEnterobacter phage vB_ExiM_F4M1E\n\u003cbr\u003e320 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OL744216\" target=\"_blank\"\u003eOL744216\u003c/a\u003e", "working_name": "Enterobacter_Cronobacter_Certrevirus"}, {"__dummy": "dummy", "acc": "MT552976", "cloud": 477, "color": "#ad494a", "genome_size": 155176, "id": "NCBI__MT552976__Pectobacterium_phage_POP17", "label": "NCBI__MT552976__Pectobacterium_phage_POP17", "ngenes": 0, "org": "Pectobacterium phage POP17", "shape": "dot", "size": 51, "source": "NCBI", "title": "NCBI__MT552976__Pectobacterium_phage_POP17\n\u003cbr\u003e155176bp\n\u003cbr\u003ePectobacterium phage POP17\n\u003cbr\u003e0 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MT552976\" target=\"_blank\"\u003eMT552976\u003c/a\u003e", "working_name": "Enterobacter_Cronobacter_Certrevirus"}, {"__dummy": "dummy", "acc": "MT560059", "cloud": 477, "color": "#ad494a", "genome_size": 153445, "id": "NCBI__MT560059__Pectobacterium_phage_POP15", "label": "NCBI__MT560059__Pectobacterium_phage_POP15", "ngenes": 300, "org": "Pectobacterium phage POP15", "shape": "dot", "size": 51, "source": "NCBI", "title": "NCBI__MT560059__Pectobacterium_phage_POP15\n\u003cbr\u003e153445bp\n\u003cbr\u003ePectobacterium phage POP15\n\u003cbr\u003e300 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MT560059\" target=\"_blank\"\u003eMT560059\u003c/a\u003e", "working_name": "Enterobacter_Cronobacter_Certrevirus"}, {"__dummy": "dummy", "acc": "OL744220", "cloud": 477, "color": "#31a354", "genome_size": 149913, "id": "NCBI__OL744220__Pantoea_phage_vB_PdiM_F5M2A", "label": "NCBI__OL744220__Pantoea_phage_vB_PdiM_F5M2A", "ngenes": 320, "org": "Pantoea phage vB_PdiM_F5M2A", "shape": "dot", "size": 49, "source": "NCBI", "title": "NCBI__OL744220__Pantoea_phage_vB_PdiM_F5M2A\n\u003cbr\u003e149913bp\n\u003cbr\u003ePantoea phage vB_PdiM_F5M2A\n\u003cbr\u003e320 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OL744220\" target=\"_blank\"\u003eOL744220\u003c/a\u003e", "working_name": "Enterobacter_Cronobacter_Certrevirus"}, {"__dummy": "dummy", "acc": "NC_023717", "cloud": 477, "color": "whitesmoke", "genome_size": 151784, "id": "NCBI__NC_023717__Cronobacter_phage_CR9", "label": "NCBI__NC_023717__Cronobacter_phage_CR9", "ngenes": 281, "org": "Cronobacter phage CR9", "shape": "dot", "size": 50, "source": "NCBI", "title": "NCBI__NC_023717__Cronobacter_phage_CR9\n\u003cbr\u003e151784bp\n\u003cbr\u003eCronobacter phage CR9\n\u003cbr\u003e281 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/NC_023717\" target=\"_blank\"\u003eNC_023717\u003c/a\u003e", "working_name": "Enterobacter_Cronobacter_Certrevirus"}, {"__dummy": "dummy", "acc": "KT353109", "cloud": 477, "color": "whitesmoke", "genome_size": 149732, "id": "NCBI__KT353109__Cronobacter_phage_PBES_02", "label": "NCBI__KT353109__Cronobacter_phage_PBES_02", "ngenes": 270, "org": "Cronobacter phage PBES 02", "shape": "dot", "size": 49, "source": "NCBI", "title": "NCBI__KT353109__Cronobacter_phage_PBES_02\n\u003cbr\u003e149732bp\n\u003cbr\u003eCronobacter phage PBES 02\n\u003cbr\u003e270 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/KT353109\" target=\"_blank\"\u003eKT353109\u003c/a\u003e", "working_name": "Enterobacter_Cronobacter_Certrevirus"}, {"__dummy": "dummy", "acc": "OL744219", "cloud": 477, "color": "#e7969c", "genome_size": 149913, "id": "NCBI__OL744219__Enterobacter_phage_vB_ExiM_F5M1E", "label": "NCBI__OL744219__Enterobacter_phage_vB_ExiM_F5M1E", "ngenes": 321, "org": "Enterobacter phage vB_ExiM_F5M1E", "shape": "dot", "size": 49, "source": "NCBI", "title": "NCBI__OL744219__Enterobacter_phage_vB_ExiM_F5M1E\n\u003cbr\u003e149913bp\n\u003cbr\u003eEnterobacter phage vB_ExiM_F5M1E\n\u003cbr\u003e321 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OL744219\" target=\"_blank\"\u003eOL744219\u003c/a\u003e", "working_name": "Enterobacter_Cronobacter_Certrevirus"}, {"__dummy": "dummy", "acc": "MT552977", "cloud": 477, "color": "#ad494a", "genome_size": 154482, "id": "NCBI__MT552977__Pectobacterium_phage_POP18", "label": "NCBI__MT552977__Pectobacterium_phage_POP18", "ngenes": 0, "org": "Pectobacterium phage POP18", "shape": "dot", "size": 51, "source": "NCBI", "title": "NCBI__MT552977__Pectobacterium_phage_POP18\n\u003cbr\u003e154482bp\n\u003cbr\u003ePectobacterium phage POP18\n\u003cbr\u003e0 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MT552977\" target=\"_blank\"\u003eMT552977\u003c/a\u003e", "working_name": "Enterobacter_Cronobacter_Certrevirus"}, {"__dummy": "dummy", "acc": "OL744214", "cloud": 477, "color": "#e7969c", "genome_size": 149913, "id": "NCBI__OL744214__Enterobacter_phage_vB_ExiM_F2M1E", "label": "NCBI__OL744214__Enterobacter_phage_vB_ExiM_F2M1E", "ngenes": 321, "org": "Enterobacter phage vB_ExiM_F2M1E", "shape": "dot", "size": 49, "source": "NCBI", "title": "NCBI__OL744214__Enterobacter_phage_vB_ExiM_F2M1E\n\u003cbr\u003e149913bp\n\u003cbr\u003eEnterobacter phage vB_ExiM_F2M1E\n\u003cbr\u003e321 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OL744214\" target=\"_blank\"\u003eOL744214\u003c/a\u003e", "working_name": "Enterobacter_Cronobacter_Certrevirus"}, {"__dummy": "dummy", "acc": "Enterobacter_hormaechei__GCA_037198655.1_-_ASM3719865v1__JBBBWP010000014.1__290__158836", "cloud": 477, "color": {"background": "#e7969c", "border": "white"}, "genome_size": 150644, "id": "Enterobacter_hormaechei__GCA_037198655.1_-_ASM3719865v1__JBBBWP010000014.1__290__158836", "label": "Enterobacter_hormaechei__GCA_037198655.1_-_ASM3719865v1__JBBBWP010000014.1__290__158836", "ngenes": 290, "org": "Enterobacter_hormaechei", "shape": "square", "size": 50, "source": "BAPS", "title": "Enterobacter_hormaechei__GCA_037198655.1_-_ASM3719865v1__JBBBWP010000014.1__290__158836\n\u003cbr\u003e150644bp\n\u003cbr\u003eEnterobacter_hormaechei\n\u003cbr\u003e290 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/JBBBWP010000014.1\" target=\"_blank\"\u003eJBBBWP010000014.1\u003c/a\u003e", "working_name": "Enterobacter_Cronobacter_Certrevirus"}, {"__dummy": "dummy", "acc": "Escherichia_coli__GCA_009015555.1_-_ASM901555v1__WCDA01000009.1__282__562", "cloud": 477, "color": {"background": "khaki", "border": "white"}, "genome_size": 149946, "id": "Escherichia_coli__GCA_009015555.1_-_ASM901555v1__WCDA01000009.1__282__562", "label": "Escherichia_coli__GCA_009015555.1_-_ASM901555v1__WCDA01000009.1__282__562", "ngenes": 282, "org": "Escherichia_coli", "shape": "square", "size": 49, "source": "BAPS", "title": "Escherichia_coli__GCA_009015555.1_-_ASM901555v1__WCDA01000009.1__282__562\n\u003cbr\u003e149946bp\n\u003cbr\u003eEscherichia_coli\n\u003cbr\u003e282 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/WCDA01000009.1\" target=\"_blank\"\u003eWCDA01000009.1\u003c/a\u003e", "working_name": "Enterobacter_Cronobacter_Certrevirus"}]);
+                  edges = new vis.DataSet([{"color": "lightgray", "dist": 0.12666, "from": "NCBI__JQ691611__Cronobacter_phage_CR9", "title": "dist: 0.1267", "to": "Enterobacter_hormaechei__GCA_037198655.1_-_ASM3719865v1__JBBBWP010000014.1__290__158836", "value": 0.87334}, {"color": "lightgray", "dist": 0.134337, "from": "NCBI__JQ691611__Cronobacter_phage_CR9", "title": "dist: 0.1343", "to": "Escherichia_coli__GCA_009015555.1_-_ASM901555v1__WCDA01000009.1__282__562", "value": 0.865663}, {"color": "lightgray", "dist": 0.136474, "from": "NCBI__JQ691611__Cronobacter_phage_CR9", "title": "dist: 0.1365", "to": "NCBI__KT353109__Cronobacter_phage_PBES_02", "value": 0.863526}, {"color": "lightgray", "dist": 0.131773, "from": "NCBI__JQ691611__Cronobacter_phage_CR9", "title": "dist: 0.1318", "to": "NCBI__OL744211__Enterobacter_phage_vB_ExiM_F1M1E", "value": 0.868227}, {"color": "lightgray", "dist": 0.131704, "from": "NCBI__JQ691611__Cronobacter_phage_CR9", "title": "dist: 0.1317", "to": "NCBI__OL744214__Enterobacter_phage_vB_ExiM_F2M1E", "value": 0.868296}, {"color": "lightgray", "dist": 0.131743, "from": "NCBI__JQ691611__Cronobacter_phage_CR9", "title": "dist: 0.1317", "to": "NCBI__OL744216__Enterobacter_phage_vB_ExiM_F4M1E", "value": 0.8682570000000001}, {"color": "lightgray", "dist": 0.131699, "from": "NCBI__JQ691611__Cronobacter_phage_CR9", "title": "dist: 0.1317", "to": "NCBI__OL744219__Enterobacter_phage_vB_ExiM_F5M1E", "value": 0.868301}, {"color": "lightgray", "dist": 0.131677, "from": "NCBI__JQ691611__Cronobacter_phage_CR9", "title": "dist: 0.1317", "to": "NCBI__OL744220__Pantoea_phage_vB_PdiM_F5M2A", "value": 0.868323}, {"color": "lightgray", "dist": 0.0, "from": "NCBI__JQ691611__Cronobacter_phage_CR9", "title": "dist: 0.0000", "to": "NCBI__NC_023717__Cronobacter_phage_CR9", "value": 1.0}, {"color": "lightgray", "dist": 0.152593, "from": "NCBI__JQ691611__Cronobacter_phage_CR9", "title": "dist: 0.1526", "to": "NCBI__MT560059__Pectobacterium_phage_POP15", "value": 0.847407}, {"color": "lightgray", "dist": 0.15027, "from": "NCBI__JQ691611__Cronobacter_phage_CR9", "title": "dist: 0.1503", "to": "NCBI__MT552976__Pectobacterium_phage_POP17", "value": 0.84973}, {"color": "lightgray", "dist": 0.150255, "from": "NCBI__JQ691611__Cronobacter_phage_CR9", "title": "dist: 0.1503", "to": "NCBI__MT552977__Pectobacterium_phage_POP18", "value": 0.849745}, {"color": "lightgray", "dist": 0.0325742, "from": "NCBI__OL744211__Enterobacter_phage_vB_ExiM_F1M1E", "title": "dist: 0.0326", "to": "Enterobacter_hormaechei__GCA_037198655.1_-_ASM3719865v1__JBBBWP010000014.1__290__158836", "value": 0.9674258}, {"color": "lightgray", "dist": 0.0937142, "from": "NCBI__OL744211__Enterobacter_phage_vB_ExiM_F1M1E", "title": "dist: 0.0937", "to": "Escherichia_coli__GCA_009015555.1_-_ASM901555v1__WCDA01000009.1__282__562", "value": 0.9062858}, {"color": "lightgray", "dist": 0.0986583, "from": "NCBI__OL744211__Enterobacter_phage_vB_ExiM_F1M1E", "title": "dist: 0.0987", "to": "NCBI__KT353109__Cronobacter_phage_PBES_02", "value": 0.9013417}, {"color": "lightgray", "dist": 7.1564e-06, "from": "NCBI__OL744211__Enterobacter_phage_vB_ExiM_F1M1E", "title": "dist: 0.0000", "to": "NCBI__OL744214__Enterobacter_phage_vB_ExiM_F2M1E", "value": 0.9999928436}, {"color": "lightgray", "dist": 1.1303e-05, "from": "NCBI__OL744211__Enterobacter_phage_vB_ExiM_F1M1E", "title": "dist: 0.0000", "to": "NCBI__OL744216__Enterobacter_phage_vB_ExiM_F4M1E", "value": 0.999988697}, {"color": "lightgray", "dist": 9.62527e-06, "from": "NCBI__OL744211__Enterobacter_phage_vB_ExiM_F1M1E", "title": "dist: 0.0000", "to": "NCBI__OL744219__Enterobacter_phage_vB_ExiM_F5M1E", "value": 0.99999037473}, {"color": "lightgray", "dist": 8.59885e-06, "from": "NCBI__OL744211__Enterobacter_phage_vB_ExiM_F1M1E", "title": "dist: 0.0000", "to": "NCBI__OL744220__Pantoea_phage_vB_PdiM_F5M2A", "value": 0.99999140115}, {"color": "lightgray", "dist": 0.131773, "from": "NCBI__OL744211__Enterobacter_phage_vB_ExiM_F1M1E", "title": "dist: 0.1318", "to": "NCBI__NC_023717__Cronobacter_phage_CR9", "value": 0.868227}, {"color": "lightgray", "dist": 0.157881, "from": "NCBI__OL744211__Enterobacter_phage_vB_ExiM_F1M1E", "title": "dist: 0.1579", "to": "NCBI__MT560059__Pectobacterium_phage_POP15", "value": 0.8421190000000001}, {"color": "lightgray", "dist": 0.159369, "from": "NCBI__OL744211__Enterobacter_phage_vB_ExiM_F1M1E", "title": "dist: 0.1594", "to": "NCBI__MT552976__Pectobacterium_phage_POP17", "value": 0.840631}, {"color": "lightgray", "dist": 0.159527, "from": "NCBI__OL744211__Enterobacter_phage_vB_ExiM_F1M1E", "title": "dist: 0.1595", "to": "NCBI__MT552977__Pectobacterium_phage_POP18", "value": 0.840473}, {"color": "lightgray", "dist": 0.0325783, "from": "NCBI__OL744216__Enterobacter_phage_vB_ExiM_F4M1E", "title": "dist: 0.0326", "to": "Enterobacter_hormaechei__GCA_037198655.1_-_ASM3719865v1__JBBBWP010000014.1__290__158836", "value": 0.9674217}, {"color": "lightgray", "dist": 0.093639, "from": "NCBI__OL744216__Enterobacter_phage_vB_ExiM_F4M1E", "title": "dist: 0.0936", "to": "Escherichia_coli__GCA_009015555.1_-_ASM901555v1__WCDA01000009.1__282__562", "value": 0.906361}, {"color": "lightgray", "dist": 0.0985986, "from": "NCBI__OL744216__Enterobacter_phage_vB_ExiM_F4M1E", "title": "dist: 0.0986", "to": "NCBI__KT353109__Cronobacter_phage_PBES_02", "value": 0.9014014}, {"color": "lightgray", "dist": 7.30475e-06, "from": "NCBI__OL744216__Enterobacter_phage_vB_ExiM_F4M1E", "title": "dist: 0.0000", "to": "NCBI__OL744214__Enterobacter_phage_vB_ExiM_F2M1E", "value": 0.99999269525}, {"color": "lightgray", "dist": 9.77364e-06, "from": "NCBI__OL744216__Enterobacter_phage_vB_ExiM_F4M1E", "title": "dist: 0.0000", "to": "NCBI__OL744219__Enterobacter_phage_vB_ExiM_F5M1E", "value": 0.99999022636}, {"color": "lightgray", "dist": 8.74721e-06, "from": "NCBI__OL744216__Enterobacter_phage_vB_ExiM_F4M1E", "title": "dist: 0.0000", "to": "NCBI__OL744220__Pantoea_phage_vB_PdiM_F5M2A", "value": 0.99999125279}, {"color": "lightgray", "dist": 0.131743, "from": "NCBI__OL744216__Enterobacter_phage_vB_ExiM_F4M1E", "title": "dist: 0.1317", "to": "NCBI__NC_023717__Cronobacter_phage_CR9", "value": 0.8682570000000001}, {"color": "lightgray", "dist": 0.1579, "from": "NCBI__OL744216__Enterobacter_phage_vB_ExiM_F4M1E", "title": "dist: 0.1579", "to": "NCBI__MT560059__Pectobacterium_phage_POP15", "value": 0.8421}, {"color": "lightgray", "dist": 0.159332, "from": "NCBI__OL744216__Enterobacter_phage_vB_ExiM_F4M1E", "title": "dist: 0.1593", "to": "NCBI__MT552976__Pectobacterium_phage_POP17", "value": 0.840668}, {"color": "lightgray", "dist": 0.15949, "from": "NCBI__OL744216__Enterobacter_phage_vB_ExiM_F4M1E", "title": "dist: 0.1595", "to": "NCBI__MT552977__Pectobacterium_phage_POP18", "value": 0.84051}, {"color": "lightgray", "dist": 0.161923, "from": "NCBI__MT552976__Pectobacterium_phage_POP17", "title": "dist: 0.1619", "to": "Enterobacter_hormaechei__GCA_037198655.1_-_ASM3719865v1__JBBBWP010000014.1__290__158836", "value": 0.838077}, {"color": "lightgray", "dist": 0.133235, "from": "NCBI__MT552976__Pectobacterium_phage_POP17", "title": "dist: 0.1332", "to": "Escherichia_coli__GCA_009015555.1_-_ASM901555v1__WCDA01000009.1__282__562", "value": 0.866765}, {"color": "lightgray", "dist": 0.132297, "from": "NCBI__MT552976__Pectobacterium_phage_POP17", "title": "dist: 0.1323", "to": "NCBI__KT353109__Cronobacter_phage_PBES_02", "value": 0.867703}, {"color": "lightgray", "dist": 0.159336, "from": "NCBI__MT552976__Pectobacterium_phage_POP17", "title": "dist: 0.1593", "to": "NCBI__OL744214__Enterobacter_phage_vB_ExiM_F2M1E", "value": 0.840664}, {"color": "lightgray", "dist": 0.159423, "from": "NCBI__MT552976__Pectobacterium_phage_POP17", "title": "dist: 0.1594", "to": "NCBI__OL744219__Enterobacter_phage_vB_ExiM_F5M1E", "value": 0.840577}, {"color": "lightgray", "dist": 0.159316, "from": "NCBI__MT552976__Pectobacterium_phage_POP17", "title": "dist: 0.1593", "to": "NCBI__OL744220__Pantoea_phage_vB_PdiM_F5M2A", "value": 0.840684}, {"color": "lightgray", "dist": 0.15027, "from": "NCBI__MT552976__Pectobacterium_phage_POP17", "title": "dist: 0.1503", "to": "NCBI__NC_023717__Cronobacter_phage_CR9", "value": 0.84973}, {"color": "lightgray", "dist": 0.00822767, "from": "NCBI__MT552976__Pectobacterium_phage_POP17", "title": "dist: 0.0082", "to": "NCBI__MT560059__Pectobacterium_phage_POP15", "value": 0.99177233}, {"color": "lightgray", "dist": 1.33179e-05, "from": "NCBI__MT552976__Pectobacterium_phage_POP17", "title": "dist: 0.0000", "to": "NCBI__MT552977__Pectobacterium_phage_POP18", "value": 0.9999866821}, {"color": "lightgray", "dist": 0.157046, "from": "NCBI__MT560059__Pectobacterium_phage_POP15", "title": "dist: 0.1570", "to": "Enterobacter_hormaechei__GCA_037198655.1_-_ASM3719865v1__JBBBWP010000014.1__290__158836", "value": 0.842954}, {"color": "lightgray", "dist": 0.135139, "from": "NCBI__MT560059__Pectobacterium_phage_POP15", "title": "dist: 0.1351", "to": "Escherichia_coli__GCA_009015555.1_-_ASM901555v1__WCDA01000009.1__282__562", "value": 0.864861}, {"color": "lightgray", "dist": 0.130953, "from": "NCBI__MT560059__Pectobacterium_phage_POP15", "title": "dist: 0.1310", "to": "NCBI__KT353109__Cronobacter_phage_PBES_02", "value": 0.869047}, {"color": "lightgray", "dist": 0.157904, "from": "NCBI__MT560059__Pectobacterium_phage_POP15", "title": "dist: 0.1579", "to": "NCBI__OL744214__Enterobacter_phage_vB_ExiM_F2M1E", "value": 0.842096}, {"color": "lightgray", "dist": 0.157989, "from": "NCBI__MT560059__Pectobacterium_phage_POP15", "title": "dist: 0.1580", "to": "NCBI__OL744219__Enterobacter_phage_vB_ExiM_F5M1E", "value": 0.8420110000000001}, {"color": "lightgray", "dist": 0.157885, "from": "NCBI__MT560059__Pectobacterium_phage_POP15", "title": "dist: 0.1579", "to": "NCBI__OL744220__Pantoea_phage_vB_PdiM_F5M2A", "value": 0.842115}, {"color": "lightgray", "dist": 0.152593, "from": "NCBI__MT560059__Pectobacterium_phage_POP15", "title": "dist: 0.1526", "to": "NCBI__NC_023717__Cronobacter_phage_CR9", "value": 0.847407}, {"color": "lightgray", "dist": 0.00824271, "from": "NCBI__MT560059__Pectobacterium_phage_POP15", "title": "dist: 0.0082", "to": "NCBI__MT552977__Pectobacterium_phage_POP18", "value": 0.99175729}, {"color": "lightgray", "dist": 0.0325708, "from": "NCBI__OL744220__Pantoea_phage_vB_PdiM_F5M2A", "title": "dist: 0.0326", "to": "Enterobacter_hormaechei__GCA_037198655.1_-_ASM3719865v1__JBBBWP010000014.1__290__158836", "value": 0.9674292}, {"color": "lightgray", "dist": 0.0936457, "from": "NCBI__OL744220__Pantoea_phage_vB_PdiM_F5M2A", "title": "dist: 0.0936", "to": "Escherichia_coli__GCA_009015555.1_-_ASM901555v1__WCDA01000009.1__282__562", "value": 0.9063543000000001}, {"color": "lightgray", "dist": 0.0985831, "from": "NCBI__OL744220__Pantoea_phage_vB_PdiM_F5M2A", "title": "dist: 0.0986", "to": "NCBI__KT353109__Cronobacter_phage_PBES_02", "value": 0.9014169}, {"color": "lightgray", "dist": 4.6013e-06, "from": "NCBI__OL744220__Pantoea_phage_vB_PdiM_F5M2A", "title": "dist: 0.0000", "to": "NCBI__OL744214__Enterobacter_phage_vB_ExiM_F2M1E", "value": 0.9999953987}, {"color": "lightgray", "dist": 7.06974e-06, "from": "NCBI__OL744220__Pantoea_phage_vB_PdiM_F5M2A", "title": "dist: 0.0000", "to": "NCBI__OL744219__Enterobacter_phage_vB_ExiM_F5M1E", "value": 0.99999293026}, {"color": "lightgray", "dist": 0.131677, "from": "NCBI__OL744220__Pantoea_phage_vB_PdiM_F5M2A", "title": "dist: 0.1317", "to": "NCBI__NC_023717__Cronobacter_phage_CR9", "value": 0.868323}, {"color": "lightgray", "dist": 0.159474, "from": "NCBI__OL744220__Pantoea_phage_vB_PdiM_F5M2A", "title": "dist: 0.1595", "to": "NCBI__MT552977__Pectobacterium_phage_POP18", "value": 0.840526}, {"color": "lightgray", "dist": 0.12666, "from": "NCBI__NC_023717__Cronobacter_phage_CR9", "title": "dist: 0.1267", "to": "Enterobacter_hormaechei__GCA_037198655.1_-_ASM3719865v1__JBBBWP010000014.1__290__158836", "value": 0.87334}, {"color": "lightgray", "dist": 0.134337, "from": "NCBI__NC_023717__Cronobacter_phage_CR9", "title": "dist: 0.1343", "to": "Escherichia_coli__GCA_009015555.1_-_ASM901555v1__WCDA01000009.1__282__562", "value": 0.865663}, {"color": "lightgray", "dist": 0.136474, "from": "NCBI__NC_023717__Cronobacter_phage_CR9", "title": "dist: 0.1365", "to": "NCBI__KT353109__Cronobacter_phage_PBES_02", "value": 0.863526}, {"color": "lightgray", "dist": 0.131704, "from": "NCBI__NC_023717__Cronobacter_phage_CR9", "title": "dist: 0.1317", "to": "NCBI__OL744214__Enterobacter_phage_vB_ExiM_F2M1E", "value": 0.868296}, {"color": "lightgray", "dist": 0.131699, "from": "NCBI__NC_023717__Cronobacter_phage_CR9", "title": "dist: 0.1317", "to": "NCBI__OL744219__Enterobacter_phage_vB_ExiM_F5M1E", "value": 0.868301}, {"color": "lightgray", "dist": 0.150255, "from": "NCBI__NC_023717__Cronobacter_phage_CR9", "title": "dist: 0.1503", "to": "NCBI__MT552977__Pectobacterium_phage_POP18", "value": 0.849745}, {"color": "lightgray", "dist": 0.093237, "from": "Enterobacter_hormaechei__GCA_037198655.1_-_ASM3719865v1__JBBBWP010000014.1__290__158836", "title": "dist: 0.0932", "to": "Escherichia_coli__GCA_009015555.1_-_ASM901555v1__WCDA01000009.1__282__562", "value": 0.906763}, {"color": "lightgray", "dist": 0.094336, "from": "Enterobacter_hormaechei__GCA_037198655.1_-_ASM3719865v1__JBBBWP010000014.1__290__158836", "title": "dist: 0.0943", "to": "NCBI__KT353109__Cronobacter_phage_PBES_02", "value": 0.905664}, {"color": "lightgray", "dist": 0.0325694, "from": "Enterobacter_hormaechei__GCA_037198655.1_-_ASM3719865v1__JBBBWP010000014.1__290__158836", "title": "dist: 0.0326", "to": "NCBI__OL744214__Enterobacter_phage_vB_ExiM_F2M1E", "value": 0.9674306}, {"color": "lightgray", "dist": 0.0325718, "from": "Enterobacter_hormaechei__GCA_037198655.1_-_ASM3719865v1__JBBBWP010000014.1__290__158836", "title": "dist: 0.0326", "to": "NCBI__OL744219__Enterobacter_phage_vB_ExiM_F5M1E", "value": 0.9674282}, {"color": "lightgray", "dist": 0.162057, "from": "Enterobacter_hormaechei__GCA_037198655.1_-_ASM3719865v1__JBBBWP010000014.1__290__158836", "title": "dist: 0.1621", "to": "NCBI__MT552977__Pectobacterium_phage_POP18", "value": 0.837943}, {"color": "lightgray", "dist": 0.0289187, "from": "NCBI__KT353109__Cronobacter_phage_PBES_02", "title": "dist: 0.0289", "to": "Escherichia_coli__GCA_009015555.1_-_ASM901555v1__WCDA01000009.1__282__562", "value": 0.9710813}, {"color": "lightgray", "dist": 0.0986076, "from": "NCBI__KT353109__Cronobacter_phage_PBES_02", "title": "dist: 0.0986", "to": "NCBI__OL744214__Enterobacter_phage_vB_ExiM_F2M1E", "value": 0.9013924}, {"color": "lightgray", "dist": 0.0986256, "from": "NCBI__KT353109__Cronobacter_phage_PBES_02", "title": "dist: 0.0986", "to": "NCBI__OL744219__Enterobacter_phage_vB_ExiM_F5M1E", "value": 0.9013744}, {"color": "lightgray", "dist": 0.132404, "from": "NCBI__KT353109__Cronobacter_phage_PBES_02", "title": "dist: 0.1324", "to": "NCBI__MT552977__Pectobacterium_phage_POP18", "value": 0.867596}, {"color": "lightgray", "dist": 0.0936563, "from": "NCBI__OL744219__Enterobacter_phage_vB_ExiM_F5M1E", "title": "dist: 0.0937", "to": "Escherichia_coli__GCA_009015555.1_-_ASM901555v1__WCDA01000009.1__282__562", "value": 0.9063437}, {"color": "lightgray", "dist": 5.6274e-06, "from": "NCBI__OL744219__Enterobacter_phage_vB_ExiM_F5M1E", "title": "dist: 0.0000", "to": "NCBI__OL744214__Enterobacter_phage_vB_ExiM_F2M1E", "value": 0.9999943726}, {"color": "lightgray", "dist": 0.159582, "from": "NCBI__OL744219__Enterobacter_phage_vB_ExiM_F5M1E", "title": "dist: 0.1596", "to": "NCBI__MT552977__Pectobacterium_phage_POP18", "value": 0.840418}, {"color": "lightgray", "dist": 0.133305, "from": "NCBI__MT552977__Pectobacterium_phage_POP18", "title": "dist: 0.1333", "to": "Escherichia_coli__GCA_009015555.1_-_ASM901555v1__WCDA01000009.1__282__562", "value": 0.866695}, {"color": "lightgray", "dist": 0.159494, "from": "NCBI__MT552977__Pectobacterium_phage_POP18", "title": "dist: 0.1595", "to": "NCBI__OL744214__Enterobacter_phage_vB_ExiM_F2M1E", "value": 0.840506}, {"color": "lightgray", "dist": 0.0936582, "from": "Escherichia_coli__GCA_009015555.1_-_ASM901555v1__WCDA01000009.1__282__562", "title": "dist: 0.0937", "to": "NCBI__OL744214__Enterobacter_phage_vB_ExiM_F2M1E", "value": 0.9063418}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"nodes": {"font": {"size": 0}, "shadow": {"enabled": true}}, "configure": {"enabled": true, "showButton": true}, "edges": {"color": {"inherit": true}, "smooth": false}, "physics": {"enabled": true, "forceAtlas2Based": {"gravitationalConstant": -88, "centralGravity": 0.02, "springLength": 100}, "minVelocity": 0.75, "solver": "forceAtlas2Based"}, "interaction": {"hover": true}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+		  function placePopupAt(domPoint, html) {
+		      if (!html) return;
+		      popup.innerHTML = html;
+		      popup.style.display = 'block';
+		      popup.style.left = (domPoint.x + 25) + 'px';
+		      popup.style.top  = (domPoint.y - 35) + 'px';
+		  }
+
+		  function hidePopupNow() {
+		      popup.style.display = 'none';
+		  }
+
+		  network.on("hoverNode", function (params) {
+		      const n = nodes.get(params.node);
+		      if (!n || !n.title) return;
+		      placePopupAt(params.pointer.DOM, n.title);
+		  });
+
+		  network.on("blurNode", hidePopupNow);
+
+		  network.on("hoverEdge", function (params) {
+		      const e = edges.get(params.edge);
+		      if (!e || !e.title) return;
+		      placePopupAt(params.pointer.DOM, e.title);
+		  });
+
+		  network.on("blurEdge", hidePopupNow);
+		  
+                  
+
+                  
+
+                  
+                  // make a custom popup
+                      var popup = document.createElement("div");
+                      popup.className = 'popup';
+                      popupTimeout = null;
+                      popup.addEventListener('mouseover', function () {
+                          console.log(popup)
+                          if (popupTimeout !== null) {
+                              clearTimeout(popupTimeout);
+                              popupTimeout = null;
+                          }
+                      });
+                      popup.addEventListener('mouseout', function () {
+                          if (popupTimeout === null) {
+                              hidePopup();
+                          }
+                      });
+                      container.appendChild(popup);
+
+
+
+                      // hiding the popup through css
+                      function hidePopup() {
+                          popupTimeout = setTimeout(function () { popup.style.display = 'none'; }, 500);
+                      }
+
+		  function showPopup(id) {
+		      let dataObj, posCanvas;
+
+		      if (nodes.get(id)) {
+			  dataObj = nodes.get(id);
+			  posCanvas = network.getPositions([id])[id];
+		      } else if (edges.get(id)) {
+			  dataObj = edges.get(id);
+			  var bbox = network.getBoundingBox(id);
+			  posCanvas = {
+			      x: (bbox.left + bbox.right) / 2,
+			      y: (bbox.top + bbox.bottom) / 2
+			  };
+		      } else {
+			  return;
+		      }
+		      
+		      if (!dataObj.title) return;
+
+		      popup.innerHTML = dataObj.title;
+		      
+		      var posDOM = network.canvasToDOM(posCanvas);
+		      popup.style.display = 'block';
+		      popup.style.left = (posDOM.x + 10) + 'px';
+		      popup.style.top  = (posDOM.y - 20) + 'px';
+		  }
+                  
+
+
+                  
+		  network.on("stabilizationIterationsDone", function() {
+                      network.setOptions( { physics: false } );
+		  });
+		  //end block addition
+		  
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+    <div id="info-box" style="position:fixed; top:10px; right:10px; width:300px; background:white; border:1px solid #888; padding:10px; z-index:9999; font-family:Arial;"></div>
+    <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+    network.on("click", function (params) {
+    if (params.nodes.length > 0) {
+    var nodeId = params.nodes[0];
+    var node = nodes.get(nodeId);
+    document.getElementById("info-box").innerHTML = node.title || "No info available.";
+    } else {
+    document.getElementById("info-box").innerHTML = "";
+    }
+    });
+    });
+    </script>
+    
+</body>
+</html>

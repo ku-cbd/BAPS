@@ -1,0 +1,245 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h2>Campylobacter DA10.html (13 genomes) 2026-01-10_20:02:27</h2>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 1100px;
+                 height: 900px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+             /* position absolute is important and the container has to be relative or absolute as well. */
+          div.popup {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 display:none;
+                 background-color:#f5f4ed;
+                 -moz-border-radius: 3px;
+                 -webkit-border-radius: 3px;
+                 border-radius: 3px;
+                 border: 1px solid #808074;
+             box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+             }
+
+          /* hide the original tooltip */
+          .vis-tooltip {
+            display:none;
+          }
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"__dummy": "dummy", "acc": "Campylobacter_jejuni__GCA_037659995.1_-_ASM3765999v1__JBBKJN010000017.1__34__197", "cloud": 6714, "color": {"background": "#637939", "border": "white"}, "genome_size": 23976, "id": "Campylobacter_jejuni__GCA_037659995.1_-_ASM3765999v1__JBBKJN010000017.1__34__197", "label": "Campylobacter_jejuni__GCA_037659995.1_-_ASM3765999v1__JBBKJN010000017.1__34__197", "ngenes": 34, "org": "Campylobacter_jejuni", "shape": "square", "size": 7, "source": "BAPS", "title": "Campylobacter_jejuni__GCA_037659995.1_-_ASM3765999v1__JBBKJN010000017.1__34__197\n\u003cbr\u003e23976bp\n\u003cbr\u003eCampylobacter_jejuni\n\u003cbr\u003e34 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/JBBKJN010000017.1\" target=\"_blank\"\u003eJBBKJN010000017.1\u003c/a\u003e", "working_name": "Campylobacter_DA10"}, {"__dummy": "dummy", "acc": "Campylobacter_jejuni__GCA_033010175.1_-_PDT001765034.1__DAQMOD010000011.1__58__197", "cloud": 6714, "color": {"background": "#637939", "border": "white"}, "genome_size": 34441, "id": "Campylobacter_jejuni__GCA_033010175.1_-_PDT001765034.1__DAQMOD010000011.1__58__197", "label": "Campylobacter_jejuni__GCA_033010175.1_-_PDT001765034.1__DAQMOD010000011.1__58__197", "ngenes": 58, "org": "Campylobacter_jejuni", "shape": "square", "size": 11, "source": "BAPS", "title": "Campylobacter_jejuni__GCA_033010175.1_-_PDT001765034.1__DAQMOD010000011.1__58__197\n\u003cbr\u003e34441bp\n\u003cbr\u003eCampylobacter_jejuni\n\u003cbr\u003e58 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/DAQMOD010000011.1\" target=\"_blank\"\u003eDAQMOD010000011.1\u003c/a\u003e", "working_name": "Campylobacter_DA10"}, {"__dummy": "dummy", "acc": "Campylobacter_jejuni__GCA_015958365.1_-_PDT000893916.1__AAXUPC010000016.1__56__197", "cloud": 6714, "color": {"background": "#637939", "border": "white"}, "genome_size": 34681, "id": "Campylobacter_jejuni__GCA_015958365.1_-_PDT000893916.1__AAXUPC010000016.1__56__197", "label": "Campylobacter_jejuni__GCA_015958365.1_-_PDT000893916.1__AAXUPC010000016.1__56__197", "ngenes": 56, "org": "Campylobacter_jejuni", "shape": "square", "size": 11, "source": "BAPS", "title": "Campylobacter_jejuni__GCA_015958365.1_-_PDT000893916.1__AAXUPC010000016.1__56__197\n\u003cbr\u003e34681bp\n\u003cbr\u003eCampylobacter_jejuni\n\u003cbr\u003e56 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/AAXUPC010000016.1\" target=\"_blank\"\u003eAAXUPC010000016.1\u003c/a\u003e", "working_name": "Campylobacter_DA10"}, {"__dummy": "dummy", "acc": "Campylobacter_coli__GCA_005067025.1_-_PDT000305756.2__AABXZL010000033.1__32__195", "cloud": 6714, "color": {"background": "#637939", "border": "white"}, "genome_size": 21274, "id": "Campylobacter_coli__GCA_005067025.1_-_PDT000305756.2__AABXZL010000033.1__32__195", "label": "Campylobacter_coli__GCA_005067025.1_-_PDT000305756.2__AABXZL010000033.1__32__195", "ngenes": 32, "org": "Campylobacter_coli", "shape": "square", "size": 7, "source": "BAPS", "title": "Campylobacter_coli__GCA_005067025.1_-_PDT000305756.2__AABXZL010000033.1__32__195\n\u003cbr\u003e21274bp\n\u003cbr\u003eCampylobacter_coli\n\u003cbr\u003e32 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/AABXZL010000033.1\" target=\"_blank\"\u003eAABXZL010000033.1\u003c/a\u003e", "working_name": "Campylobacter_DA10"}, {"__dummy": "dummy", "acc": "Campylobacter_jejuni__GCA_012312365.1_-_PDT000722138.1__AASFGR010000030.1__25__197", "cloud": 6714, "color": {"background": "#637939", "border": "white"}, "genome_size": 16238, "id": "Campylobacter_jejuni__GCA_012312365.1_-_PDT000722138.1__AASFGR010000030.1__25__197", "label": "Campylobacter_jejuni__GCA_012312365.1_-_PDT000722138.1__AASFGR010000030.1__25__197", "ngenes": 25, "org": "Campylobacter_jejuni", "shape": "square", "size": 5, "source": "BAPS", "title": "Campylobacter_jejuni__GCA_012312365.1_-_PDT000722138.1__AASFGR010000030.1__25__197\n\u003cbr\u003e16238bp\n\u003cbr\u003eCampylobacter_jejuni\n\u003cbr\u003e25 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/AASFGR010000030.1\" target=\"_blank\"\u003eAASFGR010000030.1\u003c/a\u003e", "working_name": "Campylobacter_DA10"}, {"__dummy": "dummy", "acc": "Campylobacter_coli__GCA_021550035.1_-_PDT001228608.1__ABESOG010000015.1__62__195", "cloud": 6714, "color": {"background": "#637939", "border": "white"}, "genome_size": 35017, "id": "Campylobacter_coli__GCA_021550035.1_-_PDT001228608.1__ABESOG010000015.1__62__195", "label": "Campylobacter_coli__GCA_021550035.1_-_PDT001228608.1__ABESOG010000015.1__62__195", "ngenes": 62, "org": "Campylobacter_coli", "shape": "square", "size": 11, "source": "BAPS", "title": "Campylobacter_coli__GCA_021550035.1_-_PDT001228608.1__ABESOG010000015.1__62__195\n\u003cbr\u003e35017bp\n\u003cbr\u003eCampylobacter_coli\n\u003cbr\u003e62 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/ABESOG010000015.1\" target=\"_blank\"\u003eABESOG010000015.1\u003c/a\u003e", "working_name": "Campylobacter_DA10"}, {"__dummy": "dummy", "acc": "Campylobacter_coli__GCA_004980685.1_-_PDT000259339.2__AABSMX010000020.1__27__195", "cloud": 6714, "color": {"background": "#637939", "border": "white"}, "genome_size": 18101, "id": "Campylobacter_coli__GCA_004980685.1_-_PDT000259339.2__AABSMX010000020.1__27__195", "label": "Campylobacter_coli__GCA_004980685.1_-_PDT000259339.2__AABSMX010000020.1__27__195", "ngenes": 27, "org": "Campylobacter_coli", "shape": "square", "size": 6, "source": "BAPS", "title": "Campylobacter_coli__GCA_004980685.1_-_PDT000259339.2__AABSMX010000020.1__27__195\n\u003cbr\u003e18101bp\n\u003cbr\u003eCampylobacter_coli\n\u003cbr\u003e27 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/AABSMX010000020.1\" target=\"_blank\"\u003eAABSMX010000020.1\u003c/a\u003e", "working_name": "Campylobacter_DA10"}, {"__dummy": "dummy", "acc": "Campylobacter_jejuni__GCA_014512725.1_-_PDT000829978.1__AAVYLI010000024.1__38__197", "cloud": 6714, "color": {"background": "#637939", "border": "white"}, "genome_size": 20581, "id": "Campylobacter_jejuni__GCA_014512725.1_-_PDT000829978.1__AAVYLI010000024.1__38__197", "label": "Campylobacter_jejuni__GCA_014512725.1_-_PDT000829978.1__AAVYLI010000024.1__38__197", "ngenes": 38, "org": "Campylobacter_jejuni", "shape": "square", "size": 6, "source": "BAPS", "title": "Campylobacter_jejuni__GCA_014512725.1_-_PDT000829978.1__AAVYLI010000024.1__38__197\n\u003cbr\u003e20581bp\n\u003cbr\u003eCampylobacter_jejuni\n\u003cbr\u003e38 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/AAVYLI010000024.1\" target=\"_blank\"\u003eAAVYLI010000024.1\u003c/a\u003e", "working_name": "Campylobacter_DA10"}, {"__dummy": "dummy", "acc": "Campylobacter_jejuni__GCA_038440635.1_-_ASM3844063v1__JBCGCK010000009.1__63__197", "cloud": 6714, "color": {"background": "#637939", "border": "white"}, "genome_size": 37130, "id": "Campylobacter_jejuni__GCA_038440635.1_-_ASM3844063v1__JBCGCK010000009.1__63__197", "label": "Campylobacter_jejuni__GCA_038440635.1_-_ASM3844063v1__JBCGCK010000009.1__63__197", "ngenes": 63, "org": "Campylobacter_jejuni", "shape": "square", "size": 12, "source": "BAPS", "title": "Campylobacter_jejuni__GCA_038440635.1_-_ASM3844063v1__JBCGCK010000009.1__63__197\n\u003cbr\u003e37130bp\n\u003cbr\u003eCampylobacter_jejuni\n\u003cbr\u003e63 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/JBCGCK010000009.1\" target=\"_blank\"\u003eJBCGCK010000009.1\u003c/a\u003e", "working_name": "Campylobacter_DA10"}, {"__dummy": "dummy", "acc": "Campylobacter_coli__GCA_012043175.1_-_PDT000718512.1__AARMJW010000013.1__60__195", "cloud": 6714, "color": {"background": "#637939", "border": "white"}, "genome_size": 34782, "id": "Campylobacter_coli__GCA_012043175.1_-_PDT000718512.1__AARMJW010000013.1__60__195", "label": "Campylobacter_coli__GCA_012043175.1_-_PDT000718512.1__AARMJW010000013.1__60__195", "ngenes": 60, "org": "Campylobacter_coli", "shape": "square", "size": 11, "source": "BAPS", "title": "Campylobacter_coli__GCA_012043175.1_-_PDT000718512.1__AARMJW010000013.1__60__195\n\u003cbr\u003e34782bp\n\u003cbr\u003eCampylobacter_coli\n\u003cbr\u003e60 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/AARMJW010000013.1\" target=\"_blank\"\u003eAARMJW010000013.1\u003c/a\u003e", "working_name": "Campylobacter_DA10"}, {"__dummy": "dummy", "acc": "MN530981", "cloud": 6714, "color": "#637939", "genome_size": 35379, "id": "NCBI__MN530981__Campylobacter_phage_DA10", "label": "NCBI__MN530981__Campylobacter_phage_DA10", "ngenes": 59, "org": "Campylobacter phage DA10", "shape": "dot", "size": 11, "source": "NCBI", "title": "NCBI__MN530981__Campylobacter_phage_DA10\n\u003cbr\u003e35379bp\n\u003cbr\u003eCampylobacter phage DA10\n\u003cbr\u003e59 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/MN530981\" target=\"_blank\"\u003eMN530981\u003c/a\u003e", "working_name": "Campylobacter_DA10"}, {"__dummy": "dummy", "acc": "OP697049", "cloud": 6714, "color": "#637939", "genome_size": 32543, "id": "NCBI__OP697049__Campylobacter_phage_PC22", "label": "NCBI__OP697049__Campylobacter_phage_PC22", "ngenes": 56, "org": "Campylobacter phage PC22", "shape": "dot", "size": 10, "source": "NCBI", "title": "NCBI__OP697049__Campylobacter_phage_PC22\n\u003cbr\u003e32543bp\n\u003cbr\u003eCampylobacter phage PC22\n\u003cbr\u003e56 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OP697049\" target=\"_blank\"\u003eOP697049\u003c/a\u003e", "working_name": "Campylobacter_DA10"}, {"__dummy": "dummy", "acc": "OP686972", "cloud": 6714, "color": "#637939", "genome_size": 32997, "id": "NCBI__OP686972__Campylobacter_phage_PC11", "label": "NCBI__OP686972__Campylobacter_phage_PC11", "ngenes": 57, "org": "Campylobacter phage PC11", "shape": "dot", "size": 10, "source": "NCBI", "title": "NCBI__OP686972__Campylobacter_phage_PC11\n\u003cbr\u003e32997bp\n\u003cbr\u003eCampylobacter phage PC11\n\u003cbr\u003e57 ngenes\n\u003cbr\u003e\u003ca href=\"https://www.ncbi.nlm.nih.gov/nuccore/OP686972\" target=\"_blank\"\u003eOP686972\u003c/a\u003e", "working_name": "Campylobacter_DA10"}]);
+                  edges = new vis.DataSet([{"color": "lightgray", "dist": 0.0518741, "from": "Campylobacter_jejuni__GCA_033010175.1_-_PDT001765034.1__DAQMOD010000011.1__58__197", "title": "dist: 0.0519", "to": "Campylobacter_coli__GCA_021550035.1_-_PDT001228608.1__ABESOG010000015.1__62__195", "value": 0.9481259}, {"color": "lightgray", "dist": 0.0490907, "from": "Campylobacter_jejuni__GCA_033010175.1_-_PDT001765034.1__DAQMOD010000011.1__58__197", "title": "dist: 0.0491", "to": "Campylobacter_jejuni__GCA_038440635.1_-_ASM3844063v1__JBCGCK010000009.1__63__197", "value": 0.9509093}, {"color": "lightgray", "dist": 0.0504455, "from": "Campylobacter_jejuni__GCA_033010175.1_-_PDT001765034.1__DAQMOD010000011.1__58__197", "title": "dist: 0.0504", "to": "Campylobacter_coli__GCA_012043175.1_-_PDT000718512.1__AARMJW010000013.1__60__195", "value": 0.9495545}, {"color": "lightgray", "dist": 0.057454, "from": "Campylobacter_jejuni__GCA_033010175.1_-_PDT001765034.1__DAQMOD010000011.1__58__197", "title": "dist: 0.0575", "to": "Campylobacter_jejuni__GCA_015958365.1_-_PDT000893916.1__AAXUPC010000016.1__56__197", "value": 0.942546}, {"color": "lightgray", "dist": 0.0537025, "from": "Campylobacter_jejuni__GCA_033010175.1_-_PDT001765034.1__DAQMOD010000011.1__58__197", "title": "dist: 0.0537", "to": "Campylobacter_jejuni__GCA_037659995.1_-_ASM3765999v1__JBBKJN010000017.1__34__197", "value": 0.9462975}, {"color": "lightgray", "dist": 0.060714, "from": "Campylobacter_jejuni__GCA_033010175.1_-_PDT001765034.1__DAQMOD010000011.1__58__197", "title": "dist: 0.0607", "to": "Campylobacter_coli__GCA_005067025.1_-_PDT000305756.2__AABXZL010000033.1__32__195", "value": 0.939286}, {"color": "lightgray", "dist": 0.0916851, "from": "Campylobacter_jejuni__GCA_033010175.1_-_PDT001765034.1__DAQMOD010000011.1__58__197", "title": "dist: 0.0917", "to": "Campylobacter_jejuni__GCA_014512725.1_-_PDT000829978.1__AAVYLI010000024.1__38__197", "value": 0.9083149}, {"color": "lightgray", "dist": 0.0706818, "from": "Campylobacter_jejuni__GCA_033010175.1_-_PDT001765034.1__DAQMOD010000011.1__58__197", "title": "dist: 0.0707", "to": "Campylobacter_coli__GCA_004980685.1_-_PDT000259339.2__AABSMX010000020.1__27__195", "value": 0.9293182}, {"color": "lightgray", "dist": 0.0866818, "from": "Campylobacter_jejuni__GCA_033010175.1_-_PDT001765034.1__DAQMOD010000011.1__58__197", "title": "dist: 0.0867", "to": "Campylobacter_jejuni__GCA_012312365.1_-_PDT000722138.1__AASFGR010000030.1__25__197", "value": 0.9133182}, {"color": "lightgray", "dist": 0.0438649, "from": "Campylobacter_jejuni__GCA_033010175.1_-_PDT001765034.1__DAQMOD010000011.1__58__197", "title": "dist: 0.0439", "to": "NCBI__OP697049__Campylobacter_phage_PC22", "value": 0.9561351}, {"color": "lightgray", "dist": 0.0438942, "from": "Campylobacter_jejuni__GCA_033010175.1_-_PDT001765034.1__DAQMOD010000011.1__58__197", "title": "dist: 0.0439", "to": "NCBI__OP686972__Campylobacter_phage_PC11", "value": 0.9561058}, {"color": "lightgray", "dist": 0.043058, "from": "Campylobacter_jejuni__GCA_033010175.1_-_PDT001765034.1__DAQMOD010000011.1__58__197", "title": "dist: 0.0431", "to": "NCBI__MN530981__Campylobacter_phage_DA10", "value": 0.956942}, {"color": "lightgray", "dist": 0.0559141, "from": "Campylobacter_coli__GCA_021550035.1_-_PDT001228608.1__ABESOG010000015.1__62__195", "title": "dist: 0.0559", "to": "Campylobacter_jejuni__GCA_038440635.1_-_ASM3844063v1__JBCGCK010000009.1__63__197", "value": 0.9440859}, {"color": "lightgray", "dist": 0.0496662, "from": "Campylobacter_coli__GCA_021550035.1_-_PDT001228608.1__ABESOG010000015.1__62__195", "title": "dist: 0.0497", "to": "Campylobacter_coli__GCA_012043175.1_-_PDT000718512.1__AARMJW010000013.1__60__195", "value": 0.9503338}, {"color": "lightgray", "dist": 0.06039, "from": "Campylobacter_coli__GCA_021550035.1_-_PDT001228608.1__ABESOG010000015.1__62__195", "title": "dist: 0.0604", "to": "Campylobacter_jejuni__GCA_015958365.1_-_PDT000893916.1__AAXUPC010000016.1__56__197", "value": 0.9396100000000001}, {"color": "lightgray", "dist": 0.052856, "from": "Campylobacter_coli__GCA_021550035.1_-_PDT001228608.1__ABESOG010000015.1__62__195", "title": "dist: 0.0529", "to": "Campylobacter_jejuni__GCA_037659995.1_-_ASM3765999v1__JBBKJN010000017.1__34__197", "value": 0.947144}, {"color": "lightgray", "dist": 0.055922, "from": "Campylobacter_coli__GCA_021550035.1_-_PDT001228608.1__ABESOG010000015.1__62__195", "title": "dist: 0.0559", "to": "Campylobacter_coli__GCA_005067025.1_-_PDT000305756.2__AABXZL010000033.1__32__195", "value": 0.944078}, {"color": "lightgray", "dist": 0.090542, "from": "Campylobacter_coli__GCA_021550035.1_-_PDT001228608.1__ABESOG010000015.1__62__195", "title": "dist: 0.0905", "to": "Campylobacter_jejuni__GCA_014512725.1_-_PDT000829978.1__AAVYLI010000024.1__38__197", "value": 0.909458}, {"color": "lightgray", "dist": 0.0677978, "from": "Campylobacter_coli__GCA_021550035.1_-_PDT001228608.1__ABESOG010000015.1__62__195", "title": "dist: 0.0678", "to": "Campylobacter_coli__GCA_004980685.1_-_PDT000259339.2__AABSMX010000020.1__27__195", "value": 0.9322022}, {"color": "lightgray", "dist": 0.0818442, "from": "Campylobacter_coli__GCA_021550035.1_-_PDT001228608.1__ABESOG010000015.1__62__195", "title": "dist: 0.0818", "to": "Campylobacter_jejuni__GCA_012312365.1_-_PDT000722138.1__AASFGR010000030.1__25__197", "value": 0.9181558}, {"color": "lightgray", "dist": 0.0446882, "from": "Campylobacter_coli__GCA_021550035.1_-_PDT001228608.1__ABESOG010000015.1__62__195", "title": "dist: 0.0447", "to": "NCBI__OP697049__Campylobacter_phage_PC22", "value": 0.9553118}, {"color": "lightgray", "dist": 0.0447013, "from": "Campylobacter_coli__GCA_021550035.1_-_PDT001228608.1__ABESOG010000015.1__62__195", "title": "dist: 0.0447", "to": "NCBI__OP686972__Campylobacter_phage_PC11", "value": 0.9552987}, {"color": "lightgray", "dist": 0.0456631, "from": "Campylobacter_coli__GCA_021550035.1_-_PDT001228608.1__ABESOG010000015.1__62__195", "title": "dist: 0.0457", "to": "NCBI__MN530981__Campylobacter_phage_DA10", "value": 0.9543369}, {"color": "lightgray", "dist": 0.0458243, "from": "NCBI__MN530981__Campylobacter_phage_DA10", "title": "dist: 0.0458", "to": "Campylobacter_jejuni__GCA_038440635.1_-_ASM3844063v1__JBCGCK010000009.1__63__197", "value": 0.9541757}, {"color": "lightgray", "dist": 0.0484965, "from": "NCBI__MN530981__Campylobacter_phage_DA10", "title": "dist: 0.0485", "to": "Campylobacter_coli__GCA_012043175.1_-_PDT000718512.1__AARMJW010000013.1__60__195", "value": 0.9515035000000001}, {"color": "lightgray", "dist": 0.0583121, "from": "NCBI__MN530981__Campylobacter_phage_DA10", "title": "dist: 0.0583", "to": "Campylobacter_jejuni__GCA_015958365.1_-_PDT000893916.1__AAXUPC010000016.1__56__197", "value": 0.9416879}, {"color": "lightgray", "dist": 0.0541478, "from": "NCBI__MN530981__Campylobacter_phage_DA10", "title": "dist: 0.0541", "to": "Campylobacter_jejuni__GCA_037659995.1_-_ASM3765999v1__JBBKJN010000017.1__34__197", "value": 0.9458522}, {"color": "lightgray", "dist": 0.0605506, "from": "NCBI__MN530981__Campylobacter_phage_DA10", "title": "dist: 0.0606", "to": "Campylobacter_coli__GCA_005067025.1_-_PDT000305756.2__AABXZL010000033.1__32__195", "value": 0.9394494}, {"color": "lightgray", "dist": 0.0828507, "from": "NCBI__MN530981__Campylobacter_phage_DA10", "title": "dist: 0.0829", "to": "Campylobacter_jejuni__GCA_014512725.1_-_PDT000829978.1__AAVYLI010000024.1__38__197", "value": 0.9171493}, {"color": "lightgray", "dist": 0.0702032, "from": "NCBI__MN530981__Campylobacter_phage_DA10", "title": "dist: 0.0702", "to": "Campylobacter_coli__GCA_004980685.1_-_PDT000259339.2__AABSMX010000020.1__27__195", "value": 0.9297968}, {"color": "lightgray", "dist": 0.0858715, "from": "NCBI__MN530981__Campylobacter_phage_DA10", "title": "dist: 0.0859", "to": "Campylobacter_jejuni__GCA_012312365.1_-_PDT000722138.1__AASFGR010000030.1__25__197", "value": 0.9141285}, {"color": "lightgray", "dist": 0.0377784, "from": "NCBI__MN530981__Campylobacter_phage_DA10", "title": "dist: 0.0378", "to": "NCBI__OP697049__Campylobacter_phage_PC22", "value": 0.9622216}, {"color": "lightgray", "dist": 0.0378195, "from": "NCBI__MN530981__Campylobacter_phage_DA10", "title": "dist: 0.0378", "to": "NCBI__OP686972__Campylobacter_phage_PC11", "value": 0.9621805}, {"color": "lightgray", "dist": 0.0486605, "from": "NCBI__OP697049__Campylobacter_phage_PC22", "title": "dist: 0.0487", "to": "Campylobacter_jejuni__GCA_038440635.1_-_ASM3844063v1__JBCGCK010000009.1__63__197", "value": 0.9513395}, {"color": "lightgray", "dist": 0.0473918, "from": "NCBI__OP697049__Campylobacter_phage_PC22", "title": "dist: 0.0474", "to": "Campylobacter_coli__GCA_012043175.1_-_PDT000718512.1__AARMJW010000013.1__60__195", "value": 0.9526082}, {"color": "lightgray", "dist": 0.0547926, "from": "NCBI__OP697049__Campylobacter_phage_PC22", "title": "dist: 0.0548", "to": "Campylobacter_jejuni__GCA_015958365.1_-_PDT000893916.1__AAXUPC010000016.1__56__197", "value": 0.9452074}, {"color": "lightgray", "dist": 0.053461, "from": "NCBI__OP697049__Campylobacter_phage_PC22", "title": "dist: 0.0535", "to": "Campylobacter_jejuni__GCA_037659995.1_-_ASM3765999v1__JBBKJN010000017.1__34__197", "value": 0.946539}, {"color": "lightgray", "dist": 0.0593543, "from": "NCBI__OP697049__Campylobacter_phage_PC22", "title": "dist: 0.0594", "to": "Campylobacter_coli__GCA_005067025.1_-_PDT000305756.2__AABXZL010000033.1__32__195", "value": 0.9406457}, {"color": "lightgray", "dist": 0.0840481, "from": "NCBI__OP697049__Campylobacter_phage_PC22", "title": "dist: 0.0840", "to": "Campylobacter_jejuni__GCA_014512725.1_-_PDT000829978.1__AAVYLI010000024.1__38__197", "value": 0.9159519}, {"color": "lightgray", "dist": 0.0684654, "from": "NCBI__OP697049__Campylobacter_phage_PC22", "title": "dist: 0.0685", "to": "Campylobacter_coli__GCA_004980685.1_-_PDT000259339.2__AABSMX010000020.1__27__195", "value": 0.9315346}, {"color": "lightgray", "dist": 0.0817428, "from": "NCBI__OP697049__Campylobacter_phage_PC22", "title": "dist: 0.0817", "to": "Campylobacter_jejuni__GCA_012312365.1_-_PDT000722138.1__AASFGR010000030.1__25__197", "value": 0.9182572}, {"color": "lightgray", "dist": 2.20005e-05, "from": "NCBI__OP697049__Campylobacter_phage_PC22", "title": "dist: 0.0000", "to": "NCBI__OP686972__Campylobacter_phage_PC11", "value": 0.9999779995}, {"color": "lightgray", "dist": 0.0640117, "from": "Campylobacter_jejuni__GCA_015958365.1_-_PDT000893916.1__AAXUPC010000016.1__56__197", "title": "dist: 0.0640", "to": "Campylobacter_jejuni__GCA_038440635.1_-_ASM3844063v1__JBCGCK010000009.1__63__197", "value": 0.9359883}, {"color": "lightgray", "dist": 0.030493, "from": "Campylobacter_jejuni__GCA_015958365.1_-_PDT000893916.1__AAXUPC010000016.1__56__197", "title": "dist: 0.0305", "to": "Campylobacter_coli__GCA_012043175.1_-_PDT000718512.1__AARMJW010000013.1__60__195", "value": 0.969507}, {"color": "lightgray", "dist": 0.069242, "from": "Campylobacter_jejuni__GCA_015958365.1_-_PDT000893916.1__AAXUPC010000016.1__56__197", "title": "dist: 0.0692", "to": "Campylobacter_jejuni__GCA_037659995.1_-_ASM3765999v1__JBBKJN010000017.1__34__197", "value": 0.930758}, {"color": "lightgray", "dist": 0.0787815, "from": "Campylobacter_jejuni__GCA_015958365.1_-_PDT000893916.1__AAXUPC010000016.1__56__197", "title": "dist: 0.0788", "to": "Campylobacter_coli__GCA_005067025.1_-_PDT000305756.2__AABXZL010000033.1__32__195", "value": 0.9212184999999999}, {"color": "lightgray", "dist": 0.0584038, "from": "Campylobacter_jejuni__GCA_015958365.1_-_PDT000893916.1__AAXUPC010000016.1__56__197", "title": "dist: 0.0584", "to": "Campylobacter_jejuni__GCA_014512725.1_-_PDT000829978.1__AAVYLI010000024.1__38__197", "value": 0.9415962}, {"color": "lightgray", "dist": 0.0965695, "from": "Campylobacter_jejuni__GCA_015958365.1_-_PDT000893916.1__AAXUPC010000016.1__56__197", "title": "dist: 0.0966", "to": "Campylobacter_coli__GCA_004980685.1_-_PDT000259339.2__AABSMX010000020.1__27__195", "value": 0.9034305}, {"color": "lightgray", "dist": 0.0578203, "from": "Campylobacter_jejuni__GCA_015958365.1_-_PDT000893916.1__AAXUPC010000016.1__56__197", "title": "dist: 0.0578", "to": "Campylobacter_jejuni__GCA_012312365.1_-_PDT000722138.1__AASFGR010000030.1__25__197", "value": 0.9421797}, {"color": "lightgray", "dist": 0.0547855, "from": "Campylobacter_jejuni__GCA_015958365.1_-_PDT000893916.1__AAXUPC010000016.1__56__197", "title": "dist: 0.0548", "to": "NCBI__OP686972__Campylobacter_phage_PC11", "value": 0.9452145}, {"color": "lightgray", "dist": 0.0643377, "from": "Campylobacter_coli__GCA_005067025.1_-_PDT000305756.2__AABXZL010000033.1__32__195", "title": "dist: 0.0643", "to": "Campylobacter_jejuni__GCA_038440635.1_-_ASM3844063v1__JBCGCK010000009.1__63__197", "value": 0.9356623}, {"color": "lightgray", "dist": 0.0592834, "from": "Campylobacter_coli__GCA_005067025.1_-_PDT000305756.2__AABXZL010000033.1__32__195", "title": "dist: 0.0593", "to": "Campylobacter_coli__GCA_012043175.1_-_PDT000718512.1__AARMJW010000013.1__60__195", "value": 0.9407166}, {"color": "lightgray", "dist": 0.0432234, "from": "Campylobacter_coli__GCA_005067025.1_-_PDT000305756.2__AABXZL010000033.1__32__195", "title": "dist: 0.0432", "to": "Campylobacter_jejuni__GCA_037659995.1_-_ASM3765999v1__JBBKJN010000017.1__34__197", "value": 0.9567766}, {"color": "lightgray", "dist": 0.152065, "from": "Campylobacter_coli__GCA_005067025.1_-_PDT000305756.2__AABXZL010000033.1__32__195", "title": "dist: 0.1521", "to": "Campylobacter_jejuni__GCA_014512725.1_-_PDT000829978.1__AAVYLI010000024.1__38__197", "value": 0.847935}, {"color": "lightgray", "dist": 0.0419508, "from": "Campylobacter_coli__GCA_005067025.1_-_PDT000305756.2__AABXZL010000033.1__32__195", "title": "dist: 0.0420", "to": "Campylobacter_coli__GCA_004980685.1_-_PDT000259339.2__AABSMX010000020.1__27__195", "value": 0.9580492}, {"color": "lightgray", "dist": 0.0689275, "from": "Campylobacter_coli__GCA_005067025.1_-_PDT000305756.2__AABXZL010000033.1__32__195", "title": "dist: 0.0689", "to": "Campylobacter_jejuni__GCA_012312365.1_-_PDT000722138.1__AASFGR010000030.1__25__197", "value": 0.9310725}, {"color": "lightgray", "dist": 0.0593525, "from": "Campylobacter_coli__GCA_005067025.1_-_PDT000305756.2__AABXZL010000033.1__32__195", "title": "dist: 0.0594", "to": "NCBI__OP686972__Campylobacter_phage_PC11", "value": 0.9406475}, {"color": "lightgray", "dist": 0.0779592, "from": "Campylobacter_coli__GCA_004980685.1_-_PDT000259339.2__AABSMX010000020.1__27__195", "title": "dist: 0.0780", "to": "Campylobacter_jejuni__GCA_038440635.1_-_ASM3844063v1__JBCGCK010000009.1__63__197", "value": 0.9220408}, {"color": "lightgray", "dist": 0.0714308, "from": "Campylobacter_coli__GCA_004980685.1_-_PDT000259339.2__AABSMX010000020.1__27__195", "title": "dist: 0.0714", "to": "Campylobacter_coli__GCA_012043175.1_-_PDT000718512.1__AARMJW010000013.1__60__195", "value": 0.9285692}, {"color": "lightgray", "dist": 0.0648814, "from": "Campylobacter_coli__GCA_004980685.1_-_PDT000259339.2__AABSMX010000020.1__27__195", "title": "dist: 0.0649", "to": "Campylobacter_jejuni__GCA_037659995.1_-_ASM3765999v1__JBBKJN010000017.1__34__197", "value": 0.9351186}, {"color": "lightgray", "dist": 0.12276, "from": "Campylobacter_coli__GCA_004980685.1_-_PDT000259339.2__AABSMX010000020.1__27__195", "title": "dist: 0.1228", "to": "Campylobacter_jejuni__GCA_014512725.1_-_PDT000829978.1__AAVYLI010000024.1__38__197", "value": 0.87724}, {"color": "lightgray", "dist": 0.108384, "from": "Campylobacter_coli__GCA_004980685.1_-_PDT000259339.2__AABSMX010000020.1__27__195", "title": "dist: 0.1084", "to": "Campylobacter_jejuni__GCA_012312365.1_-_PDT000722138.1__AASFGR010000030.1__25__197", "value": 0.891616}, {"color": "lightgray", "dist": 0.0684797, "from": "Campylobacter_coli__GCA_004980685.1_-_PDT000259339.2__AABSMX010000020.1__27__195", "title": "dist: 0.0685", "to": "NCBI__OP686972__Campylobacter_phage_PC11", "value": 0.9315203}, {"color": "lightgray", "dist": 0.0536515, "from": "Campylobacter_jejuni__GCA_038440635.1_-_ASM3844063v1__JBCGCK010000009.1__63__197", "title": "dist: 0.0537", "to": "Campylobacter_coli__GCA_012043175.1_-_PDT000718512.1__AARMJW010000013.1__60__195", "value": 0.9463485}, {"color": "lightgray", "dist": 0.0566227, "from": "Campylobacter_jejuni__GCA_038440635.1_-_ASM3844063v1__JBCGCK010000009.1__63__197", "title": "dist: 0.0566", "to": "Campylobacter_jejuni__GCA_037659995.1_-_ASM3765999v1__JBBKJN010000017.1__34__197", "value": 0.9433773}, {"color": "lightgray", "dist": 0.0965905, "from": "Campylobacter_jejuni__GCA_038440635.1_-_ASM3844063v1__JBCGCK010000009.1__63__197", "title": "dist: 0.0966", "to": "Campylobacter_jejuni__GCA_014512725.1_-_PDT000829978.1__AAVYLI010000024.1__38__197", "value": 0.9034095}, {"color": "lightgray", "dist": 0.0906522, "from": "Campylobacter_jejuni__GCA_038440635.1_-_ASM3844063v1__JBCGCK010000009.1__63__197", "title": "dist: 0.0907", "to": "Campylobacter_jejuni__GCA_012312365.1_-_PDT000722138.1__AASFGR010000030.1__25__197", "value": 0.9093478}, {"color": "lightgray", "dist": 0.0486967, "from": "Campylobacter_jejuni__GCA_038440635.1_-_ASM3844063v1__JBCGCK010000009.1__63__197", "title": "dist: 0.0487", "to": "NCBI__OP686972__Campylobacter_phage_PC11", "value": 0.9513033}, {"color": "lightgray", "dist": 0.0533773, "from": "Campylobacter_jejuni__GCA_037659995.1_-_ASM3765999v1__JBBKJN010000017.1__34__197", "title": "dist: 0.0534", "to": "Campylobacter_coli__GCA_012043175.1_-_PDT000718512.1__AARMJW010000013.1__60__195", "value": 0.9466227}, {"color": "lightgray", "dist": 0.126259, "from": "Campylobacter_jejuni__GCA_037659995.1_-_ASM3765999v1__JBBKJN010000017.1__34__197", "title": "dist: 0.1263", "to": "Campylobacter_jejuni__GCA_014512725.1_-_PDT000829978.1__AAVYLI010000024.1__38__197", "value": 0.873741}, {"color": "lightgray", "dist": 0.0699326, "from": "Campylobacter_jejuni__GCA_037659995.1_-_ASM3765999v1__JBBKJN010000017.1__34__197", "title": "dist: 0.0699", "to": "Campylobacter_jejuni__GCA_012312365.1_-_PDT000722138.1__AASFGR010000030.1__25__197", "value": 0.9300674}, {"color": "lightgray", "dist": 0.0534422, "from": "Campylobacter_jejuni__GCA_037659995.1_-_ASM3765999v1__JBBKJN010000017.1__34__197", "title": "dist: 0.0534", "to": "NCBI__OP686972__Campylobacter_phage_PC11", "value": 0.9465578}, {"color": "lightgray", "dist": 0.0474188, "from": "NCBI__OP686972__Campylobacter_phage_PC11", "title": "dist: 0.0474", "to": "Campylobacter_coli__GCA_012043175.1_-_PDT000718512.1__AARMJW010000013.1__60__195", "value": 0.9525812}, {"color": "lightgray", "dist": 0.0840096, "from": "NCBI__OP686972__Campylobacter_phage_PC11", "title": "dist: 0.0840", "to": "Campylobacter_jejuni__GCA_014512725.1_-_PDT000829978.1__AAVYLI010000024.1__38__197", "value": 0.9159904}, {"color": "lightgray", "dist": 0.0817568, "from": "NCBI__OP686972__Campylobacter_phage_PC11", "title": "dist: 0.0818", "to": "Campylobacter_jejuni__GCA_012312365.1_-_PDT000722138.1__AASFGR010000030.1__25__197", "value": 0.9182432}, {"color": "lightgray", "dist": 0.0785566, "from": "Campylobacter_jejuni__GCA_012312365.1_-_PDT000722138.1__AASFGR010000030.1__25__197", "title": "dist: 0.0786", "to": "Campylobacter_coli__GCA_012043175.1_-_PDT000718512.1__AARMJW010000013.1__60__195", "value": 0.9214434}, {"color": "lightgray", "dist": 0.112815, "from": "Campylobacter_jejuni__GCA_012312365.1_-_PDT000722138.1__AASFGR010000030.1__25__197", "title": "dist: 0.1128", "to": "Campylobacter_jejuni__GCA_014512725.1_-_PDT000829978.1__AAVYLI010000024.1__38__197", "value": 0.887185}, {"color": "lightgray", "dist": 0.0891313, "from": "Campylobacter_jejuni__GCA_014512725.1_-_PDT000829978.1__AAVYLI010000024.1__38__197", "title": "dist: 0.0891", "to": "Campylobacter_coli__GCA_012043175.1_-_PDT000718512.1__AARMJW010000013.1__60__195", "value": 0.9108687}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"nodes": {"font": {"size": 0}, "shadow": {"enabled": true}}, "configure": {"enabled": true, "showButton": true}, "edges": {"color": {"inherit": true}, "smooth": false}, "physics": {"enabled": true, "forceAtlas2Based": {"gravitationalConstant": -88, "centralGravity": 0.02, "springLength": 100}, "minVelocity": 0.75, "solver": "forceAtlas2Based"}, "interaction": {"hover": true}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+		  function placePopupAt(domPoint, html) {
+		      if (!html) return;
+		      popup.innerHTML = html;
+		      popup.style.display = 'block';
+		      popup.style.left = (domPoint.x + 25) + 'px';
+		      popup.style.top  = (domPoint.y - 35) + 'px';
+		  }
+
+		  function hidePopupNow() {
+		      popup.style.display = 'none';
+		  }
+
+		  network.on("hoverNode", function (params) {
+		      const n = nodes.get(params.node);
+		      if (!n || !n.title) return;
+		      placePopupAt(params.pointer.DOM, n.title);
+		  });
+
+		  network.on("blurNode", hidePopupNow);
+
+		  network.on("hoverEdge", function (params) {
+		      const e = edges.get(params.edge);
+		      if (!e || !e.title) return;
+		      placePopupAt(params.pointer.DOM, e.title);
+		  });
+
+		  network.on("blurEdge", hidePopupNow);
+		  
+                  
+
+                  
+
+                  
+                  // make a custom popup
+                      var popup = document.createElement("div");
+                      popup.className = 'popup';
+                      popupTimeout = null;
+                      popup.addEventListener('mouseover', function () {
+                          console.log(popup)
+                          if (popupTimeout !== null) {
+                              clearTimeout(popupTimeout);
+                              popupTimeout = null;
+                          }
+                      });
+                      popup.addEventListener('mouseout', function () {
+                          if (popupTimeout === null) {
+                              hidePopup();
+                          }
+                      });
+                      container.appendChild(popup);
+
+
+
+                      // hiding the popup through css
+                      function hidePopup() {
+                          popupTimeout = setTimeout(function () { popup.style.display = 'none'; }, 500);
+                      }
+
+		  function showPopup(id) {
+		      let dataObj, posCanvas;
+
+		      if (nodes.get(id)) {
+			  dataObj = nodes.get(id);
+			  posCanvas = network.getPositions([id])[id];
+		      } else if (edges.get(id)) {
+			  dataObj = edges.get(id);
+			  var bbox = network.getBoundingBox(id);
+			  posCanvas = {
+			      x: (bbox.left + bbox.right) / 2,
+			      y: (bbox.top + bbox.bottom) / 2
+			  };
+		      } else {
+			  return;
+		      }
+		      
+		      if (!dataObj.title) return;
+
+		      popup.innerHTML = dataObj.title;
+		      
+		      var posDOM = network.canvasToDOM(posCanvas);
+		      popup.style.display = 'block';
+		      popup.style.left = (posDOM.x + 10) + 'px';
+		      popup.style.top  = (posDOM.y - 20) + 'px';
+		  }
+                  
+
+
+                  
+		  network.on("stabilizationIterationsDone", function() {
+                      network.setOptions( { physics: false } );
+		  });
+		  //end block addition
+		  
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    
+    <div id="info-box" style="position:fixed; top:10px; right:10px; width:300px; background:white; border:1px solid #888; padding:10px; z-index:9999; font-family:Arial;"></div>
+    <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+    network.on("click", function (params) {
+    if (params.nodes.length > 0) {
+    var nodeId = params.nodes[0];
+    var node = nodes.get(nodeId);
+    document.getElementById("info-box").innerHTML = node.title || "No info available.";
+    } else {
+    document.getElementById("info-box").innerHTML = "";
+    }
+    });
+    });
+    </script>
+    
+</body>
+</html>
