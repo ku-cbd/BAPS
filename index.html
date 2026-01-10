@@ -94,13 +94,27 @@ a:hover {
   text-decoration: underline;
     }
 
-.link-list a {
-  display: inline-block;
-  padding: 6px 10px;
-  border-radius: 6px;
-  background: #f1f4f3;
-  border-left: 4px solid #3a7d6c;
+    .link-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 10px;
+	padding-left: 0;
 }
+    
+    .link-list li {
+	list-style: none;
+    }
+
+    .link-list a {
+	display: inline-block;
+	padding: 6px 10px;
+	border-radius: 6px;
+	background: #f1f4f3;
+	border-left: 4px solid #3a7d6c;
+	font-size: 0.9rem;
+	white-space: nowrap;
+    }
+    
 
 .link-list a:hover {
   background: #e6e9ef;
