@@ -36,8 +36,20 @@
   color: var(--text-main);
   line-height: 1.6;
   margin: 0;
-}
+  background:
+    linear-gradient(rgba(245,247,251,0.94), rgba(245,247,251,0.94)),
+    url("assets/phageclouds.jpeg") center / cover no-repeat;
+    }
 
+    .container::before {
+  content: "";
+  display: block;
+  height: 4px;
+  width: 60px;
+  background: #3a7d6c;
+  border-radius: 2px;
+  margin-bottom: 20px;
+}
 .container {
   max-width: 900px;
   margin: 60px auto;
@@ -82,11 +94,12 @@ a:hover {
   text-decoration: underline;
     }
 
-    .link-list a {
+.link-list a {
   display: inline-block;
   padding: 6px 10px;
   border-radius: 6px;
-  background: #f1f3f6;
+  background: #f1f4f3;
+  border-left: 4px solid #3a7d6c;
 }
 
 .link-list a:hover {
@@ -97,6 +110,54 @@ a:hover {
 	color: var(--text-muted);
 	font-size: 1rem;
     }
+    .paper-box::before {
+  content: "Nature Microbiology";
+  display: inline-block;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent-secondary);
+  margin-bottom: 6px;
+}
+    .paper-box {
+  margin-top: 1.5em;
+  padding: 18px 22px;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  border: 1px solid var(--border-soft);
+}
+
+.paper-title {
+  font-weight: 600;
+  margin-bottom: 0.3em;
+}
+
+ .paper-authors {
+    font-style: italic;
+      color: var(--text-muted);
+
+     line-height: 1.4;
+     max-width: 780px;
+ }
+
+.paper-links a {
+  color: var(--accent-primary);
+  font-weight: 500;
+}
+
+.paper-links span {
+  margin: 0 6px;
+  color: var(--text-muted);
+}
+.therapy {
+  background: #f7faf9;
+  padding: 20px 24px;
+  border-radius: 10px;
+    }
+    footer {
+  opacity: 0.7;
+  margin-top: 50px;
+}
 </style>
 </head>
 <body>
@@ -110,9 +171,32 @@ a:hover {
     </header>
 
 <p>
-This page will host interactive network visualisations generated as part of the
+This page will host selected and curated interactive network visualisations generated as part of the
 BAPS project. Each link opens a standalone PhageClouds HTML file.
 </p>
+
+<h2>Publication</h2>
+
+<div class="paper-box">
+  <div class="paper-title">
+    Large-scale analysis of bacterial genomes reveals thousands of lytic phages
+  </div>
+
+  <div class="paper-authors">
+    Alexander Perfilyev, Anastasiya Gæde, Steve Hooton, Sara A. Zahran, Panos G. Kalatzis, Caroline Sophie Winther-Have, Rodrigo Ibarra Chavez, Rachael C. Wilkinson, Anisha M. Thanki, Zhengjie Liu, Qing Zhang, Qianghua Lv, Yuqing Liu, Adriano M. Gigante, Robert J. Atterbury, Bent Petersen, Andrew D. Millard, Martha R. J. Clokie & Thomas Sicheritz-Pontén, Nature Microbiology (2025)
+  </div>
+
+  <div class="paper-links">
+    <a href="https://www.nature.com/articles/s41564-025-02203-4" target="_blank">
+      View on Nature Microbiology
+    </a>
+    <span>·</span>
+    <a href="assets/BAPS_NatureMicrobiology_2025.pdf" target="_blank">
+      Download PDF
+    </a>
+  </div>
+</div>
+
 
 <h2>Currently available named PhageClouds</h2>
 
@@ -126,6 +210,7 @@ BAPS project. Each link opens a standalone PhageClouds HTML file.
   <li><a href="PhageClouds/T5.html">T5</a></li>
 </ul>
 
+<section class="therapy">
 <h2>Currently available Phage Therapy PhageClouds</h2>
 <ul class="link-list">
   <li><a href="PhageClouds/PT01_Achromobacter_NC_028768.html">Achromobacter NC_028768</a></li>
@@ -152,6 +237,7 @@ BAPS project. Each link opens a standalone PhageClouds HTML file.
   <li><a href="PhageClouds/PT01_Staphylococcus_NC_047720.html">Staphylococcus NC_047720</a></li>
   <li><a href="PhageClouds/PT01_Vibrio_OQ680630.html">Vibrio OQ680630</a></li>
 </ul>
+</section>
 
 <footer style="margin-top:60px; font-size:0.85rem; color:#777;">
   Generated as part of the BAPS project · University of Copenhagen and the Becky Mayer Centre for Phage Research
