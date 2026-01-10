@@ -172,6 +172,45 @@ a:hover {
     footer {
   opacity: 0.7;
   margin-top: 50px;
+    }
+    .help-box {
+  margin: 30px 0;
+  padding: 14px 18px;
+  border-radius: 10px;
+  background: #f7faf9;
+  border: 1px solid var(--border-soft);
+}
+
+.help-box summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent-primary);
+  list-style: none;
+}
+
+.help-box summary::-webkit-details-marker {
+  display: none;
+}
+
+.help-box summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.2s ease;
+}
+
+.help-box[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.help-box p,
+.help-box ul {
+  margin-top: 0.8em;
+  color: var(--text-main);
+}
+
+.help-box ul {
+  padding-left: 1.2em;
 }
 </style>
 </head>
@@ -211,7 +250,43 @@ BAPS project. Each link opens a standalone PhageClouds HTML file.
     </a>
   </div>
 </div>
+<details class="help-box">
+  <summary>How to read the PhageClouds</summary>
 
+  <p>
+    Each PhageCloud is an interactive network representation of related phage genomes.
+  </p>
+
+  <p><strong>Nodes</strong></p>
+  <ul>
+    <li>
+      Circles represent complete phage genomes deposited in NCBI.
+      The size of each circle is proportional to genome length and colours indicate annotated hosts.
+    </li>
+    <li>
+      Squares represent BAPS genomes, meaning bacterial genome assemblies in which complete lytic phage genomes have been identified.
+      Links point to the corresponding NCBI assembly contigs.
+    </li>
+  </ul>
+
+  <p><strong>Node information</strong></p>
+  <p>
+    Hovering over a genome displays its accession, name, number of genes, genome size,
+    and a direct link to the relevant NCBI entry.
+  </p>
+
+  <p><strong>Edges</strong></p>
+  <p>
+    Genomes are connected based on pairwise Mash distances.
+    Thicker edges indicate higher sequence similarity.
+  </p>
+
+  <p><strong>Interaction</strong></p>
+  <ul>
+    <li>Genomes can be moved freely to improve overview</li>
+    <li>Zoom in and out using a two finger drag or trackpad gesture</li>
+  </ul>
+</details>
 
 <h2>Currently available named PhageClouds</h2>
 
