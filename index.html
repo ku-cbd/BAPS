@@ -5,7 +5,19 @@
   <title>Interactive PhageClouds for selected BAPS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    <style>
+
+    :root {
+  --bg-page: #f6f8f6;
+  --bg-card: #ffffff;
+  --text-main: #1f2d27;
+  --text-muted: #66736d;
+
+  --accent-primary: #2f6f5e;
+  --accent-secondary: #3e8f78;
+  --accent-soft: #e8f3ef;
+
+  --border-soft: #dfe7e3;
+    }
 
     header {
 	margin-bottom: 40px;
@@ -17,33 +29,35 @@
 	color: #777;
 	margin-top: 6px;
     }
+
     body {
-	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-	background: #f6f7f9;
-	color: #222;
-	line-height: 1.6;
-	margin: 0;
-    }
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg-page);
+  color: var(--text-main);
+  line-height: 1.6;
+  margin: 0;
+}
 
 .container {
   max-width: 900px;
   margin: 60px auto;
-  background: white;
+  background: var(--bg-card);
   padding: 40px 50px;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
 }
+
 h1 {
+  color: var(--accent-primary);
   font-size: 2.2rem;
-  margin-bottom: 0.5em;
 }
 
 h2 {
+  color: var(--accent-secondary);
   margin-top: 2.5em;
+  border-bottom: 2px solid var(--border-soft);
   padding-bottom: 0.3em;
-  border-bottom: 2px solid #e3e6ea;
-  color: #2f3a5a;
-}
+    }
 
 p {
   color: #555;
@@ -78,7 +92,11 @@ a:hover {
 .link-list a:hover {
   background: #e6e9ef;
     }
-    
+
+    .subtitle {
+	color: var(--text-muted);
+	font-size: 1rem;
+    }
 </style>
 </head>
 <body>
@@ -86,7 +104,9 @@ a:hover {
 
     <header>
       <h1>BAPS: Interactive PhageClouds</h1>
-      <span>Exploring lytic phage diversity from bacterial assemblies</span>
+      <div class="subtitle">
+	Phage diversity discovered within bacterial genome assemblies
+      </div>
     </header>
 
 <p>
