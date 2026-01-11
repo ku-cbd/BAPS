@@ -211,9 +211,17 @@ a:hover {
 
 .help-box ul {
   padding-left: 1.2em;
+    }
+    .visit-counter {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 20px;
 }
 </style>
 </head>
+<script data-goatcounter="https://phagecompass.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
 <body>
   <div class="container">
 
@@ -396,9 +404,18 @@ BAPS project. Each link opens a standalone PhageClouds HTML file.
   <li><a href="PhageClouds/PT01_Vibrio_OQ680630.html">Vibrio OQ680630</a></li>
 </ul>
 </section>
-
 <footer style="margin-top:60px; font-size:0.85rem; color:#777;">
   Generated as part of the BAPS project · University of Copenhagen and the Becky Mayer Centre for Phage Research
+  <div class="visit-counter">
+  Visits: <span id="gc-visits">–</span>
+  </div>
+  <script>
+fetch("https://baps-phageclouds.goatcounter.com/counter")
+  .then(r => r.json())
+  .then(d => {
+    document.getElementById("gc-visits").textContent = d.count;
+  });
+</script>
 </footer>
   </div>
   
