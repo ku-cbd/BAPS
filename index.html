@@ -636,18 +636,24 @@ This usually occurs because the underlying bacterial genome assembly is fragment
 
 <footer style="margin-top:60px; font-size:0.85rem; color:#777;">
   Generated as part of the BAPS project · University of Copenhagen and the Becky Mayer Centre for Phage Research
-  <div class="visit-counter">
-  Visits: <span id="gc-visits">–</span>
-  </div>
-  <script>
-fetch("https://baps-phageclouds.goatcounter.com/counter")
-  .then(r => r.json())
-  .then(d => {
-    document.getElementById("gc-visits").textContent = d.count;
-  });
-</script>
+
+  <div id="stats"></div>
+
+
 </footer>
   </div>
+
+  <div class="visit-counter">
+  Visits: <span id="gc-total">–</span>
+  </div>
+
+  <script>
+  fetch("https://phagecompass.goatcounter.com/counter/TOTAL.json")
+    .then(r => r.json())
+    .then(d => { document.getElementById("gc-total").textContent = d.count; })
+    .catch(() => { document.getElementById("gc-total").textContent = "–"; });
+  </script>
+  
   
 </body>
 </html>
