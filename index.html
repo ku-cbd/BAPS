@@ -320,9 +320,6 @@ a:hover {
 
   </style>
 </head>
-<script data-goatcounter="https://phagecompass.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
-
 <body>
   <div class="container">
 
@@ -637,23 +634,24 @@ This usually occurs because the underlying bacterial genome assembly is fragment
 <footer style="margin-top:60px; font-size:0.85rem; color:#777;">
   Generated as part of the BAPS project · University of Copenhagen and the Becky Mayer Centre for Phage Research
 
-  <div id="stats"></div>
-
-
 </footer>
   </div>
 
-  <div class="visit-counter">
+<div class="visit-counter">
   Visits: <span id="gc-total">–</span>
-  </div>
+</div>
 
-  <script>
+<script data-goatcounter="https://phagecompass.goatcounter.com/count"
+        async src="https://gc.zgo.at/count.js"></script>
+
+<script>
   fetch("https://phagecompass.goatcounter.com/counter/TOTAL.json")
     .then(r => r.json())
-    .then(d => { document.getElementById("gc-total").textContent = d.count; })
-    .catch(() => { document.getElementById("gc-total").textContent = "–"; });
-  </script>
-  
-  
+    .then(d => {
+      document.getElementById("gc-total").textContent = d.count;
+    })
+    .catch(() => {});
+</script>
+
 </body>
 </html>
