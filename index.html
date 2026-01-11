@@ -217,7 +217,108 @@ a:hover {
   color: var(--text-muted);
   margin-top: 20px;
 }
-</style>
+  .faq details {
+  margin: 10px 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f7faf9;
+  border: 1px solid var(--border-soft);
+}
+
+.faq summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent-primary);
+  list-style: none;
+}
+
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.2s ease;
+}
+
+.faq details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.faq p {
+  margin: 10px 0 0 0;
+  color: var(--text-main);
+}
+.faq-box {
+  margin: 40px 0;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: #f7faf9;
+  border: 1px solid var(--border-soft);
+}
+
+.faq-box > summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--accent-primary);
+  list-style: none;
+}
+
+.faq-box > summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-box > summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.2s ease;
+}
+
+.faq-box[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.faq details {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: white;
+  border: 1px solid var(--border-soft);
+}
+
+.faq summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent-secondary);
+  list-style: none;
+}
+
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.2s ease;
+}
+
+.faq details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.faq p {
+  margin: 10px 0 0 0;
+  color: var(--text-main);
+}
+
+
+  </style>
 </head>
 <script data-goatcounter="https://phagecompass.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
@@ -416,6 +517,122 @@ BAPS project. Each link opens a standalone PhageClouds HTML file.
 <li><a href="PhageClouds/PT01_Vibrio_OQ680630.html">PT01 Vibrio OQ680630</a></li>
 </ul>
 </section>
+
+
+<details class="faq-box">
+  <summary>Frequently asked questions</summary>
+
+<div class="faq">
+  <details>
+    <summary>What is a PhageCloud?</summary>
+    <p>
+      A PhageCloud is an interactive network view of related phage genomes. Nodes represent genomes and edges represent sequence similarity based on Mash distances.
+    </p>
+  </details>
+
+  <details>
+    <summary>What do the circles and squares represent?</summary>
+    <p>
+      Circles are complete phage genomes from NCBI. Squares are BAPS derived phages identified within bacterial genome
+      assemblies.
+    </p>
+  </details>
+
+  <details>
+    <summary>What does node size mean?</summary>
+    <p>
+      Node size is proportional to genome length.
+    </p>
+  </details>
+
+  <details>
+    <summary>What does node colour mean?</summary>
+    <p>
+      Colours indicate the annotated host associated with each genome.
+    </p>
+  </details>
+
+  <details>
+    <summary>How should I interpret the edges?</summary>
+    <p>
+      Edges connect genomes based on pairwise Mash distances. Thicker edges indicate higher sequence similarity, while
+      thinner edges indicate more distant relationships.
+    </p>
+  </details>
+
+    <details>
+    <summary>Which mash distance threshold were used?</summary>
+    <p>
+      For the Phage Therapy PhageClouds, a mash distance threshold of ≤ 0.1 was applied. For all other PhageClouds, a threshold of ≤ 0.2 was used.
+    </p>
+  </details>
+
+  <details>
+    <summary>Why do I see BAPS phages inside bacterial assemblies?</summary>
+    <p>
+      BAPS identifies complete lytic phage genomes that occur within bacterial genome assemblies at NCBI. The host is known because it is the organism used for the assembly.
+    </p>
+  </details>
+
+
+  <details>
+    <summary>  How can I cite the BAPS paper?</summary>
+    <p>
+       <em>Large-scale analysis of bacterial genomes reveals thousands of lytic phages.</em><br>
+    Perfilyev A, Gæde A, Hooton S, Zahran SA, Kalatzis PG, Winther-Have CS,
+    Ibarra Chavez R, Wilkinson RC, Thanki AM, Liu Z, Zhang Q, Lv Q, Liu Y,
+    Gigante AM, Atterbury RJ, Petersen B, Millard AD, Clokie MRJ,
+    Sicheritz-Pontén T.<br>
+    <em>Nature Microbiology</em>. 2026 Jan;11(1):42–52.<br>
+    
+   </p>
+  </details>
+
+<details>
+    <summary>How can I cite the PhageClouds?</summary>
+    <p>
+<em>From Trees to Clouds: PhageClouds for Fast Comparison of ∼640,000 Phage
+    Genomic Sequences and Host-Centric Visualization Using Genomic Network Graphs.</em><br>
+    Rangel-Pineros G, Millard A, Michniewski S, Scanlan D, Sirén K, Reyes A,
+    Petersen B, Clokie MRJ, Sicheritz-Pontén T.<br>
+    <em>Phage (New Rochelle)</em>. 2021 Dec;2(4):194–203.<br>
+   </p>
+  </details>
+
+  
+    <details>
+    <summary>Why do some BAPS genomes appear both at the expected size and at smaller sizes?</summary>
+    <p>
+This usually occurs because the underlying bacterial genome assembly is fragmented. In such cases, the phage genome may be split across several contigs within the same assembly, resulting in multiple smaller representations that together correspond to the full expected genome size.
+    </p>
+  </details>
+
+  <details>
+    <summary>Can I download the genomes in a cloud?</summary>
+    <p>
+      When hovering over a node, each phage genome and BAPS has a direct link to NCBI.
+    </p>
+  </details>
+
+  <details>
+    <summary>The network is slow or unresponsive. What can I do?</summary>
+    <p>
+      Large clouds can be heavy in a browser. Try reloading the page, closing other tabs, or using a desktop browser.
+      You can also zoom out and drag clusters rather than individual nodes.
+    </p>
+  </details>
+
+  <details>
+    <summary>How do I navigate the visualisation?</summary>
+    <p>
+      Hover to view details and links. Drag nodes to rearrange the layout. Zoom using the trackpad two finger gesture
+      or mouse wheel.
+    </p>
+  </details>
+  
+</div>
+</details>
+
 
 <footer style="margin-top:60px; font-size:0.85rem; color:#777;">
   Generated as part of the BAPS project · University of Copenhagen and the Becky Mayer Centre for Phage Research
